@@ -1,4 +1,5 @@
 target
 ice-web.iml
 .idea
-
+.project
+.classpath

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.LobDAO">
+
+	<insert id="insert" parameterType="Lob">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_lob(name, blob_value, type, com_id, active, create_time, modify_time,
+		create_user, update_user)
+		values(#{name}, #{blobValue}, #{type}, #{comId}, #{active}, 
+		CURRENT_TIMESTAMP,
+		CURRENT_TIMESTAMP, #{createUser}, #{updateUser})
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_lob where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="Lob">
+		update i_lob set type=#{type},
+		modify_time=CURRENT_TIMESTAMP, update_user=#{updateUser}
+		where id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="lobResultMap">
+		select *
+		from
+		i_lob where id=#{id}
+	</select>
+	
+	<select id="getByComIdAndType" parameterType="com.het.ice.dao.query.LobQuery" resultMap="lobResultMap">
+		select * from
+		i_lob where com_id = #{comId} and type=#{type}
+	</select>
+	
+	<select id="getLastByComId" parameterType="long" resultMap="lobResultMap">
+		select * from
+		i_lob where com_id = #{comId} order by create_time desc limit 0,1
+	</select>
+	
+	<select id="getByName" parameterType="String" resultMap="lobResultMap">
+		select * from
+		i_lob where name = #{name}
+	</select>
+
+	<select id="queryByComId" parameterType="long" resultMap="lobResultMap">
+		select
+		* from i_lob where com_id = #{comId}
+	</select>
+
+	<resultMap type="Lob" id="lobResultMap">
+		<result property="blobValue" column="blob_value" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+		<result property="createUser" column="create_user" />
+		<result property="updateUser" column="update_user" />
+	</resultMap>
+
+</mapper>

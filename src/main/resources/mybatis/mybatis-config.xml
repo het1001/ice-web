@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+        <typeAlias alias="User" type="com.het.ice.dao.model.UserDO"/>
+        <typeAlias alias="Business" type="com.het.ice.dao.model.BusinessDO"/>
+        <typeAlias alias="Cat" type="com.het.ice.dao.model.CatDO"/>
+        <typeAlias alias="Commodity" type="com.het.ice.dao.model.CommodityDO"/>
+        <typeAlias alias="CommodityIn" type="com.het.ice.dao.model.CommodityInDO"/>
+        <typeAlias alias="CommodityInItem" type="com.het.ice.dao.model.CommodityInItemDO"/>
+        <typeAlias alias="Lob" type="com.het.ice.dao.model.LobDO"/>
+        <typeAlias alias="Order" type="com.het.ice.dao.model.OrderDO"/>
+        <typeAlias alias="LobQuery" type="com.het.ice.dao.query.LobQuery"/>
+    </typeAliases>
+
+	<mappers>
+		<mapper resource="/mybatis/mapper/userMapper.xml" />
+		<mapper resource="/mybatis/mapper/businessMapper.xml" />
+		<mapper resource="/mybatis/mapper/comMapper.xml" />
+		<mapper resource="/mybatis/mapper/comInMapper.xml" />
+		<mapper resource="/mybatis/mapper/comInItemMapper.xml" />
+		<mapper resource="/mybatis/mapper/catMapper.xml" />
+		<mapper resource="/mybatis/mapper/lobMapper.xml" />
+		<mapper resource="/mybatis/mapper/orderMapper.xml" />
+	</mappers>
+</configuration>

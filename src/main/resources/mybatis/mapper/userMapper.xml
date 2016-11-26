@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.UserDAO">
+
+	<insert id="insert" parameterType="User">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_user (u_name, u_pwd, type, last_login_time,address, phone, real_name, create_time, modify_time)
+		values(#{userName}, #{passWord}, #{type}, #{lastLoginTime},#{address}, #{phone}, #{realName}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_user where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="User">
+		update i_user set
+		u_pwd=#{passWord}, last_login_time=#{lastLoginTime}, address=#{address}, phone=#{phone}, real_name=#{realName}, modify_time=CURRENT_TIMESTAMP
+		where id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="userResultMap">
+		select *
+		from i_user where id=#{id}
+	</select>
+
+	<select id="getUser" parameterType="String" resultMap="userResultMap">
+		select *
+		from i_user where u_name=#{userName} and u_pwd=#{passWord} and type=#{type}
+	</select>
+	
+	<select id="getByUserName" parameterType="String" resultMap="userResultMap">
+		select *
+		from i_user where u_name=#{userName} and type=#{type}
+	</select>
+
+	<resultMap type="User" id="userResultMap">
+		<result property="userName" column="u_name" />
+		<result property="passWord" column="u_pwd" />
+		<result property="lastLoginTime" column="last_login_time" />
+		<result property="realName" column="real_name" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+</mapper>

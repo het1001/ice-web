@@ -9,8 +9,18 @@ import com.het.ice.dao.model.CommodityDO;
 import com.het.ice.model.Commodity;
 import com.het.ice.web.model.CommodityWO;
 
+/**
+ * 商品转换器
+ *
+ */
 public class CommodityConvert {
 
+	/**
+	 * 商品-数据模型转为业务模型
+	 *
+	 * @param comDO
+	 * @return
+     */
 	public static Commodity conv(CommodityDO comDO) {
 		if (comDO == null) {
 			return null;
@@ -43,10 +53,18 @@ public class CommodityConvert {
 		com.setPromotion(comDO.getPromotion());
 		com.setBrand(comDO.getBrand());
 		com.setImgKey(comDO.getImgKey());
+		com.setBarCode(comDO.getBarCode());
+		com.setBarImgKey(comDO.getBarImgKey());
 
 		return com;
 	}
 
+	/**
+	 * 商品-业务模型转为数据模型
+	 *
+	 * @param com
+	 * @return
+     */
 	public static CommodityDO conv(Commodity com) {
 		if (com == null) {
 			return null;
@@ -79,10 +97,18 @@ public class CommodityConvert {
 		comDO.setPromotion(com.getPromotion());
 		comDO.setBrand(com.getBrand());
 		comDO.setImgKey(com.getImgKey());
+		comDO.setBarCode(com.getBarCode());
+		comDO.setBarImgKey(com.getBarImgKey());
 
 		return comDO;
 	}
 
+	/**
+	 * 商品-前端模型转为业务模型
+	 *
+	 * @param commodityWO
+	 * @return
+     */
 	public static Commodity conv(CommodityWO commodityWO) {
 		if (commodityWO == null) {
 			return null;
@@ -101,10 +127,17 @@ public class CommodityConvert {
 		com.setRetailPriceBr(commodityWO.getRetailPriceBr());
 		com.setStandardPice(commodityWO.getStandardPice());
 		com.setImgKey(commodityWO.getFileKey());
+		com.setBarCode(commodityWO.getBarCode());
 
 		return com;
 	}
 
+	/**
+	 * 商品list-数据模型转为业务模型
+	 *
+	 * @param comDOs
+	 * @return
+     */
 	public static List<Commodity> conv(List<CommodityDO> comDOs) {
 		List<Commodity> coms = new ArrayList<Commodity>();
 		if (comDOs == null || comDOs.size() == 0) {

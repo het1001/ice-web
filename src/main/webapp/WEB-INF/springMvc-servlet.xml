@@ -55,12 +55,13 @@
 	    
 	    <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean id="loginInterceptor" class="com.het.ice.web.interceptor.CharsetInterceptor">
+            <bean id="loginInterceptor" class="com.het.ice.web.interceptor.SessionInterceptor">
                 <property name="allowUrls">      
                     <list>
                       <value>/login.htm</value>
                       <value>/loginout.htm</value>
                       <value>/login.json</value>
+                        <value>^/ice/app/.*.json$</value>
                     </list>      
                 </property>
             </bean>

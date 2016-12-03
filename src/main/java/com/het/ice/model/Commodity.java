@@ -61,7 +61,14 @@ public class Commodity extends BaseModel {
 	/** 商户id */
 	private long bizId;
 
+	/** 商品图key */
 	private String imgKey;
+
+	/** 条形码 */
+	private String barCode;
+
+	/** 条形码图形key */
+	private String barImgKey;
 
 	/**
 	 * @return the name
@@ -348,4 +355,35 @@ public class Commodity extends BaseModel {
 		this.imgKey = imgKey;
 	}
 
+	/**
+	 *
+	 * @return
+     */
+	public String getBarCode() {
+		return barCode;
+	}
+
+	/**
+	 *
+	 * @param barCode
+     */
+	public void setBarCode(String barCode) {
+		this.barCode = barCode;
+	}
+
+	/**
+	 *
+	 * @return
+     */
+	public String getBarImgKey() {
+		return barImgKey;
+	}
+
+	/**
+	 *
+	 * @param barImgKey
+     */
+	public void setBarImgKey(String barImgKey) {
+		this.barImgKey = barImgKey;
+	}
 }

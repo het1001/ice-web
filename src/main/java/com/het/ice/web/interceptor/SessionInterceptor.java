@@ -31,9 +31,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 				}
 
 				Pattern pattern = Pattern.compile(url);
-
 				Matcher matcher = pattern.matcher(requestUrl);
-
 				if (matcher.find()) {
 					return true;
 				}
@@ -53,6 +51,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 
 		/*
 		 * if (user == null) { response.sendRedirect(request.getContextPath() +
+
 		 * "/login.htm"); }
 		 */
 	}

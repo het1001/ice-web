@@ -1,11 +1,18 @@
 package com.het.ice.service.impl;
 
+import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.het.ice.service.exception.ParamCheckException;
+import com.het.ice.util.BarcodeUtil;
+import com.het.ice.util.CommonConstants;
+import com.het.ice.util.OssUtil;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.het.ice.dao.CommodityDAO;
@@ -86,6 +93,11 @@ public class CommodityServiceImpl implements CommodityService {
 		}, pageNum, pageSize);
 	}
 
+	/**
+	 *
+	 * @param com
+	 * @return
+     */
 	@Override
 	public Result<Void> create(final Commodity com) {
 		return template.complete(new ResultCallback<Void>() {
@@ -94,6 +106,12 @@ public class CommodityServiceImpl implements CommodityService {
 			public void check() {
 				AssertUtil.isEmpty(com.getName(), "名称");
 				AssertUtil.isEmpty(com.getImgKey(), "商品图片");
+
+				if (StringUtils.isNotBlank(com.getBarCode())) {
+					if (com.getBarCode().length() != CommonConstants.BAR_CODE_LENGTH) {
+						throw new ParamCheckException("条形码长度为13位");
+					}
+				}
 			}
 
 			@Override
@@ -105,7 +123,14 @@ public class CommodityServiceImpl implements CommodityService {
 				com.setCreateUser("hou");
 				com.setUpdateUser("hou");
 
+				// 计算价格/支
 				com.setPriceBr(com.getPricePi() / com.getStandardPice());
+
+				// 生成条形码图片
+				if (StringUtils.isNotBlank(com.getBarCode())) {
+					String key = OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate(com.getBarCode())));
+					com.setBarImgKey(key);
+				}
 
 				commodityDao.insert(CommodityConvert.conv(com));
 
@@ -121,6 +146,12 @@ public class CommodityServiceImpl implements CommodityService {
 			@Override
 			public void check() {
 				AssertUtil.moreThanZero(com.getId(), "商品id");
+
+				if (StringUtils.isNotBlank(com.getBarCode())) {
+					if (com.getBarCode().length() != CommonConstants.BAR_CODE_LENGTH) {
+						throw new ParamCheckException("条形码长度为13位");
+					}
+				}
 			}
 
 			@Override
@@ -138,6 +169,19 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setPromotion(com.getPromotion());
 				comDo.setBrand(com.getBrand());
 				comDo.setImgKey(com.getImgKey());
+
+				// if 用户删除了原来的条形码，则把条形码图片key删除
+				if (StringUtils.isBlank(com.getBarCode())) {
+					if (StringUtils.isNotBlank(comDo.getBarCode())) {
+						comDo.setBarImgKey(null);
+					}
+				} else {
+					if (!StringUtils.equals(com.getBarCode(), comDo.getBarCode())) {
+						comDo.setBarCode(com.getBarCode());
+						String key = OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate(com.getBarCode())));
+						comDo.setBarImgKey(key);
+					}
+				}
 
 				commodityDao.update(comDo);
 			}

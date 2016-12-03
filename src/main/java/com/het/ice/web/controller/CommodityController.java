@@ -47,6 +47,12 @@ public class CommodityController {
 		return webResult.getModel();
 	}
 
+	/**
+	 * 更新商品
+	 *
+	 * @param commodityWO
+	 * @return
+     */
 	@RequestMapping(value = "update.json", method = { RequestMethod.POST })
 	public @ResponseBody ModelMap update(@RequestBody CommodityWO commodityWO) {
 		WebResult webResult = new WebResult();

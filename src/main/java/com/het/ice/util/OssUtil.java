@@ -1,5 +1,6 @@
 package com.het.ice.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -48,9 +49,7 @@ public class OssUtil {
 		OSSClient ossClient = new OSSClient(ENDPOIOT, KEY, SECRIT);
 		PutObjectResult result = ossClient.putObject(bucketName, key, input);
 		ossClient.shutdown();
-		System.out.println(result);
 
 		return key;
 	}
-
 }

@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
-@RequestMapping(value = "appcommodity")
+@RequestMapping(value = "app/commodity")
 public class AppCommodityController {
 
 	@Autowired
@@ -29,22 +29,18 @@ public class AppCommodityController {
 
 	/**
 	 * 商品列表
-	 * 
-	 * @param name
-	 * @param brand
+	 *
 	 * @param pageNum
 	 * @param pageSize
 	 * @return
 	 */
 	@RequestMapping(value = "queryList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap list(String name, String brand, String status, String pageNum, String pageSize) {
+	public @ResponseBody ModelMap list(String pageNum, String pageSize) {
 		WebResult webResult = new WebResult();
 
 		CommodityQuery query = new CommodityQuery();
 		query.setBizId(1);
-		query.setName(name);
-		query.setBrand(brand);
-		query.setStatus(status);
+		query.setStatus("1");
 
 		Result<List<Commodity>> result = commodityService.queryByCondition(query, pageNum, pageSize);
 

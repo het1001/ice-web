@@ -45,6 +45,10 @@ public class CommodityDO extends BaseModel {
 
 	private String imgKey;
 
+	private String barCode;
+
+	private String barImgKey;
+
 	/**
 	 * @return the name
 	 */
@@ -330,4 +334,35 @@ public class CommodityDO extends BaseModel {
 		this.imgKey = imgKey;
 	}
 
+	/**
+	 *
+	 * @return
+     */
+	public String getBarCode() {
+		return barCode;
+	}
+
+	/**
+	 *
+	 * @param barCode
+     */
+	public void setBarCode(String barCode) {
+		this.barCode = barCode;
+	}
+
+	/**
+	 *
+	 * @return
+     */
+	public String getBarImgKey() {
+		return barImgKey;
+	}
+
+	/**
+	 * 
+	 * @param barImgKey
+     */
+	public void setBarImgKey(String barImgKey) {
+		this.barImgKey = barImgKey;
+	}
 }

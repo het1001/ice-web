@@ -2,6 +2,9 @@ package com.het.ice.web.model;
 
 import java.io.Serializable;
 
+/**
+ * 商品前端模型
+ */
 public class CommodityWO implements Serializable {
 
 	/**
@@ -9,6 +12,7 @@ public class CommodityWO implements Serializable {
 	 */
 	private static final long serialVersionUID = 3950132524774341835L;
 
+	/** ID */
 	private String id;
 
 	/** 名称 */
@@ -43,6 +47,9 @@ public class CommodityWO implements Serializable {
 
 	/** 商品key */
 	private String fileKey;
+
+	/** 条形码 */
+	private String barCode;
 
 	/**
 	 * @return the id
@@ -224,4 +231,19 @@ public class CommodityWO implements Serializable {
 		this.fileKey = fileKey;
 	}
 
+	/**
+	 *
+	 * @return
+     */
+	public String getBarCode() {
+		return barCode;
+	}
+
+	/**
+	 *
+	 * @param barCode
+     */
+	public void setBarCode(String barCode) {
+		this.barCode = barCode;
+	}
 }

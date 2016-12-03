@@ -1,6 +1,8 @@
 package com.het.ice.web.interceptor;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.het.ice.model.User;
 
-public class CharsetInterceptor extends HandlerInterceptorAdapter {
+public class SessionInterceptor extends HandlerInterceptorAdapter {
 
 	private List<String> allowUrls;
 
@@ -25,6 +27,14 @@ public class CharsetInterceptor extends HandlerInterceptorAdapter {
 			 */
 			for (String url : allowUrls) {
 				if (requestUrl.endsWith(url)) {
+					return true;
+				}
+
+				Pattern pattern = Pattern.compile(url);
+
+				Matcher matcher = pattern.matcher(requestUrl);
+
+				if (matcher.find()) {
 					return true;
 				}
 			}

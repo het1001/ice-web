@@ -1,6 +1,5 @@
 package com.het.ice.util;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 

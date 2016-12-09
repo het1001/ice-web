@@ -23,6 +23,8 @@ public class UserDO extends BaseModel {
 
 	private String realName;
 
+	private String state;
+
 	/**
 	 * @return the userName
 	 */
@@ -128,4 +130,11 @@ public class UserDO extends BaseModel {
 		this.realName = realName;
 	}
 
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
 }

@@ -1,5 +1,6 @@
 package com.het.ice.model;
 
+import com.het.ice.enums.UserStateEnum;
 import com.het.ice.enums.UserTypeEnum;
 
 public class User extends BaseModel {
@@ -22,6 +23,8 @@ public class User extends BaseModel {
 	private String phone;
 
 	private String realName;
+
+	private UserStateEnum state;
 
 	/**
 	 * @return the userName
@@ -128,4 +131,11 @@ public class User extends BaseModel {
 		this.realName = realName;
 	}
 
+	public UserStateEnum getState() {
+		return state;
+	}
+
+	public void setState(UserStateEnum state) {
+		this.state = state;
+	}
 }

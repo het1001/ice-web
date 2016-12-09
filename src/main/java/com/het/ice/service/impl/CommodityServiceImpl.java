@@ -13,6 +13,7 @@ import com.het.ice.util.CommonConstants;
 import com.het.ice.util.OssUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.het.ice.dao.CommodityDAO;
@@ -34,6 +35,8 @@ import com.het.ice.util.AssertUtil;
  */
 @Service
 public class CommodityServiceImpl implements CommodityService {
+
+	private Logger logger = Logger.getLogger(CommodityServiceImpl.class);
 
 	@Resource
 	private CommodityDAO commodityDao;
@@ -84,6 +87,9 @@ public class CommodityServiceImpl implements CommodityService {
 			public void excute(int start, int size) {
 				query.setStart(start);
 				query.setLimit(size);
+
+				logger.info("查询条件：name=" + query.getName());
+
 				List<CommodityDO> commodityDOs = commodityDao.queryByCondition(query);
 				returnValue = CommodityConvert.conv(commodityDOs);
 

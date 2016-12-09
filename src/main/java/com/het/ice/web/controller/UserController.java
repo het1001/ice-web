@@ -35,8 +35,6 @@ public class UserController {
 	public @ResponseBody ModelMap login(@RequestBody UserWO userWO, HttpSession httpSession) {
 		ModelMap model = new ModelMap();
 
-        RequestMethod.GET.toString();
-
 		WebResult webResult = new WebResult(model);
 
 		Result<User> result = userService.checkUser(userWO.getUserName(), userWO.getPassWord(), userWO.getType(), true);
@@ -54,75 +52,15 @@ public class UserController {
 		return webResult.getModel();
 	}
 
+	/**
+	 * 登出
+	 *
+	 * @param httpSession
+     * @return
+     */
 	@RequestMapping(value = "/loginout.htm", method = RequestMethod.GET)
-	public String login(HttpSession httpSession, ModelMap model) {
-
+	public String login(HttpSession httpSession) {
 		httpSession.invalidate();
-
 		return "redirect:login";
 	}
-
-	/**
-	 *
-	 *
-	 * @param userWO
-	 * @return
-	 */
-	@RequestMapping(value = "/registe", method = RequestMethod.POST)
-	public @ResponseBody ModelMap registe(@RequestBody UserWO userWO) {
-
-		WebResult webResult = new WebResult();
-
-		User user = new User();
-		user.setUserName(userWO.getUserName());
-		user.setPassWord(userWO.getPassWord());
-		user.setType(UserTypeEnum.getByCode(userWO.getType()));
-
-		if (user.getType() == null) {
-			user.setType(UserTypeEnum.NORMAL);
-		}
-
-		Result<Long> result = userService.createUser(user);
-		if (result.isSuccess()) {
-			if (result.getResult() != null) {
-				webResult.setMessage(true, "用户注册成功");
-				// 存入session
-			} else {
-				webResult.setMessage(false, "用户注册失败");
-			}
-		} else {
-			webResult.setMessage(false, result.getErrorMsg());
-		}
-
-		return webResult.getModel();
-	}
-
-	/**
-	 *
-	 * @param userWO
-	 * @return
-	 */
-	@RequestMapping(value = "/modifyPwd", method = RequestMethod.POST)
-	public @ResponseBody ModelMap modifyPwd(@RequestBody UserWO userWO) {
-
-		WebResult webResult = new WebResult();
-
-		Result<Boolean> result = userService.modifyPwd(userWO.getUserName(), userWO.getPassWord(), userWO.getType(),
-				userWO.getNewPassWord());
-		if (result.isSuccess()) {
-			if (result.getResult() != null) {
-				webResult.setMessage(true, "密码修改成功");
-			} else {
-				webResult.setMessage(false, "密码修改失败");
-			}
-		} else {
-			webResult.setMessage(false, result.getErrorMsg());
-		}
-
-		return webResult.getModel();
-	}
-
-    public static void main() {
-
-    }
 }

@@ -13,7 +13,7 @@ public interface UserService {
 	 * @param type
 	 * @return
 	 */
-	public Result<User> checkUser(String name, String pw, String type, boolean isLogin);
+	Result<User> checkUser(String name, String pw, String type, boolean isLogin);
 
 	/**
 	 * 注册用户
@@ -21,7 +21,7 @@ public interface UserService {
 	 * @param user
 	 * @return
 	 */
-	public Result<Long> createUser(User user);
+	Result<Long> createUser(User user);
 
 	/**
 	 * 修改密码
@@ -32,5 +32,5 @@ public interface UserService {
 	 * @param newPw
 	 * @return
 	 */
-	public Result<Boolean> modifyPwd(String name, String pw, String type, String newPw);
+	Result<Boolean> modifyPwd(String name, String pw, String type, String newPw);
 }

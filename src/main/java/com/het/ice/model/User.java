@@ -3,6 +3,8 @@ package com.het.ice.model;
 import com.het.ice.enums.UserStateEnum;
 import com.het.ice.enums.UserTypeEnum;
 
+import java.util.Date;
+
 public class User extends BaseModel {
 
 	/**
@@ -10,21 +12,41 @@ public class User extends BaseModel {
 	 */
 	private static final long serialVersionUID = -7605410496464058030L;
 
+	/** 用户名（会员为手机号） */
 	private String userName;
 
+	/** 密码 */
 	private String passWord;
 
+	/** 类型（NORMAL,BIZ） */
 	private UserTypeEnum type;
 
-	private String lastLoginTime;
+	/** 最后登录时间 */
+	private Date lastLoginTime;
 
+	/** 会员地址 */
 	private String address;
 
+	/** 手机号（BIZ用户的） */
 	private String phone;
 
+	/** 姓名 */
 	private String realName;
 
+	/** 状态 */
 	private UserStateEnum state;
+
+	/** 店名 */
+	private String shopName;
+
+	/** 店面照片key */
+	private String shopImgKey;
+
+	/** 验证码 */
+	private String authCode;
+
+	/** 验证码发送时间 */
+	private Date authTime;
 
 	/**
 	 * @return the userName
@@ -74,7 +96,7 @@ public class User extends BaseModel {
 	/**
 	 * @return the lastLoginTime
 	 */
-	public String getLastLoginTime() {
+	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}
 
@@ -82,7 +104,7 @@ public class User extends BaseModel {
 	 * @param lastLoginTime
 	 *            the lastLoginTime to set
 	 */
-	public void setLastLoginTime(String lastLoginTime) {
+	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
 
@@ -137,5 +159,37 @@ public class User extends BaseModel {
 
 	public void setState(UserStateEnum state) {
 		this.state = state;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public String getShopImgKey() {
+		return shopImgKey;
+	}
+
+	public void setShopImgKey(String shopImgKey) {
+		this.shopImgKey = shopImgKey;
+	}
+
+	public String getAuthCode() {
+		return authCode;
+	}
+
+	public void setAuthCode(String authCode) {
+		this.authCode = authCode;
+	}
+
+	public Date getAuthTime() {
+		return authTime;
+	}
+
+	public void setAuthTime(Date authTime) {
+		this.authTime = authTime;
 	}
 }

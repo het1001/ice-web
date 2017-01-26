@@ -1,9 +1,18 @@
 package com.het.ice.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.het.ice.dao.model.CommodityDO;
+import com.het.ice.dao.query.CommodityQuery;
+import com.het.ice.dao.query.UserQuery;
+import com.het.ice.enums.UserTypeEnum;
+import com.het.ice.model.Commodity;
+import com.het.ice.service.conv.CommodityConvert;
+import com.het.ice.service.template.PageResultCallback;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.het.ice.dao.UserDAO;
@@ -70,7 +79,6 @@ public class UserServiceImpl implements UserService {
 			@Override
 			public void check() {
 				AssertUtil.isEmpty(user.getUserName(), "用户名");
-				AssertUtil.isEmpty(user.getPassWord(), "密码");
 				AssertUtil.isNull(user.getType(), "用户类型");
 
 				AssertUtil.isNotNull(userDao.getByUserName(user.getUserName(), user.getType().getCode()), "用户名已存在");
@@ -79,12 +87,39 @@ public class UserServiceImpl implements UserService {
 			@Override
 			public void excute() {
 				// 密码加密
-				user.setPassWord(MD5Util.encry(user.getPassWord()));
+				if (StringUtils.isNotBlank(user.getPassWord())) {
+					user.setPassWord(MD5Util.encry(user.getPassWord()));
+				}
 
 				UserDO userDO = UserConvert.conv(user);
 				userDao.insert(userDO);
 
 				returnValue = userDO.getId();
+			}
+
+		});
+	}
+
+	/**
+	 *
+	 * @param user
+	 * @return
+     */
+	@Override
+	public Result<Boolean> updateUser(final User user) {
+
+		return template.complete(new ResultCallback<Boolean>() {
+
+			@Override
+			public void excute() {
+				if (StringUtils.isNotBlank(user.getPassWord())) {
+					user.setPassWord(MD5Util.encry(user.getPassWord()));
+				}
+
+				UserDO userDO = UserConvert.conv(user);
+				int result = userDao.update(userDO);
+
+				returnValue = result > 0;
 			}
 
 		});
@@ -121,16 +156,56 @@ public class UserServiceImpl implements UserService {
 		});
 	}
 
-	// public static void main(String[] args) {
-	// // 47bce5c74f589f4867dbd57e9ca9f808
-	// ApplicationContext context = new
-	// ClassPathXmlApplicationContext("applicationContext.xml");
-	// UserService book = (UserService) context.getBean("userService");
-	// Result<User> re = book.checkUser("aaa", "aaa");
-	// System.out.println(re.isSuccess());
-	// System.out.println(re.getErrorMsg());
-	// System.out.println(re.getResult());
-	//
-	// }
+	/**
+	 *
+	 *
+	 * @param name
+	 * @param type
+     * @return
+     */
+	@Override
+	public Result<User> getByUserName(final String name, final UserTypeEnum type) {
+		return template.complete(new ResultCallback<User>() {
+
+			@Override
+			public void check() {
+				AssertUtil.lengthThan(name, 32, "用户名");
+			}
+
+			@Override
+			public void excute() {
+				UserDO userDO = userDao.getByUserName(name, type.getCode());
+				returnValue = UserConvert.conv(userDO);
+			}
+
+		});
+	}
+
+	/**
+	 *
+	 * @param query
+	 * @param pageNum
+	 * @param pageSize
+     * @return
+     */
+	@Override
+	public Result<List<User>> queryByState(final UserQuery query, final String pageNum,
+										   final String pageSize) {
+		return template.pageQuery(new PageResultCallback<List<User>>() {
+
+			@Override
+			public void excute(int start, int size) {
+				query.setStart(start);
+				query.setLimit(size);
+
+
+				List<UserDO> userDOs = userDao.queryByState(query);
+				returnValue = UserConvert.conv(userDOs);
+
+				total = userDao.getCountByState(query);
+			}
+
+		}, pageNum, pageSize);
+	}
 
 }

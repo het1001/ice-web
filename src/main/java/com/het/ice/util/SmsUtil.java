@@ -1,5 +1,6 @@
 package com.het.ice.util;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +23,9 @@ public class SmsUtil {
 
 	public static boolean send(String phone, String code) {
 
-		try {
+		return true;
+
+		/*try {
 			IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIifrLWuAMwVpR",
 					"DdsIl69gVLedduE1hEJUkWb6Sy3EAF");
 			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", "Sms", "sms.aliyuncs.com");
@@ -41,7 +44,7 @@ public class SmsUtil {
 		} catch (ClientException e) {
 			e.printStackTrace();
 			return false;
-		}
+		}*/
 	}
 
 	/*
@@ -66,15 +69,11 @@ public class SmsUtil {
 
 	}
 
-	/*public static void main(String[] args) {
-		//send("18757169657", "123321");
-
+	public static String createAuthCode() {
 		int max=999999;
 		int min=100000;
 		Random random = new Random();
 
-		for (int i = 0; i<= 999; i++) {
-			System.out.println(random.nextInt(max)%(max-min+1) + min);
-		}
-	}*/
+		return (random.nextInt(max)%(max-min+1) + min) + "";
+	}
 }

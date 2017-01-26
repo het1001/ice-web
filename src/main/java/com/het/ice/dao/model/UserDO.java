@@ -25,6 +25,14 @@ public class UserDO extends BaseModel {
 
 	private String state;
 
+	private String shopName;
+
+	private String shopImgKey;
+
+	private String authCode;
+
+	private Date authTime;
+
 	/**
 	 * @return the userName
 	 */
@@ -136,5 +144,37 @@ public class UserDO extends BaseModel {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getShopImgKey() {
+		return shopImgKey;
+	}
+
+	public void setShopImgKey(String shopImgKey) {
+		this.shopImgKey = shopImgKey;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public String getAuthCode() {
+		return authCode;
+	}
+
+	public void setAuthCode(String authCode) {
+		this.authCode = authCode;
+	}
+
+	public Date getAuthTime() {
+		return authTime;
+	}
+
+	public void setAuthTime(Date authTime) {
+		this.authTime = authTime;
 	}
 }

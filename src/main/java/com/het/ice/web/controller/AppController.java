@@ -22,6 +22,10 @@ import com.het.ice.web.model.WebResult;
 @RequestMapping(value = "app")
 public class AppController {
 
+	/**
+	 *
+	 * @return
+	 */
 	@RequestMapping(value = "download.htm", method = { RequestMethod.GET })
 	public String main() {
 		return "appDownload";

@@ -49,7 +49,12 @@
     <bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
      	<property name="mapperInterface" value="com.het.ice.dao.UserDAO"></property>  
      	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
- 	</bean>  
+ 	</bean>
+
+	<bean id="userPhoneInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.het.ice.dao.UserPhoneInfoDAO"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
  	
     <bean id="commodityDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
      	<property name="mapperInterface" value="com.het.ice.dao.CommodityDAO"></property>  

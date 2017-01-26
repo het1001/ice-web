@@ -7,8 +7,11 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_user (u_name, u_pwd, type, last_login_time, address, phone, real_name, state, create_time, modify_time)
-		values(#{userName}, #{passWord}, #{type}, #{lastLoginTime},#{address}, #{phone}, #{realName}, #{state}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		insert into i_user (u_name, u_pwd, type, last_login_time, address, phone, real_name, state, shop_name, shop_img_key, auth_code, auth_time,
+			create_time, modify_time)
+		values(#{userName}, #{passWord}, #{type}, #{lastLoginTime},#{address}, #{phone}, #{realName}, #{state}, #{shopName}, #{shopImgKey},
+			#{authCode}, #{authTime},
+		CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<delete id="delete" parameterType="long">
@@ -19,7 +22,8 @@
 	<update id="update" parameterType="User">
 		update i_user set
 		u_pwd=#{passWord}, last_login_time=#{lastLoginTime}, address=#{address}, phone=#{phone}, real_name=#{realName},
-		state=#{state}, modify_time=CURRENT_TIMESTAMP
+		state=#{state}, shop_name=#{shopName}, shop_img_key=#{shopImgKey}, auth_code=#{authCode}, auth_time=#{authTime},
+		modify_time=CURRENT_TIMESTAMP
 		where id=#{id}
 	</update>
 
@@ -38,6 +42,23 @@
 		from i_user where u_name=#{userName} and type=#{type}
 	</select>
 
+	<select id="queryByState" parameterType="com.het.ice.dao.query.UserQuery" resultMap="userResultMap">
+		select
+		* from i_user where type='NORMAL'
+		<if test="state != null and '' != state ">
+			and state = #{state}
+		</if>
+		limit #{start}, #{limit}
+	</select>
+
+	<select id="getCountByState" parameterType="com.het.ice.dao.query.UserQuery" resultType="int">
+		select
+		count(*) from i_user where type='NORMAL'
+		<if test="state != null and '' != state ">
+			and state = #{state}
+		</if>
+	</select>
+
 	<resultMap type="User" id="userResultMap">
 		<result property="userName" column="u_name" />
 		<result property="passWord" column="u_pwd" />
@@ -45,5 +66,9 @@
 		<result property="realName" column="real_name" />
 		<result property="createTime" column="create_time" />
 		<result property="modifyTime" column="modify_time" />
+		<result property="shopName" column="shop_name" />
+		<result property="shopImgKey" column="shop_img_key" />
+		<result property="authCode" column="auth_code" />
+		<result property="authTime" column="auth_time" />
 	</resultMap>
 </mapper>

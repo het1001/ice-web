@@ -5,6 +5,9 @@ import com.het.ice.enums.UserStateEnum;
 import com.het.ice.enums.UserTypeEnum;
 import com.het.ice.model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * 用户转换器
@@ -31,6 +34,11 @@ public class UserConvert {
 		user.setCreateUser(userDO.getCreateUser());
 		user.setUpdateUser(userDO.getUpdateUser());
 		user.setState(UserStateEnum.getByCode(userDO.getState()));
+		user.setShopName(userDO.getShopName());
+		user.setShopImgKey(userDO.getShopImgKey());
+		user.setAuthCode(userDO.getAuthCode());
+		user.setAuthTime(userDO.getAuthTime());
+		user.setLastLoginTime(userDO.getLastLoginTime());
 		return user;
 	}
 
@@ -51,6 +59,30 @@ public class UserConvert {
 		userDO.setCreateUser(user.getCreateUser());
 		userDO.setUpdateUser(user.getUpdateUser());
 		userDO.setState(user.getState().getCode());
+		userDO.setShopName(user.getShopName());
+		userDO.setShopImgKey(user.getShopImgKey());
+		userDO.setAuthCode(user.getAuthCode());
+		userDO.setAuthTime(user.getAuthTime());
+		userDO.setLastLoginTime(user.getLastLoginTime());
 		return userDO;
+	}
+
+	/**
+	 *
+	 *
+	 * @param userDOs
+	 * @return
+     */
+	public static List<User> conv(List<UserDO> userDOs) {
+		List<User> users = new ArrayList<User>();
+		if (userDOs == null || userDOs.size() == 0) {
+			return users;
+		}
+
+		for (UserDO userDO : userDOs) {
+			users.add(conv(userDO));
+		}
+
+		return users;
 	}
 }

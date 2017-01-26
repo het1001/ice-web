@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.het.ice.model.User;
@@ -22,9 +23,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		String requestUrl = request.getRequestURI();
 
 		if (requestUrl.indexOf(".htm") != -1 || requestUrl.indexOf(".json") != -1) {
-			/**
-			 * 登录页login.do不进行拦截
-			 */
+
 			for (String url : allowUrls) {
 				if (requestUrl.endsWith(url)) {
 					return true;
@@ -34,6 +33,17 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 				Matcher matcher = pattern.matcher(requestUrl);
 				if (matcher.find()) {
 					return true;
+				}
+			}
+
+			Pattern pattern = Pattern.compile("^/ice/app/.*.json$");
+			Matcher matcher = pattern.matcher(requestUrl);
+			if (matcher.matches()) {
+				String token = request.getParameter("token");
+				if (StringUtils.equals(token, "DdsIl69gVLedduE1hEJUkWb6Sy3EAF")) {
+					return true;
+				} else {
+					return false;
 				}
 			}
 
@@ -48,12 +58,6 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		} else {
 			return true;
 		}
-
-		/*
-		 * if (user == null) { response.sendRedirect(request.getContextPath() +
-
-		 * "/login.htm"); }
-		 */
 	}
 
 	/**

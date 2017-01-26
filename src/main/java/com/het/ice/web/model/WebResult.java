@@ -14,6 +14,8 @@ public class WebResult {
 
 	public static final String ERROR_MSG = "errorMsg";
 
+	public static final String RESULT_CODE = "resultCode";
+
 	private ModelMap model = new ModelMap();
 
 	public WebResult() {
@@ -52,6 +54,11 @@ public class WebResult {
 
 	public void setTotal(int total) {
 		model.put(TOTAL, total);
+	}
+
+	public void setResultCode(boolean isSuccess, String resultCode) {
+		model.put(SUCCESS, isSuccess);
+		model.put(RESULT_CODE, resultCode);
 	}
 
 	public ModelMap getModel() {

@@ -10,11 +10,17 @@ import org.apache.commons.lang3.StringUtils;
  */
 public enum UserStateEnum {
 
+	CREATE("CREATE", "创建"),
+
+	AUTHED("AUTHED", "验证通过"),
+
 	NORMAL("NORMAL", "正常"),
 
 	FREEAE("FREEAE", "冻结"),
 
-	AUDITING("AUDITING", "审核中");
+	AUDITING("AUDITING", "审核中"),
+
+	AUDIT_NO("AUDIT_NO", "审核不通过");
 
 	UserStateEnum(String code, String desc) {
 		this.code = code;

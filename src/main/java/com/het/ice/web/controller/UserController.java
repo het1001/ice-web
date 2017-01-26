@@ -2,6 +2,9 @@ package com.het.ice.web.controller;
 
 import javax.servlet.http.HttpSession;
 
+import com.het.ice.dao.query.CommodityQuery;
+import com.het.ice.dao.query.UserQuery;
+import com.het.ice.model.Commodity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +19,8 @@ import com.het.ice.service.UserService;
 import com.het.ice.service.template.Result;
 import com.het.ice.web.model.UserWO;
 import com.het.ice.web.model.WebResult;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/user")
@@ -62,5 +67,31 @@ public class UserController {
 	public String login(HttpSession httpSession) {
 		httpSession.invalidate();
 		return "redirect:login";
+	}
+
+	/**
+	 *
+	 * @param state
+	 * @param pageNum
+	 * @param pageSize
+     * @return
+     */
+	@RequestMapping(value = "queryListByState.json", method = { RequestMethod.GET })
+	public @ResponseBody ModelMap list(String state, String pageNum, String pageSize) {
+		WebResult webResult = new WebResult();
+
+		UserQuery query = new UserQuery();
+		query.setState(state);
+
+		Result<List<User>> result = userService.queryByState(query, pageNum, pageSize);
+
+		if (result.isSuccess()) {
+			webResult.setData(true, result.getResult());
+			webResult.setTotal(result.getTotal());
+		} else {
+			webResult.setMessage(false, result.getErrorMsg());
+		}
+
+		return webResult.getModel();
 	}
 }

@@ -59,6 +59,6 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
 //        saveMinPhoto("","",139, 0.9f);
-        Jedis jedis = new Jedis("localhost");
+        //Jedis jedis = new Jedis("localhost");
     }
 }

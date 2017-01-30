@@ -2,6 +2,9 @@ package com.het.ice.dao;
 
 import com.het.ice.dao.model.BusinessDO;
 
+/**
+ * 业务DAO
+ */
 public interface BusinessDAO {
 
 	void insert(BusinessDO businessDO);

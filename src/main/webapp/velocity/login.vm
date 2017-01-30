@@ -16,6 +16,6 @@
 </div>
 <div id="root"></div>
 </body>
-<script src="/ice/antd/common.js"></script>
-<script src="/ice/antd/login.js"></script>
+<script src="http://localhost:8989/common.js"></script>
+<script src="http://localhost:8989/login.js"></script>
 </html>

@@ -7,15 +7,13 @@ USE ice;
 DROP TABLE IF EXISTS `i_business`;
 DROP TABLE IF EXISTS `i_cat`;
 DROP TABLE IF EXISTS `i_com`;
-DROP TABLE IF EXISTS `commodity`;
-DROP TABLE IF EXISTS `commodity_stock`;
-DROP TABLE IF EXISTS `in_business`;
-DROP TABLE IF EXISTS `out_business`;
-DROP TABLE IF EXISTS `in_storage_list`;
-DROP TABLE IF EXISTS `in_storage_info`;
-DROP TABLE IF EXISTS `out_storage_info`;
-DROP TABLE IF EXISTS `out_storage_list`;
-DROP TABLE IF EXISTS `out_storage_in_storage`;
+DROP TABLE IF EXISTS `i_com_in`;
+DROP TABLE IF EXISTS `i_com_in_item`;
+DROP TABLE IF EXISTS `i_lob`;
+DROP TABLE IF EXISTS `i_order`;
+DROP TABLE IF EXISTS `i_order_list`;
+DROP TABLE IF EXISTS `i_order_trace`;
+DROP TABLE IF EXISTS `i_user`;
 
 --  商户表
 CREATE TABLE `i_business` (

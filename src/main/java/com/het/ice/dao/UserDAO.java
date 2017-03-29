@@ -41,6 +41,16 @@ public interface UserDAO {
 	UserDO getByUserName(@Param(value = "userName") String userName, @Param(value = "type") String type);
 
 	/**
+	 * 根据token、用户类型获取用户
+	 *
+	 * @param token
+	 * @param type
+	 * @return
+	 */
+	UserDO getByToken(@Param(value = "token") String token, @Param(value = "type") String type);
+
+
+	/**
 	 * 根据状态查询用户
 	 *
 	 * @param userQuery

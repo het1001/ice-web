@@ -2,8 +2,10 @@ package com.het.ice.model;
 
 import com.het.ice.enums.UserStateEnum;
 import com.het.ice.enums.UserTypeEnum;
+import net.sf.json.JSONObject;
 
 import java.util.Date;
+import java.util.Map;
 
 public class User extends BaseModel {
 
@@ -47,6 +49,12 @@ public class User extends BaseModel {
 
 	/** 验证码发送时间 */
 	private Date authTime;
+
+	/** token 校验用户的 */
+	private String token;
+
+	/** 属性 */
+	private JSONObject property;
 
 	/**
 	 * @return the userName
@@ -191,5 +199,21 @@ public class User extends BaseModel {
 
 	public void setAuthTime(Date authTime) {
 		this.authTime = authTime;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public JSONObject getProperty() {
+		return property;
+	}
+
+	public void setProperty(JSONObject property) {
+		this.property = property;
 	}
 }

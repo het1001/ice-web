@@ -139,8 +139,6 @@ public class CommodityServiceImpl implements CommodityService {
 				}
 
 				commodityDao.insert(CommodityConvert.conv(com));
-
-				System.out.println(com.getId());
 			}
 		});
 	}

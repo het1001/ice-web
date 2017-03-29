@@ -4,6 +4,9 @@ import com.het.ice.dao.model.UserDO;
 import com.het.ice.enums.UserStateEnum;
 import com.het.ice.enums.UserTypeEnum;
 import com.het.ice.model.User;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +42,8 @@ public class UserConvert {
 		user.setAuthCode(userDO.getAuthCode());
 		user.setAuthTime(userDO.getAuthTime());
 		user.setLastLoginTime(userDO.getLastLoginTime());
+		user.setToken(userDO.getToken());
+		user.setProperty(JSONObject.fromObject(userDO.getProperty()));
 		return user;
 	}
 
@@ -64,6 +69,7 @@ public class UserConvert {
 		userDO.setAuthCode(user.getAuthCode());
 		userDO.setAuthTime(user.getAuthTime());
 		userDO.setLastLoginTime(user.getLastLoginTime());
+		userDO.setProperty(user.getProperty() != null ? user.getProperty().toString() : "");
 		return userDO;
 	}
 

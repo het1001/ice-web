@@ -1,21 +1,29 @@
 package com.het.ice.util;
 
+import com.het.ice.service.impl.UserServiceImpl;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import redis.clients.jedis.Jedis;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Created by Administrator on 2017/1/14.
  */
-public class Test {
+class Test {
 
+    static class TestIn {
+        public String getString() {
+            return "123";
+        }
+    }
 
     public static void saveMinPhoto(String srcURL, String deskURL, double comBase,
                                     double scale) throws Exception {
@@ -58,7 +66,8 @@ public class Test {
     }
 
     public static void main(String[] args) throws Exception {
-//        saveMinPhoto("","",139, 0.9f);
-        //Jedis jedis = new Jedis("localhost");
+        Test t = new Test();
+
+        TestIn in = new Test.TestIn();
     }
 }

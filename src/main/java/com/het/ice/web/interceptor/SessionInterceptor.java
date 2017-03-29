@@ -7,7 +7,11 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.het.ice.enums.UserTypeEnum;
+import com.het.ice.service.UserService;
+import com.het.ice.service.template.Result;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.het.ice.model.User;
@@ -16,47 +20,46 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 
 	private List<String> allowUrls;
 
+	@Autowired
+	private UserService userService;
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 
 		request.setCharacterEncoding("utf-8");
 		String requestUrl = request.getRequestURI();
 
-		if (requestUrl.indexOf(".htm") != -1 || requestUrl.indexOf(".json") != -1) {
-
-			for (String url : allowUrls) {
-				if (requestUrl.endsWith(url)) {
-					return true;
-				}
-
-				Pattern pattern = Pattern.compile(url);
-				Matcher matcher = pattern.matcher(requestUrl);
-				if (matcher.find()) {
-					return true;
-				}
+		for (String url : allowUrls) {
+			if (requestUrl.endsWith(url)) {
+				return true;
 			}
 
-			Pattern pattern = Pattern.compile("^/ice/app/.*.json$");
+			Pattern pattern = Pattern.compile(url);
 			Matcher matcher = pattern.matcher(requestUrl);
-			if (matcher.matches()) {
-				String token = request.getParameter("token");
-				if (StringUtils.equals(token, "DdsIl69gVLedduE1hEJUkWb6Sy3EAF")) {
-					return true;
-				} else {
-					return false;
-				}
+			if (matcher.find()) {
+				return true;
 			}
+		}
 
-			User user = (User) request.getSession().getAttribute("user");
-			System.out.println("user！！！！！！: " + user);
-			if (user != null) {
+		Pattern pattern = Pattern.compile("^/ice/app/.*.json$");
+		Matcher matcher = pattern.matcher(requestUrl);
+		if (matcher.matches()) {
+			String token = request.getParameter("token");
+			Result<User> result = userService.getByToken(token, UserTypeEnum.NORMAL);
+			if (result.isSuccess() && result.getResult() != null) {
 				return true;
 			} else {
-				response.sendRedirect(request.getContextPath() + "/login.htm");
+				response.getOutputStream().write(new String("{\"errorMsg\":\"invalid token!!!\"}").getBytes());
 				return false;
 			}
-		} else {
+		}
+
+		User user = (User) request.getSession().getAttribute("user");
+		if (user != null) {
 			return true;
+		} else {
+			response.sendRedirect(request.getContextPath() + "/login.htm");
+			return false;
 		}
 	}
 

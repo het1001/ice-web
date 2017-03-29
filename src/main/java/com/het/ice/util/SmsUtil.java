@@ -14,7 +14,7 @@ import com.aliyuncs.sms.model.v20160927.SingleSendSmsRequest;
 import com.aliyuncs.sms.model.v20160927.SingleSendSmsResponse;
 
 /**
- * 短信发送
+ * 短信工具
  * 
  * @author Administrator
  *
@@ -69,6 +69,11 @@ public class SmsUtil {
 
 	}
 
+	/**
+	 * 创建随机验证码
+	 *
+	 * @return
+	 */
 	public static String createAuthCode() {
 		int max=999999;
 		int min=100000;

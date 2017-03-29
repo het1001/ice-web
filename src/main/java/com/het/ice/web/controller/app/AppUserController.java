@@ -42,17 +42,12 @@ public class AppUserController {
      */
 	@RequestMapping(value = "/login.json", method = RequestMethod.POST)
 	public @ResponseBody ModelMap login(@RequestBody UserWO userWO) {
-		ModelMap model = new ModelMap();
+		WebResult webResult = new WebResult();
 
-		WebResult webResult = new WebResult(model);
-
-		Result<User> result = userService.checkUser(userWO.getUserName(), userWO.getPassWord(), UserTypeEnum.NORMAL.getCode(), true);
+		Result<User> result = userService.checkNormalUser(userWO.getUserName(), userWO.getPassWord());
 		if (result.isSuccess()) {
-			if (result.getResult() != null) {
-				webResult.setSuccess(true);
-			} else {
-				webResult.setMessage(false, "用户名或密码错误");
-			}
+			webResult.setSuccess(true);
+			webResult.setData(true, result.getResult());
 		} else {
 			webResult.setMessage(false, result.getErrorMsg());
 		}

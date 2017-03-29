@@ -1,5 +1,6 @@
 package com.het.ice.service.template;
 
+import com.het.ice.service.exception.BizException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,9 @@ public class Template {
 			result.setResult(callback.returnValue);
 		} catch (ParamCheckException e) {
 			buildResult(result, e);
+		} catch (BizException e) {
+			// 业务异常
+			buildBizResult(result, e);
 		} catch (Exception e) {
 			e.printStackTrace();
 			buildResult(result, e);
@@ -69,12 +73,20 @@ public class Template {
 			result.setTotal(callback.total);
 		} catch (ParamCheckException e) {
 			buildResult(result, e);
+		} catch (BizException e) {
+			// 业务异常
+			buildBizResult(result, e);
 		} catch (Exception e) {
 			e.printStackTrace();
 			buildResult(result, e);
 		}
 
 		return result;
+	}
+
+	private <T> void buildBizResult(Result<T> result, BizException e) {
+		result.setSuccess(false);
+		result.setErrorMsg(e.getResultMessage());
 	}
 
 	private <T> void buildResult(Result<T> result, Exception e) {

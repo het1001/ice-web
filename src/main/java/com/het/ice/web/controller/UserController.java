@@ -58,6 +58,26 @@ public class UserController {
 	}
 
 	/**
+	 * 根据手机号获取用户
+	 *
+	 * @param phone
+	 * @return
+	 */
+	@RequestMapping(value = "/getUser.json", method = RequestMethod.GET)
+	public @ResponseBody ModelMap checkUser(String phone) {
+		WebResult webResult = new WebResult();
+		Result<User> result = userService.getByUserName(phone, UserTypeEnum.NORMAL);
+		if (result.isSuccess()) {
+			webResult.setSuccess(true);
+			webResult.setData(true, result.getResult());
+		} else {
+			webResult.setMessage(false, result.getErrorMsg());
+		}
+
+		return webResult.getModel();
+	}
+
+	/**
 	 * 登出
 	 *
 	 * @param httpSession

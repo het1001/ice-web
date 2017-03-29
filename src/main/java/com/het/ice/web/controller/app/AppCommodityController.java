@@ -38,6 +38,8 @@ public class AppCommodityController {
 	public @ResponseBody ModelMap list(String pageNum, String pageSize) {
 		WebResult webResult = new WebResult();
 
+		System.out.println("进来了---");
+
 		CommodityQuery query = new CommodityQuery();
 		query.setBizId(1);
 		query.setStatus("1");
@@ -52,11 +54,5 @@ public class AppCommodityController {
 		}
 
 		return webResult.getModel();
-	}
-
-	public static void main(String[] args) {
-		Pattern p = Pattern.compile("^/app/.*.json$");
-		Matcher m = p.matcher("/1app/test/test.json");
-		System.out.print(m.find());
 	}
 }

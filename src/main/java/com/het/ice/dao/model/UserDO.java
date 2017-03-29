@@ -33,6 +33,10 @@ public class UserDO extends BaseModel {
 
 	private Date authTime;
 
+	private String token;
+
+	private String property;
+
 	/**
 	 * @return the userName
 	 */
@@ -176,5 +180,21 @@ public class UserDO extends BaseModel {
 
 	public void setAuthTime(Date authTime) {
 		this.authTime = authTime;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public String getProperty() {
+		return property;
+	}
+
+	public void setProperty(String property) {
+		this.property = property;
 	}
 }

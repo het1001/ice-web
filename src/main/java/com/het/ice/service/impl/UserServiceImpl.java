@@ -11,7 +11,10 @@ import com.het.ice.dao.query.UserQuery;
 import com.het.ice.enums.UserTypeEnum;
 import com.het.ice.model.Commodity;
 import com.het.ice.service.conv.CommodityConvert;
+import com.het.ice.service.exception.BizException;
+import com.het.ice.service.exception.ResultCodeEnum;
 import com.het.ice.service.template.PageResultCallback;
+import com.het.ice.util.UUIDUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +40,12 @@ public class UserServiceImpl implements UserService {
 	private Template template;
 
 	/**
-	 * 
+	 *
+	 * @param name
+	 * @param pw
+	 * @param type
+	 * @param isLogin
+	 * @return
 	 */
 	@Override
 	public Result<User> checkUser(final String name, final String pw, final String type, final boolean isLogin) {
@@ -62,6 +70,47 @@ public class UserServiceImpl implements UserService {
 				}
 
 				returnValue = user;
+			}
+
+		});
+	}
+
+	/**
+	 *
+	 * @param name
+	 * @param pw
+	 * @return
+	 */
+	@Override
+	public Result<User> checkNormalUser(final String name, final String pw) {
+		return template.complete(new ResultCallback<User>() {
+
+			@Override
+			public void check() {
+				AssertUtil.lengthThan(name, 32, "用户名");
+				AssertUtil.lengthThan(pw, 32, "密码");
+			}
+
+			@Override
+			public void excute() {
+				UserDO userDO = userDao.getByUserName(name, UserTypeEnum.NORMAL.getCode());
+				if (userDO == null) {
+					// 用户名不存在
+					throw new BizException(ResultCodeEnum.USERNAME_NOT_EXIST);
+				} else {
+					if (!StringUtils.equals(MD5Util.encry(pw), userDO.getPassWord())) {
+						// 密码错误
+						throw new BizException(ResultCodeEnum.PWD_CHECK_FAILED);
+					} else {
+						// 生成token
+						String token = UUIDUtil.getCode();
+
+						userDO.setLastLoginTime(new Date());
+						userDO.setToken(token);
+						userDao.update(userDO);
+						returnValue = UserConvert.conv(userDO);
+					}
+				}
 			}
 
 		});
@@ -178,6 +227,30 @@ public class UserServiceImpl implements UserService {
 				returnValue = UserConvert.conv(userDO);
 			}
 
+		});
+	}
+
+	/**
+	 *
+	 *
+	 * @param token
+	 * @param type
+	 * @return
+	 */
+	@Override
+	public Result<User> getByToken(final String token, final UserTypeEnum type) {
+		return template.complete(new ResultCallback<User>() {
+
+			@Override
+			public void check() {
+				AssertUtil.isEmpty(token, "token");
+			}
+
+			@Override
+			public void excute() {
+				UserDO userDO = userDao.getByToken(token, type.getCode());
+				returnValue = UserConvert.conv(userDO);
+			}
 		});
 	}
 

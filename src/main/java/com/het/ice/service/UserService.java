@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
 
 	/**
-	 * 用户登录验证
+	 * 管理员用户登录验证
 	 * 
 	 * @param name
 	 * @param pw
@@ -18,6 +18,15 @@ public interface UserService {
 	 * @return
 	 */
 	Result<User> checkUser(String name, String pw, String type, boolean isLogin);
+
+	/**
+	 * 普通用户登录验证
+	 *
+	 * @param name
+	 * @param pw
+	 * @return
+	 */
+	Result<User> checkNormalUser(final String name, final String pw);
 
 	/**
 	 * 创建用户
@@ -46,7 +55,21 @@ public interface UserService {
 	 */
 	Result<Boolean> modifyPwd(String name, String pw, String type, String newPw);
 
+	/**
+	 *
+	 * @param name
+	 * @param type
+	 * @return
+	 */
 	Result<User> getByUserName(String name, UserTypeEnum type);
+
+	/**
+	 *
+	 * @param token
+	 * @param type
+	 * @return
+	 */
+	Result<User> getByToken(String token, UserTypeEnum type);
 
 	/**
 	 * 按状态查询用户列表（仅限会员账户）

@@ -162,8 +162,6 @@ CREATE TABLE `i_order_trace` (
 -- 用户表
 CREATE TABLE `i_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `modify_time` datetime NOT NULL COMMENT '更新时间',
   `u_name` varchar(32) NOT NULL COMMENT '用户名',
   `u_pwd` varchar(32) DEFAULT NULL COMMENT '密码',
   `type` varchar(8) NOT NULL COMMENT '类型（商户， 普通用户）',
@@ -176,6 +174,20 @@ CREATE TABLE `i_user` (
   `shop_img_key` varchar(50) DEFAULT NULL COMMENT '门店图片key',
   `auth_code` varchar(6) DEFAULT NULL COMMENT '验证码',
   `auth_time` datetime DEFAULT NULL COMMENT '验证码发送时间',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 收货地址
+CREATE TABLE `i_user_delivery_addr` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `user_id` BIGINT(20) NOT NULL COMMENT '用户ID',
+  `full_name` VARCHAR(20) NOT NULL COMMENT '姓名',
+  `address` VARCHAR(200) NOT NULL COMMENT '地址',
+  `phone` VARCHAR(45) NOT NULL COMMENT '手机号',
+  `status` TINYINT(4) NOT NULL COMMENT '状态(1：默认收货地址，0：非默认)',
+  `create_time` DATETIME NOT NULL COMMENT '创建时间',
+  `modify_time` DATETIME NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

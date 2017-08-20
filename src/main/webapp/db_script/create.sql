@@ -108,17 +108,13 @@ CREATE TABLE `i_com_in_item` (
 -- 数据表
 CREATE TABLE `i_lob` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `blob_value` longblob COMMENT '数据',
-  `type` varchar(8) NOT NULL COMMENT '类型（IMG，JSON）',
-  `com_id` bigint(20) NOT NULL COMMENT '商品id',
-  `name` VARCHAR (100) NOT NULL COMMENT 'key',
-  `active` tinyint (4) NOT NULL COMMENT '是否生效',
+  `oss_key` varchar(128) NOT NULL COMMENT '附件key',
+  `is_used` tinyint(4) NOT NULL COMMENT '是否使用，0未使用，1使用',
+  `where_use` varchar(100) DEFAULT NULL COMMENT '在哪里用了',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `modify_time` datetime NOT NULL COMMENT '更新时间',
-  `create_user` varchar(32) DEFAULT NULL COMMENT '创建者',
-  `update_user` varchar(32) DEFAULT NULL COMMENT '更新者',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- 订单表
 CREATE TABLE `i_order` (
@@ -159,25 +155,45 @@ CREATE TABLE `i_order_trace` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- app主图片
+CREATE TABLE `i_app_main_img` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `image_key` varchar(32) DEFAULT NULL COMMENT 'imageKey',
+  `active` tinyint(4) DEFAULT NULL COMMENT '是否使用',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- 用户表
 CREATE TABLE `i_user` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `u_name` varchar(32) NOT NULL COMMENT '用户名',
   `u_pwd` varchar(32) DEFAULT NULL COMMENT '密码',
   `type` varchar(8) NOT NULL COMMENT '类型（商户， 普通用户）',
-  `address` varchar(255) DEFAULT NULL COMMENT '地址',
   `phone` varchar(16) DEFAULT NULL COMMENT '手机号',
   `real_name` varchar(32) DEFAULT NULL COMMENT '姓名',
   `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
   `state` varchar(32) DEFAULT NULL COMMENT '状态',
-  `shop_name` varchar(128) DEFAULT NULL COMMENT '门店名称',
-  `shop_img_key` varchar(50) DEFAULT NULL COMMENT '门店图片key',
-  `auth_code` varchar(6) DEFAULT NULL COMMENT '验证码',
-  `auth_time` datetime DEFAULT NULL COMMENT '验证码发送时间',
+  `token` varchar(18) DEFAULT NULL COMMENT 'token',
+  `property` varchar(1000) DEFAULT NULL COMMENT '用户扩展属性',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `modify_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 用户验证码
+CREATE TABLE `i_user_auth_code` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `phone` varchar(18) NOT NULL COMMENT '手机号',
+  `code` varchar(6) DEFAULT NULL COMMENT '验证码',
+  `used` tinyint(4) DEFAULT NULL COMMENT '用户是否使用过',
+  `device_unique_id` varchar(32) DEFAULT NULL COMMENT '设备唯一标识',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `use_time` timestamp NULL DEFAULT NULL COMMENT '使用时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phone_code` (`phone`,`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 -- 收货地址
 CREATE TABLE `i_user_delivery_addr` (
@@ -189,5 +205,49 @@ CREATE TABLE `i_user_delivery_addr` (
   `status` TINYINT(4) NOT NULL COMMENT '状态(1：默认收货地址，0：非默认)',
   `create_time` DATETIME NOT NULL COMMENT '创建时间',
   `modify_time` DATETIME NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 用户手机信息
+CREATE TABLE `i_user_phone_info` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `phone` varchar(18) DEFAULT NULL,
+  `manufacturer` varchar(32) DEFAULT NULL COMMENT '手机制造商',
+  `model` varchar(132) DEFAULT NULL COMMENT '手机型号',
+  `device_unique_id` varchar(32) DEFAULT NULL COMMENT '设备唯一识别码',
+  `device_id` varchar(16) DEFAULT NULL COMMENT '设备ID',
+  `device_name` varchar(32) DEFAULT NULL COMMENT '设备名称',
+  `sys_name` varchar(32) DEFAULT NULL COMMENT '系统名称',
+  `sys_version` varchar(32) DEFAULT NULL COMMENT '系统版本',
+  `imei` varchar(128) DEFAULT NULL,
+  `app_version` varchar(128) DEFAULT NULL COMMENT 'app版本',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+
+-- 用户店铺信息
+CREATE TABLE `i_user_shop_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `phone` varchar(18) DEFAULT NULL COMMENT '手机号',
+  `shop_name` varchar(128) DEFAULT NULL COMMENT '店铺名称',
+  `shop_address` varchar(256) DEFAULT NULL COMMENT '店铺地址',
+  `shop_img_key` varchar(64) DEFAULT NULL COMMENT '店铺图片key',
+  `is_access` tinyint(4) DEFAULT NULL COMMENT '是否通过审核',
+  `audit_memo` varchar(250) DEFAULT NULL COMMENT '审核意见',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- 用户操作记录
+CREATE TABLE `i_user_operate_trace` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `phone` varchar(18) NOT NULL COMMENT '手机号',
+  `operate` varchar(32) DEFAULT NULL COMMENT '操作',
+  `memo` varchar(1000) DEFAULT NULL COMMENT '备注',
+  `old_info` varchar(5000) DEFAULT NULL COMMENT '旧数据',
+  `new_info` varchar(5000) DEFAULT NULL COMMENT '新数据',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

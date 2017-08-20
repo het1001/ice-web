@@ -1,4 +1,4 @@
-package com.het.ice.web.controller;
+package com.het.ice.web.controller.pc;
 
 import java.text.ParseException;
 import java.util.List;
@@ -20,18 +20,28 @@ import com.het.ice.model.CommodityInItem;
 import com.het.ice.service.CommodityInService;
 import com.het.ice.service.conv.CommodityInItemConvert;
 import com.het.ice.service.template.Result;
-import com.het.ice.web.model.CommodityInItemWO;
-import com.het.ice.web.model.WebResult;
+import com.het.ice.web.request.CommodityInItemWO;
+import com.het.ice.web.result.WebResult;
 
 import net.sf.json.JSONArray;
 
+/**
+ * 入库控制器
+ *
+ */
 @Controller
-@RequestMapping(value = "commodityIn")
+@RequestMapping(value = "pc/commodityIn")
 public class CommodityInController {
 
 	@Autowired
 	private CommodityInService commodityInService;
 
+	/**
+	 * 新建入库
+	 *
+	 * @param param
+	 * @return
+	 */
 	@RequestMapping(value = "create.json", method = { RequestMethod.POST })
 	public @ResponseBody ModelMap create(@RequestBody String param) {
 		WebResult webResult = new WebResult();
@@ -49,6 +59,16 @@ public class CommodityInController {
 		return webResult.getModel();
 	}
 
+	/**
+	 * 查询入库列表
+	 *
+	 * @param fromTime
+	 * @param endTime
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "queryList.json", method = { RequestMethod.GET })
 	public @ResponseBody ModelMap list(String fromTime, String endTime, String pageNum, String pageSize)
 			throws ParseException {
@@ -75,6 +95,12 @@ public class CommodityInController {
 		return webResult.getModel();
 	}
 
+	/**
+	 * 查看入库详情
+	 *
+	 * @param inId
+	 * @return
+	 */
 	@RequestMapping(value = "queryDetail.json", method = { RequestMethod.GET })
 	public @ResponseBody ModelMap queryDetail(String inId) {
 		WebResult webResult = new WebResult();

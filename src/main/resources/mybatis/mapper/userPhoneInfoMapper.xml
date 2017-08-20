@@ -7,35 +7,20 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_user_phone_info (user_id, phone, imei, brand, model, version, sdk_version, create_time, modify_time)
-		values(#{userId}, #{phone}, #{imei}, #{brand},#{model}, #{version}, #{sdkVersion}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		insert into i_user_phone_info (user_id, phone, manufacturer, model, device_unique_id, device_id, device_name, sys_name, sys_version,
+		imei, app_version, create_time)
+		values(#{userId}, #{phone}, #{manufacturer}, #{model}, #{deviceUniqueId}, #{deviceId}, #{deviceName}, #{sysName}, #{sysVersion},
+		#{imei}, #{appVersion}, CURRENT_TIMESTAMP)
 	</insert>
-
-	<delete id="delete" parameterType="long">
-		delete from i_user_phone_info where
-		id=#{id}
-	</delete>
-
-	<update id="update" parameterType="User">
-		update i_user_phone_info set
-		imei=#{imei}, brand=#{brand}, model=#{model}, version=#{version}, sdk_version=#{sdkVersion}, modify_time=CURRENT_TIMESTAMP
-		where id=#{id}
-	</update>
-
-	<select id="getById" parameterType="long" resultMap="userPhoneInfoResultMap">
-		select *
-		from i_user_phone_info where id=#{id}
-	</select>
-
-	<select id="getByPhone" parameterType="String" resultMap="userPhoneInfoResultMap">
-		select *
-		from i_user_phone_info where phone=#{phone}
-	</select>
 
 	<resultMap type="UserPhoneInfo" id="userPhoneInfoResultMap">
 		<result property="userId" column="user_id" />
-		<result property="sdkVersion" column="sdk_version" />
+		<result property="deviceUniqueId" column="device_unique_id" />
+		<result property="deviceId" column="device_id" />
+		<result property="deviceName" column="device_name" />
+		<result property="sysName" column="sys_name" />
+		<result property="sysVersion" column="sys_version" />
+		<result property="appVersion" column="app_version" />
 		<result property="createTime" column="create_time" />
-		<result property="modifyTime" column="modify_time" />
 	</resultMap>
 </mapper>

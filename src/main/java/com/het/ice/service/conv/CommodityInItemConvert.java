@@ -7,7 +7,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import com.het.ice.dao.model.CommodityInItemDO;
 import com.het.ice.model.CommodityInItem;
-import com.het.ice.web.model.CommodityInItemWO;
+import com.het.ice.web.request.CommodityInItemWO;
 
 public class CommodityInItemConvert {
 

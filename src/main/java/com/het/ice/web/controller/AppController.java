@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.het.ice.util.ApkUtil;
-import com.het.ice.web.model.WebResult;
+import com.het.ice.web.result.WebResult;
 
 @Controller
 @RequestMapping(value = "app")

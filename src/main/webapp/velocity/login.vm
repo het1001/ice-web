@@ -12,10 +12,10 @@
 </head>
 <body>
 <div id="Layer1" style="position:absolute; padding-left:10%; padding-top:8%; width:80%; height:90%; z-index:-1">    
-<img src="/ice/image/erweima.png" height="100%" width="50%"/>    
+<img src="/ice/image/erweima.png" height="100%" width="50%"/>
 </div>
 <div id="root"></div>
 </body>
-<script src="http://localhost:8989/common.js"></script>
-<script src="http://localhost:8989/login.js"></script>
+<script src="/ice/antd/common.js"></script>
+<script src="/ice/antd/login.js"></script>
 </html>

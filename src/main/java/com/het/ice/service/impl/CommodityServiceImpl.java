@@ -134,7 +134,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 				// 生成条形码图片
 				if (StringUtils.isNotBlank(com.getBarCode())) {
-					String key = OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate(com.getBarCode())));
+					String key = OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate(com.getBarCode())), ".png");
 					com.setBarImgKey(key);
 				}
 
@@ -182,7 +182,7 @@ public class CommodityServiceImpl implements CommodityService {
 				} else {
 					if (!StringUtils.equals(com.getBarCode(), comDo.getBarCode())) {
 						comDo.setBarCode(com.getBarCode());
-						String key = OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate(com.getBarCode())));
+						String key = OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate(com.getBarCode())), ".png");
 						comDo.setBarImgKey(key);
 					}
 				}

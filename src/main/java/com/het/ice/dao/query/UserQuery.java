@@ -7,6 +7,8 @@ public class UserQuery implements Serializable {
 
 	private static final long serialVersionUID = -7388970963266775301L;
 
+	private String phone;
+
 	private String state;
 
 	private int start;
@@ -51,4 +53,11 @@ public class UserQuery implements Serializable {
 		this.limit = limit;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 }

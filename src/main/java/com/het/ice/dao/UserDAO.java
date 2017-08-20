@@ -1,9 +1,8 @@
 package com.het.ice.dao;
 
+import com.het.ice.dao.model.UserDO;
 import com.het.ice.dao.query.UserQuery;
 import org.apache.ibatis.annotations.Param;
-
-import com.het.ice.dao.model.UserDO;
 
 import java.util.List;
 
@@ -41,6 +40,14 @@ public interface UserDAO {
 	UserDO getByUserName(@Param(value = "userName") String userName, @Param(value = "type") String type);
 
 	/**
+	 * 根据手机号查用户（只针对客户）
+	 *
+	 * @param phone
+	 * @return
+	 */
+	UserDO getByPhone(@Param(value = "phone") String phone);
+
+	/**
 	 * 根据token、用户类型获取用户
 	 *
 	 * @param token
@@ -56,7 +63,7 @@ public interface UserDAO {
 	 * @param userQuery
 	 * @return
      */
-	List<UserDO> queryByState(UserQuery userQuery);
+	List<UserDO> query(UserQuery userQuery);
 
 	/**
 	 * 根据状态查询用户总量
@@ -64,5 +71,5 @@ public interface UserDAO {
 	 * @param query
 	 * @return
      */
-	int getCountByState(UserQuery query);
+	int getCount(UserQuery query);
 }

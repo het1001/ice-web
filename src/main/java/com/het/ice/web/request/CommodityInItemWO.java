@@ -1,4 +1,4 @@
-package com.het.ice.web.model;
+package com.het.ice.web.request;
 
 import java.io.Serializable;
 

@@ -82,8 +82,4 @@ public class BarcodeUtil {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] a) {
-        OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate("9787302293156")));
-    }
 }

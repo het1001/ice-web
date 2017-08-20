@@ -1,4 +1,4 @@
-package com.het.ice.web.controller;
+package com.het.ice.web.controller.pc;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,24 +11,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
 	/**
-	 * 
+	 * 首页
+	 *
 	 * @return
 	 */
-	@RequestMapping(value = "index.htm", method = { RequestMethod.GET })
+	@RequestMapping(value = "pc/index.htm", method = { RequestMethod.GET })
 	public String index() {
 		return "index";
 	}
 
 	/**
-	 * 
+	 * 登录页面
+	 *
 	 * @return
 	 */
-	@RequestMapping(value = "login.htm", method = { RequestMethod.GET })
+	@RequestMapping(value = "pc/login.htm", method = { RequestMethod.GET })
 	public String login() {
 		return "login";
 	}
 
-	@RequestMapping(value = "loginout.htm", method = RequestMethod.GET)
+	/**
+	 * 登出
+	 *
+	 * @param httpSession
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "pc/loginout.htm", method = RequestMethod.GET)
 	public String login(HttpSession httpSession, ModelMap model) {
 
 		httpSession.invalidate();

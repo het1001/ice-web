@@ -1,18 +1,16 @@
 package com.het.ice.util;
 
-import com.het.ice.service.impl.UserServiceImpl;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import redis.clients.jedis.Jedis;
+import net.sf.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Created by Administrator on 2017/1/14.
@@ -66,8 +64,10 @@ class Test {
     }
 
     public static void main(String[] args) throws Exception {
-        Test t = new Test();
+        /*Random random = new Random(new Date().getTime());
+        System.out.print(random.nextInt(1));*/
 
-        TestIn in = new Test.TestIn();
+        JSONObject jsonObject = JSONObject.fromObject("{\"a\":\"1\"}");
+        System.out.print(jsonObject.getString("a"));
     }
 }

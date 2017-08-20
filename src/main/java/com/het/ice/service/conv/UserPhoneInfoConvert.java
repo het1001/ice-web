@@ -1,10 +1,6 @@
 package com.het.ice.service.conv;
 
-import com.het.ice.dao.model.UserDO;
 import com.het.ice.dao.model.UserPhoneInfoDO;
-import com.het.ice.enums.UserStateEnum;
-import com.het.ice.enums.UserTypeEnum;
-import com.het.ice.model.User;
 import com.het.ice.model.UserPhoneInfo;
 
 /**
@@ -25,13 +21,16 @@ public class UserPhoneInfoConvert {
 		model.setId(doModel.getId());
 		model.setUserId(doModel.getUserId());
 		model.setPhone(doModel.getPhone());
+		model.setManufacturer(doModel.getManufacturer());
 		model.setModel(doModel.getModel());
+		model.setDeviceUniqueId(doModel.getDeviceUniqueId());
+		model.setDeviceId(doModel.getDeviceId());
+		model.setDeviceName(doModel.getDeviceName());
+		model.setSysName(doModel.getSysName());
+		model.setSysVersion(doModel.getSysVersion());
 		model.setImei(doModel.getImei());
-		model.setBrand(doModel.getBrand());
-		model.setVersion(doModel.getVersion());
-		model.setSdkVersion(doModel.getSdkVersion());
+		model.setAppVersion(doModel.getAppVersion());
 		model.setCreateTime(doModel.getCreateTime());
-		model.setModifyTime(doModel.getModifyTime());
 		return model;
 	}
 
@@ -44,13 +43,16 @@ public class UserPhoneInfoConvert {
 		doModel.setId(model.getId());
 		doModel.setUserId(model.getUserId());
 		doModel.setPhone(model.getPhone());
+		doModel.setManufacturer(model.getManufacturer());
 		doModel.setModel(model.getModel());
+		doModel.setDeviceUniqueId(model.getDeviceUniqueId());
+		doModel.setDeviceId(model.getDeviceId());
+		doModel.setDeviceName(model.getDeviceName());
+		doModel.setSysName(model.getSysName());
+		doModel.setSysVersion(model.getSysVersion());
 		doModel.setImei(model.getImei());
-		doModel.setBrand(model.getBrand());
-		doModel.setVersion(model.getVersion());
-		doModel.setSdkVersion(model.getSdkVersion());
+		doModel.setAppVersion(model.getAppVersion());
 		doModel.setCreateTime(model.getCreateTime());
-		doModel.setModifyTime(model.getModifyTime());
 		return doModel;
 	}
 }

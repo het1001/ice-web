@@ -18,16 +18,11 @@ public class LobConvert {
 
 		Lob lob = new Lob();
 		lob.setId(lobDO.getId());
-		lob.setName(lobDO.getName());
-		lob.setComId(lobDO.getComId());
+		lob.setOssKey(lobDO.getOssKey());
+		lob.setIsUsed(lobDO.getIsUsed());
+		lob.setWhereUse(lobDO.getWhereUse());
 		lob.setCreateTime(lobDO.getCreateTime());
 		lob.setModifyTime(lobDO.getModifyTime());
-		lob.setCreateUser(lobDO.getCreateUser());
-		lob.setUpdateUser(lobDO.getUpdateUser());
-		lob.setBlobValue(lobDO.getBlobValue());
-		lob.setType(LobTypeEnum.getByCode(lobDO.getType()));
-		lob.setActive(lobDO.getActive());
-
 		return lob;
 	}
 
@@ -38,16 +33,11 @@ public class LobConvert {
 
 		LobDO lobDO = new LobDO();
 		lobDO.setId(lob.getId());
-		lobDO.setName(lob.getName());
-		lobDO.setComId(lob.getComId());
+		lobDO.setOssKey(lob.getOssKey());
+		lobDO.setIsUsed(lob.getIsUsed());
+		lobDO.setWhereUse(lob.getWhereUse());
 		lobDO.setCreateTime(lob.getCreateTime());
 		lobDO.setModifyTime(lob.getModifyTime());
-		lobDO.setCreateUser(lob.getCreateUser());
-		lobDO.setUpdateUser(lob.getUpdateUser());
-		lobDO.setBlobValue(lob.getBlobValue());
-		lobDO.setType(lob.getType().getCode());
-		lobDO.setActive(lob.getActive());
-
 		return lobDO;
 	}
 

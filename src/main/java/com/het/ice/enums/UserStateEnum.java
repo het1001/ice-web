@@ -14,6 +14,8 @@ public enum UserStateEnum {
 
 	AUTHED("AUTHED", "验证通过"),
 
+	PASSED("PASSED", "设置密码了"),
+
 	NORMAL("NORMAL", "正常"),
 
 	FREEAE("FREEAE", "冻结"),

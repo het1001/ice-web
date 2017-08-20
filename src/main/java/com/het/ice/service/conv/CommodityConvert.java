@@ -7,7 +7,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 import com.het.ice.dao.model.CommodityDO;
 import com.het.ice.model.Commodity;
-import com.het.ice.web.model.CommodityWO;
+import com.het.ice.web.request.CommodityWO;
 
 /**
  * 商品转换器

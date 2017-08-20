@@ -26,6 +26,12 @@ public class OssUtil {
 
 	private static final String bucketName = "ice2016";
 
+	/**
+	 * 获取oss数据
+	 *
+	 * @param key
+	 * @return
+	 */
 	public static byte[] getObject(String key) {
 		OSSClient ossClient = new OSSClient(ENDPOIOT, KEY, SECRIT);
 		try {
@@ -43,12 +49,29 @@ public class OssUtil {
 		return null;
 	}
 
-	public static String putObject(InputStream input) {
-		String key = UUIDUtil.getCode();
+	/**
+	 * 附件存储
+	 *
+	 * @param input
+	 * @param xff
+	 * @return
+	 */
+	public static String putObject(InputStream input, String xff) {
+		String key = UUIDUtil.getCode() + xff;
 		OSSClient ossClient = new OSSClient(ENDPOIOT, KEY, SECRIT);
-		PutObjectResult result = ossClient.putObject(bucketName, key, input);
+		ossClient.putObject(bucketName, key, input);
 		ossClient.shutdown();
-
 		return key;
+	}
+
+	/**
+	 * 删除附件
+	 *
+	 * @param key
+	 */
+	public static void deleteObject(String key) {
+		OSSClient ossClient = new OSSClient(ENDPOIOT, KEY, SECRIT);
+		ossClient.deleteObject(bucketName, key);
+		ossClient.shutdown();
 	}
 }

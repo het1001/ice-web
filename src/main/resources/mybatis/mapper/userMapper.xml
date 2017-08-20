@@ -7,11 +7,10 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_user (u_name, u_pwd, type, last_login_time, address, phone, real_name, state, shop_name, shop_img_key, auth_code, auth_time,
+		insert into i_user (u_name, u_pwd, type, last_login_time, phone, real_name, state,
 			token, property, create_time, modify_time)
-		values(#{userName}, #{passWord}, #{type}, #{lastLoginTime},#{address}, #{phone}, #{realName}, #{state}, #{shopName}, #{shopImgKey},
-			#{authCode}, #{authTime}, #{token}, #{property}
-		CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		values(#{userName}, #{passWord}, #{type}, #{lastLoginTime}, #{phone}, #{realName}, #{state},
+			#{token}, #{property}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<delete id="delete" parameterType="long">
@@ -21,9 +20,8 @@
 
 	<update id="update" parameterType="User">
 		update i_user set
-		u_pwd=#{passWord}, last_login_time=#{lastLoginTime}, address=#{address}, phone=#{phone}, real_name=#{realName},
-		state=#{state}, shop_name=#{shopName}, shop_img_key=#{shopImgKey}, auth_code=#{authCode}, auth_time=#{authTime},
-		token=#{token}, property=#{property}, modify_time=CURRENT_TIMESTAMP
+		u_pwd=#{passWord}, last_login_time=#{lastLoginTime}, phone=#{phone}, real_name=#{realName},
+		state=#{state}, token=#{token}, property=#{property}, modify_time=CURRENT_TIMESTAMP
 		where id=#{id}
 	</update>
 
@@ -42,23 +40,34 @@
 		from i_user where u_name=#{userName} and type=#{type}
 	</select>
 
+	<select id="getByPhone" parameterType="String" resultMap="userResultMap">
+		select *
+		from i_user where phone=#{phone} and type='NORMAL'
+	</select>
+
 	<select id="getByToken" parameterType="String" resultMap="userResultMap">
 		select *
 		from i_user where token=#{token} and type=#{type}
 	</select>
 
-	<select id="queryByState" parameterType="com.het.ice.dao.query.UserQuery" resultMap="userResultMap">
+	<select id="query" parameterType="com.het.ice.dao.query.UserQuery" resultMap="userResultMap">
 		select
 		* from i_user where type='NORMAL'
+		<if test="phone != null and '' != phone ">
+			and phone = #{phone}
+		</if>
 		<if test="state != null and '' != state ">
 			and state = #{state}
 		</if>
 		limit #{start}, #{limit}
 	</select>
 
-	<select id="getCountByState" parameterType="com.het.ice.dao.query.UserQuery" resultType="int">
+	<select id="getCount" parameterType="com.het.ice.dao.query.UserQuery" resultType="int">
 		select
 		count(*) from i_user where type='NORMAL'
+		<if test="phone != null and '' != phone ">
+			and phone = #{phone}
+		</if>
 		<if test="state != null and '' != state ">
 			and state = #{state}
 		</if>
@@ -71,9 +80,5 @@
 		<result property="realName" column="real_name" />
 		<result property="createTime" column="create_time" />
 		<result property="modifyTime" column="modify_time" />
-		<result property="shopName" column="shop_name" />
-		<result property="shopImgKey" column="shop_img_key" />
-		<result property="authCode" column="auth_code" />
-		<result property="authTime" column="auth_time" />
 	</resultMap>
 </mapper>

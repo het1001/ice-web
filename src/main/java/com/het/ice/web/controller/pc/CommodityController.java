@@ -1,4 +1,4 @@
-package com.het.ice.web.controller;
+package com.het.ice.web.controller.pc;
 
 import java.util.List;
 
@@ -16,11 +16,15 @@ import com.het.ice.model.Commodity;
 import com.het.ice.service.CommodityService;
 import com.het.ice.service.conv.CommodityConvert;
 import com.het.ice.service.template.Result;
-import com.het.ice.web.model.CommodityWO;
-import com.het.ice.web.model.WebResult;
+import com.het.ice.web.request.CommodityWO;
+import com.het.ice.web.result.WebResult;
 
+/**
+ * 商品控制器
+ *
+ */
 @Controller
-@RequestMapping(value = "commodity")
+@RequestMapping(value = "pc/commodity")
 public class CommodityController {
 
 	@Autowired

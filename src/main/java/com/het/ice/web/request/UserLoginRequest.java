@@ -1,8 +1,8 @@
-package com.het.ice.web.model;
+package com.het.ice.web.request;
 
 import com.het.ice.model.ToString;
 
-public class UserWO extends ToString {
+public class UserLoginRequest extends ToString {
 
 	/**
 	 * 
@@ -13,7 +13,9 @@ public class UserWO extends ToString {
 
 	private String passWord;
 
-	private String newPassWord;
+	private String position;
+
+	private String device;
 
 	private String type;
 
@@ -47,34 +49,27 @@ public class UserWO extends ToString {
 		this.passWord = passWord;
 	}
 
-	/**
-	 * @return the newPassWord
-	 */
-	public String getNewPassWord() {
-		return newPassWord;
-	}
-
-	/**
-	 * @param newPassWord
-	 *            the newPassWord to set
-	 */
-	public void setNewPassWord(String newPassWord) {
-		this.newPassWord = newPassWord;
-	}
-
-	/**
-	 * @return the type
-	 */
 	public String getType() {
 		return type;
 	}
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public String getDevice() {
+		return device;
+	}
+
+	public void setDevice(String device) {
+		this.device = device;
+	}
 }

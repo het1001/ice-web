@@ -1,5 +1,7 @@
 target
+logs
 .iml
 .idea
 .project
 .classpath
+.class

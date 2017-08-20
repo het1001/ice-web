@@ -10,20 +10,32 @@ public class UserPhoneInfo extends BaseModel {
 	/** 手机号 */
 	private String phone;
 
+	/** 手机产家 */
+	private String manufacturer;
+
+	/** 手机型号 */
+	private String model;
+
+	/** 设备唯一标识码 */
+	private String deviceUniqueId;
+
+	/** 设备ID */
+	private String deviceId;
+
+	/** 设备名称 */
+	private String deviceName;
+
+	/** 系统名称 */
+	private String sysName;
+
+	/** 系统版本 */
+	private String sysVersion;
+
 	/** IMEI 手机入网唯一号 */
 	private String imei;
 
-	/** 品牌 */
-	private String brand;
-
-	/** 型号 */
-	private String model;
-
-	/** 系统版本 */
-	private String version;
-
-	/** SDK版本号 */
-	private String sdkVersion;
+	/** app版本 */
+	private String appVersion;
 
 	public long getUserId() {
 		return userId;
@@ -49,14 +61,6 @@ public class UserPhoneInfo extends BaseModel {
 		this.imei = imei;
 	}
 
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
 	public String getModel() {
 		return model;
 	}
@@ -65,19 +69,59 @@ public class UserPhoneInfo extends BaseModel {
 		this.model = model;
 	}
 
-	public String getVersion() {
-		return version;
+	public String getManufacturer() {
+		return manufacturer;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
 	}
 
-	public String getSdkVersion() {
-		return sdkVersion;
+	public String getDeviceId() {
+		return deviceId;
 	}
 
-	public void setSdkVersion(String sdkVersion) {
-		this.sdkVersion = sdkVersion;
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public String getSysName() {
+		return sysName;
+	}
+
+	public void setSysName(String sysName) {
+		this.sysName = sysName;
+	}
+
+	public String getSysVersion() {
+		return sysVersion;
+	}
+
+	public void setSysVersion(String sysVersion) {
+		this.sysVersion = sysVersion;
+	}
+
+	public String getAppVersion() {
+		return appVersion;
+	}
+
+	public void setAppVersion(String appVersion) {
+		this.appVersion = appVersion;
+	}
+
+	public String getDeviceUniqueId() {
+		return deviceUniqueId;
+	}
+
+	public void setDeviceUniqueId(String deviceUniqueId) {
+		this.deviceUniqueId = deviceUniqueId;
 	}
 }

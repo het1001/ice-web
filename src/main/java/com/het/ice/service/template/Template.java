@@ -3,6 +3,7 @@ package com.het.ice.service.template;
 import com.het.ice.service.exception.BizException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.het.ice.service.exception.ParamCheckException;
@@ -14,6 +15,8 @@ import com.het.ice.service.exception.ParamCheckException;
  */
 @Service
 public class Template {
+
+	Logger LOGGER = Logger.getLogger(Template.class);
 
 	/**
 	 * 
@@ -35,12 +38,14 @@ public class Template {
 
 			result.setResult(callback.returnValue);
 		} catch (ParamCheckException e) {
+			LOGGER.error("参数校验出错", e);
 			buildResult(result, e);
 		} catch (BizException e) {
 			// 业务异常
+			LOGGER.error("业务异常", e);
 			buildBizResult(result, e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("系统异常", e);
 			buildResult(result, e);
 		}
 

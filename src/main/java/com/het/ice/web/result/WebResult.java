@@ -1,4 +1,4 @@
-package com.het.ice.web.model;
+package com.het.ice.web.result;
 
 import org.springframework.ui.ModelMap;
 

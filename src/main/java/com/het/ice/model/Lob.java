@@ -1,7 +1,5 @@
 package com.het.ice.model;
 
-import com.het.ice.enums.LobTypeEnum;
-
 public class Lob extends BaseModel {
 
 	/**
@@ -9,89 +7,33 @@ public class Lob extends BaseModel {
 	 */
 	private static final long serialVersionUID = 19077003097334588L;
 
-	private String name;
+	private String ossKey;
 
-	private byte[] blobValue;
+	private int isUsed;
 
-	private LobTypeEnum type;
+	private String whereUse;
 
-	private int active;
-
-	private long comId;
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
+	public String getOssKey() {
+		return ossKey;
 	}
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setOssKey(String ossKey) {
+		this.ossKey = ossKey;
 	}
 
-	/**
-	 * @return the blobValue
-	 */
-	public byte[] getBlobValue() {
-		return blobValue;
+	public int getIsUsed() {
+		return isUsed;
 	}
 
-	/**
-	 * @param blobValue
-	 *            the blobValue to set
-	 */
-	public void setBlobValue(byte[] blobValue) {
-		this.blobValue = blobValue;
+	public void setIsUsed(int isUsed) {
+		this.isUsed = isUsed;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public LobTypeEnum getType() {
-		return type;
+	public String getWhereUse() {
+		return whereUse;
 	}
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(LobTypeEnum type) {
-		this.type = type;
+	public void setWhereUse(String whereUse) {
+		this.whereUse = whereUse;
 	}
-
-	/**
-	 * @return the active
-	 */
-	public int getActive() {
-		return active;
-	}
-
-	/**
-	 * @param active
-	 *            the active to set
-	 */
-	public void setActive(int active) {
-		this.active = active;
-	}
-
-	/**
-	 * @return the comId
-	 */
-	public long getComId() {
-		return comId;
-	}
-
-	/**
-	 * @param comId
-	 *            the comId to set
-	 */
-	public void setComId(long comId) {
-		this.comId = comId;
-	}
-
 }

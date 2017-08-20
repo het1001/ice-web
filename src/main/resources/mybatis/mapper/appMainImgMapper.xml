@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.AppMainImgDAO">
+
+	<insert id="insert" parameterType="AppMainImg">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_app_main_img (
+			name, image_key, active, create_time, modify_time)
+		values (
+			#{name}, #{imageKey}, #{active}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_app_main_img where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="AppMainImg">
+		update i_app_main_img set
+		name=#{name}, active=#{active}, modify_time=CURRENT_TIMESTAMP
+		where
+		id=#{id}
+	</update>
+
+	<select id="getById" resultMap="appMainImgResultMap">
+		select *
+		from i_app_main_img where id = #{id}
+	</select>
+
+	<select id="queryActiveImage" resultMap="appMainImgResultMap">
+		select *
+		from i_app_main_img where active = 1
+	</select>
+
+	<select id="queryByCondition" parameterType="com.het.ice.dao.query.AppImageQuery" resultMap="appMainImgResultMap">
+		select
+		* from i_app_main_img where 1=1
+		<if test="name != null and '' != name ">
+			and name like CONCAT('%', #{name}, '%')
+		</if>
+		<if test="active>0">
+			and active=#{active}
+		</if>
+		limit #{start}, #{limit}
+	</select>
+
+	<select id="getCountByCondition" parameterType="com.het.ice.dao.query.AppImageQuery" resultType="int">
+		select
+		count(*) from i_app_main_img where 1=1
+		<if test="name != null and '' != name ">
+			and name like CONCAT('%', #{name}, '%')
+		</if>
+		<if test="active>0">
+        	and active=#{active}
+    	</if>
+	</select>
+
+	<resultMap type="AppMainImg" id="appMainImgResultMap">
+		<result property="imageKey" column="image_key" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+</mapper>

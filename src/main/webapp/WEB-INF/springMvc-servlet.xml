@@ -52,16 +52,35 @@
     
 	<!-- 拦截器 -->
 	<mvc:interceptors>
-	    
+        <mvc:interceptor>
+            <mvc:mapping path="/common/**"/>
+            <bean id="commonInterceptor" class="com.het.ice.web.interceptor.CommonInterceptor" />
+        </mvc:interceptor>
 	    <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean id="loginInterceptor" class="com.het.ice.web.interceptor.SessionInterceptor">
+            <mvc:mapping path="/pc/**"/>
+            <bean id="pcSessionInterceptor" class="com.het.ice.web.interceptor.PcSessionInterceptor">
                 <property name="allowUrls">      
                     <list>
-                      <value>/login.htm</value>
-                      <value>/loginout.htm</value>
-                      <value>/login.json</value>
+                        <value>/login.json</value>
+                        <value>/login.htm</value>
                     </list>      
+                </property>
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/app/**"/>
+            <bean id="appTokenInterceptor" class="com.het.ice.web.interceptor.AppTokenInterceptor">
+                <property name="allowUrls">
+                    <list>
+                        <value>/login.json</value>
+                        <value>/getInitAuthCode.json</value>
+                        <value>/authCode.json</value>
+                        <value>/setPassWord.json</value>
+                        <value>/reSetPassWord.json</value>
+                        <value>/getAuthCode.json</value>
+                        <value>/getMainKey.json</value>
+                        <value>/uploadImage.json</value>
+                    </list>
                 </property>
             </bean>
         </mvc:interceptor>

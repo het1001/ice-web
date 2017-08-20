@@ -9,4 +9,6 @@ public class CommonConstants {
 
     /** 条形码限制长度 */
     public final static int BAR_CODE_LENGTH = 13;
+
+    public final static String USER_PROPERTY_LAST_STATE = "lastState";
 }

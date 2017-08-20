@@ -4,8 +4,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias alias="AppMainImg" type="com.het.ice.dao.model.AppMainImgDO"/>
         <typeAlias alias="User" type="com.het.ice.dao.model.UserDO"/>
+		<typeAlias alias="UserAuthCode" type="com.het.ice.dao.model.UserAuthCodeDO"/>
 		<typeAlias alias="UserPhoneInfo" type="com.het.ice.dao.model.UserPhoneInfoDO"/>
+		<typeAlias alias="UserShopInfo" type="com.het.ice.dao.model.UserShopInfoDO"/>
+		<typeAlias alias="UserOperateTrace" type="com.het.ice.dao.model.UserOperateTraceDO"/>
         <typeAlias alias="Business" type="com.het.ice.dao.model.BusinessDO"/>
         <typeAlias alias="Cat" type="com.het.ice.dao.model.CatDO"/>
         <typeAlias alias="Commodity" type="com.het.ice.dao.model.CommodityDO"/>
@@ -17,8 +21,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     </typeAliases>
 
 	<mappers>
+		<mapper resource="/mybatis/mapper/appMainImgMapper.xml" />
 		<mapper resource="/mybatis/mapper/userMapper.xml" />
+		<mapper resource="/mybatis/mapper/userAuthCodeMapper.xml" />
 		<mapper resource="/mybatis/mapper/userPhoneInfoMapper.xml" />
+		<mapper resource="/mybatis/mapper/userShopInfoMapper.xml" />
+		<mapper resource="/mybatis/mapper/userActionTraceMapper.xml" />
 		<mapper resource="/mybatis/mapper/businessMapper.xml" />
 		<mapper resource="/mybatis/mapper/comMapper.xml" />
 		<mapper resource="/mybatis/mapper/comInMapper.xml" />

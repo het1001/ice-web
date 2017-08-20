@@ -12,89 +12,33 @@ public class LobDO extends BaseModel {
 	 */
 	private static final long serialVersionUID = 19077003097334588L;
 
-	private byte[] blobValue;
+	private String ossKey;
 
-	private String name;
+	private int isUsed;
 
-	private int active;
+	private String whereUse;
 
-	private String type;
-
-	private long comId;
-
-	/**
-	 * @return the blobValue
-	 */
-	public byte[] getBlobValue() {
-		return blobValue;
+	public String getOssKey() {
+		return ossKey;
 	}
 
-	/**
-	 * @param blobValue
-	 *            the blobValue to set
-	 */
-	public void setBlobValue(byte[] blobValue) {
-		this.blobValue = blobValue;
+	public void setOssKey(String ossKey) {
+		this.ossKey = ossKey;
 	}
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
+	public int getIsUsed() {
+		return isUsed;
 	}
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setIsUsed(int isUsed) {
+		this.isUsed = isUsed;
 	}
 
-	/**
-	 * @return the active
-	 */
-	public int getActive() {
-		return active;
+	public String getWhereUse() {
+		return whereUse;
 	}
 
-	/**
-	 * @param active
-	 *            the active to set
-	 */
-	public void setActive(int active) {
-		this.active = active;
+	public void setWhereUse(String whereUse) {
+		this.whereUse = whereUse;
 	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	/**
-	 * @return the comId
-	 */
-	public long getComId() {
-		return comId;
-	}
-
-	/**
-	 * @param comId
-	 *            the comId to set
-	 */
-	public void setComId(long comId) {
-		this.comId = comId;
-	}
-
 }

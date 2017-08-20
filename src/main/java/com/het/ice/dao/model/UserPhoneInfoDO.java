@@ -8,15 +8,23 @@ public class UserPhoneInfoDO extends BaseModel {
 
 	private String phone;
 
-	private String imei;
-
-	private String brand;
+	private String manufacturer;
 
 	private String model;
 
-	private String version;
+	private String deviceUniqueId;
 
-	private String sdkVersion;
+	private String deviceId;
+
+	private String deviceName;
+
+	private String sysName;
+
+	private String sysVersion;
+
+	private String imei;
+
+	private String appVersion;
 
 	public long getUserId() {
 		return userId;
@@ -34,20 +42,12 @@ public class UserPhoneInfoDO extends BaseModel {
 		this.phone = phone;
 	}
 
-	public String getImei() {
-		return imei;
+	public String getManufacturer() {
+		return manufacturer;
 	}
 
-	public void setImei(String imei) {
-		this.imei = imei;
-	}
-
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
 	}
 
 	public String getModel() {
@@ -58,19 +58,59 @@ public class UserPhoneInfoDO extends BaseModel {
 		this.model = model;
 	}
 
-	public String getVersion() {
-		return version;
+	public String getDeviceId() {
+		return deviceId;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 
-	public String getSdkVersion() {
-		return sdkVersion;
+	public String getDeviceName() {
+		return deviceName;
 	}
 
-	public void setSdkVersion(String sdkVersion) {
-		this.sdkVersion = sdkVersion;
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public String getSysName() {
+		return sysName;
+	}
+
+	public void setSysName(String sysName) {
+		this.sysName = sysName;
+	}
+
+	public String getSysVersion() {
+		return sysVersion;
+	}
+
+	public void setSysVersion(String sysVersion) {
+		this.sysVersion = sysVersion;
+	}
+
+	public String getImei() {
+		return imei;
+	}
+
+	public void setImei(String imei) {
+		this.imei = imei;
+	}
+
+	public String getAppVersion() {
+		return appVersion;
+	}
+
+	public void setAppVersion(String appVersion) {
+		this.appVersion = appVersion;
+	}
+
+	public String getDeviceUniqueId() {
+		return deviceUniqueId;
+	}
+
+	public void setDeviceUniqueId(String deviceUniqueId) {
+		this.deviceUniqueId = deviceUniqueId;
 	}
 }

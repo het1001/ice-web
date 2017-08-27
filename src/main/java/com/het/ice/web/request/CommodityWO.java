@@ -1,6 +1,7 @@
 package com.het.ice.web.request;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 商品前端模型
@@ -47,6 +48,9 @@ public class CommodityWO implements Serializable {
 
 	/** 商品key */
 	private String fileKey;
+
+	/** 商品次keys */
+	private List<String> fileKeys;
 
 	/** 条形码 */
 	private String barCode;
@@ -245,5 +249,13 @@ public class CommodityWO implements Serializable {
      */
 	public void setBarCode(String barCode) {
 		this.barCode = barCode;
+	}
+
+	public List<String> getFileKeys() {
+		return fileKeys;
+	}
+
+	public void setFileKeys(List<String> fileKeys) {
+		this.fileKeys = fileKeys;
 	}
 }

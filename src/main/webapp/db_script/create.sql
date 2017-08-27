@@ -7,6 +7,7 @@ USE ice;
 DROP TABLE IF EXISTS `i_business`;
 DROP TABLE IF EXISTS `i_cat`;
 DROP TABLE IF EXISTS `i_com`;
+DROP TABLE IF EXISTS `i_com_pic`;
 DROP TABLE IF EXISTS `i_com_in`;
 DROP TABLE IF EXISTS `i_com_in_item`;
 DROP TABLE IF EXISTS `i_lob`;
@@ -75,6 +76,17 @@ CREATE TABLE `i_com` (
   UNIQUE KEY `name_biz_id` (`name`,`biz_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 商品图片
+CREATE TABLE `i_com_pic` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `com_id` bigint(20) unsigned NOT NULL COMMENT '商品ID',
+  `pic_key` varchar(128) NOT NULL COMMENT '图片key',
+  `is_main` tinyint(4) NOT NULL COMMENT '是否是主图（首图）',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- 商品进货表
 CREATE TABLE `i_com_in` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
@@ -114,7 +126,7 @@ CREATE TABLE `i_lob` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `modify_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 订单表
 CREATE TABLE `i_order` (
@@ -193,7 +205,7 @@ CREATE TABLE `i_user_auth_code` (
   `use_time` timestamp NULL DEFAULT NULL COMMENT '使用时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone_code` (`phone`,`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 收货地址
 CREATE TABLE `i_user_delivery_addr` (
@@ -224,7 +236,7 @@ CREATE TABLE `i_user_phone_info` (
   `app_version` varchar(128) DEFAULT NULL COMMENT 'app版本',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 用户店铺信息
 CREATE TABLE `i_user_shop_info` (
@@ -238,7 +250,7 @@ CREATE TABLE `i_user_shop_info` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- 用户操作记录
 CREATE TABLE `i_user_operate_trace` (

@@ -2,11 +2,14 @@ package com.het.ice.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.het.ice.dao.CommodityPicDAO;
+import com.het.ice.dao.model.CommodityPicDO;
 import com.het.ice.service.exception.ParamCheckException;
 import com.het.ice.util.BarcodeUtil;
 import com.het.ice.util.CommonConstants;
@@ -27,6 +30,7 @@ import com.het.ice.service.template.Result;
 import com.het.ice.service.template.ResultCallback;
 import com.het.ice.service.template.Template;
 import com.het.ice.util.AssertUtil;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 
@@ -40,6 +44,9 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Resource
 	private CommodityDAO commodityDao;
+
+	@Resource
+	private CommodityPicDAO commodityPicDAO;
 
 	/**
 	 * 
@@ -138,7 +145,19 @@ public class CommodityServiceImpl implements CommodityService {
 					com.setBarImgKey(key);
 				}
 
-				commodityDao.insert(CommodityConvert.conv(com));
+				CommodityDO commodityDO = CommodityConvert.conv(com);
+
+				commodityDao.insert(commodityDO);
+
+				// 主图
+				createComPic(commodityDO.getId(), com.getImgKey(), 1);
+
+				// 次图
+				if (!CollectionUtils.isEmpty(com.getImgKeys())) {
+					for (String key : com.getImgKeys()) {
+						createComPic(commodityDO.getId(), key, 0);
+					}
+				}
 			}
 		});
 	}
@@ -172,7 +191,48 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setPosition(com.getPosition());
 				comDo.setPromotion(com.getPromotion());
 				comDo.setBrand(com.getBrand());
-				comDo.setImgKey(com.getImgKey());
+
+				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());
+				if (!StringUtils.equals(commodityPicDO.getPicKey(), com.getImgKey())) {
+					commodityPicDO.setPicKey(com.getImgKey());
+					commodityPicDAO.update(commodityPicDO);
+				}
+
+				List<CommodityPicDO> commodityPicDOS = commodityPicDAO.queryOtherByComId(comDo.getId());
+				List<String> imgKeys = com.getImgKeys();
+				if (!CollectionUtils.isEmpty(commodityPicDOS)) {
+					if (CollectionUtils.isEmpty(imgKeys)) {
+						for (CommodityPicDO commodityPicDO1 : commodityPicDOS) {
+							commodityPicDAO.delete(commodityPicDO1.getId());
+						}
+					} else {
+						for (CommodityPicDO commodityPicDO1 : commodityPicDOS) {
+							if (!imgKeys.contains(commodityPicDO1.getPicKey())) {
+								commodityPicDAO.delete(commodityPicDO1.getId());
+							}
+						}
+
+						for (String imgKey : imgKeys) {
+							boolean canAdd = true;
+
+							for (CommodityPicDO commodityPicDO1 : commodityPicDOS) {
+								if (StringUtils.equals(imgKey, commodityPicDO1.getPicKey())) {
+									canAdd = false;
+								}
+							}
+
+							if (canAdd) {
+								createComPic(comDo.getId(), imgKey, 0);
+							}
+						}
+					}
+				} else {
+					if (!CollectionUtils.isEmpty(imgKeys)) {
+						for (String imgKey : imgKeys) {
+							createComPic(comDo.getId(), imgKey, 0);
+						}
+					}
+				}
 
 				// if 用户删除了原来的条形码，则把条形码图片key删除
 				if (StringUtils.isBlank(com.getBarCode())) {
@@ -190,6 +250,20 @@ public class CommodityServiceImpl implements CommodityService {
 				commodityDao.update(comDo);
 			}
 		});
+	}
+
+	/**
+	 * 创建商品图对象
+	 *
+	 * @param comId
+	 * @param imgKey
+	 */
+	private void createComPic(long comId, String imgKey, int isMain) {
+		CommodityPicDO commodityPicDO = new CommodityPicDO();
+		commodityPicDO.setComId(comId);
+		commodityPicDO.setIsMain(isMain);
+		commodityPicDO.setPicKey(imgKey);
+		commodityPicDAO.insert(commodityPicDO);
 	}
 
 	@Override
@@ -262,7 +336,5 @@ public class CommodityServiceImpl implements CommodityService {
 			}
 
 		});
-
 	}
-
 }

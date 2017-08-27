@@ -43,8 +43,6 @@ public class CommodityDO extends BaseModel {
 
 	private long bizId;
 
-	private String imgKey;
-
 	private String barCode;
 
 	private String barImgKey;
@@ -317,21 +315,6 @@ public class CommodityDO extends BaseModel {
 	 */
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	/**
-	 * @return the imgKey
-	 */
-	public String getImgKey() {
-		return imgKey;
-	}
-
-	/**
-	 * @param imgKey
-	 *            the imgKey to set
-	 */
-	public void setImgKey(String imgKey) {
-		this.imgKey = imgKey;
 	}
 
 	/**

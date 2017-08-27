@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <typeAlias alias="Business" type="com.het.ice.dao.model.BusinessDO"/>
         <typeAlias alias="Cat" type="com.het.ice.dao.model.CatDO"/>
         <typeAlias alias="Commodity" type="com.het.ice.dao.model.CommodityDO"/>
+		<typeAlias alias="CommodityPic" type="com.het.ice.dao.model.CommodityPicDO"/>
         <typeAlias alias="CommodityIn" type="com.het.ice.dao.model.CommodityInDO"/>
         <typeAlias alias="CommodityInItem" type="com.het.ice.dao.model.CommodityInItemDO"/>
         <typeAlias alias="Lob" type="com.het.ice.dao.model.LobDO"/>
@@ -29,6 +30,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mybatis/mapper/userActionTraceMapper.xml" />
 		<mapper resource="/mybatis/mapper/businessMapper.xml" />
 		<mapper resource="/mybatis/mapper/comMapper.xml" />
+		<mapper resource="/mybatis/mapper/comPicMapper.xml" />
 		<mapper resource="/mybatis/mapper/comInMapper.xml" />
 		<mapper resource="/mybatis/mapper/comInItemMapper.xml" />
 		<mapper resource="/mybatis/mapper/catMapper.xml" />

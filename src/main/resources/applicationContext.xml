@@ -80,6 +80,11 @@
      	<property name="mapperInterface" value="com.het.ice.dao.CommodityDAO"></property>  
      	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
  	</bean>
+
+	<bean id="commodityPicDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.het.ice.dao.CommodityPicDAO"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
  	
     <bean id="commodityInDao" class="org.mybatis.spring.mapper.MapperFactoryBean">  
      	<property name="mapperInterface" value="com.het.ice.dao.CommodityInDAO"></property>  

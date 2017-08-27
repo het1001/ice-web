@@ -8,6 +8,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.het.ice.dao.model.CommodityDO;
 import com.het.ice.model.Commodity;
 import com.het.ice.web.request.CommodityWO;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 商品转换器
@@ -52,7 +53,6 @@ public class CommodityConvert {
 
 		com.setPromotion(comDO.getPromotion());
 		com.setBrand(comDO.getBrand());
-		com.setImgKey(comDO.getImgKey());
 		com.setBarCode(comDO.getBarCode());
 		com.setBarImgKey(comDO.getBarImgKey());
 
@@ -96,7 +96,6 @@ public class CommodityConvert {
 
 		comDO.setPromotion(com.getPromotion());
 		comDO.setBrand(com.getBrand());
-		comDO.setImgKey(com.getImgKey());
 		comDO.setBarCode(com.getBarCode());
 		comDO.setBarImgKey(com.getBarImgKey());
 
@@ -127,6 +126,7 @@ public class CommodityConvert {
 		com.setRetailPriceBr(commodityWO.getRetailPriceBr());
 		com.setStandardPice(commodityWO.getStandardPice());
 		com.setImgKey(commodityWO.getFileKey());
+		com.setImgKeys(commodityWO.getFileKeys());
 		com.setBarCode(commodityWO.getBarCode());
 
 		return com;
@@ -139,8 +139,8 @@ public class CommodityConvert {
 	 * @return
      */
 	public static List<Commodity> conv(List<CommodityDO> comDOs) {
-		List<Commodity> coms = new ArrayList<Commodity>();
-		if (comDOs == null || comDOs.size() == 0) {
+		List<Commodity> coms = new ArrayList<>();
+		if (CollectionUtils.isEmpty(comDOs)) {
 			return coms;
 		}
 

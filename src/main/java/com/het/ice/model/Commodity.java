@@ -1,5 +1,7 @@
 package com.het.ice.model;
 
+import java.util.List;
+
 public class Commodity extends BaseModel {
 
 	/**
@@ -61,8 +63,11 @@ public class Commodity extends BaseModel {
 	/** 商户id */
 	private long bizId;
 
-	/** 商品图key */
+	/** 商品主图key */
 	private String imgKey;
+
+	/** 商品次图keys */
+	private List<String> imgKeys;
 
 	/** 条形码 */
 	private String barCode;
@@ -385,5 +390,13 @@ public class Commodity extends BaseModel {
      */
 	public void setBarImgKey(String barImgKey) {
 		this.barImgKey = barImgKey;
+	}
+
+	public List<String> getImgKeys() {
+		return imgKeys;
+	}
+
+	public void setImgKeys(List<String> imgKeys) {
+		this.imgKeys = imgKeys;
 	}
 }

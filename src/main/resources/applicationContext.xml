@@ -100,4 +100,19 @@
      	<property name="mapperInterface" value="com.het.ice.dao.LobDAO"></property>  
      	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
  	</bean>
+
+	<bean id="allotDisSalDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.het.ice.dao.AllotDisSalDAO"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<bean id="allotDistrictDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.het.ice.dao.AllotDistrictDAO"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<bean id="allotSalesmanDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.het.ice.dao.AllotSalesmanDAO"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
 </beans>

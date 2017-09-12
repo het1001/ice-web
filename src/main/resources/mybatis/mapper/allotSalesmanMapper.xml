@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.AllotSalesmanDAO">
+
+	<insert id="insert" parameterType="AllotSalesman">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_allot_salesman(unique_key, name, phone, type, create_time, modify_time)
+		values(#{uniqueKey}, #{name}, #{phone}, #{type}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<update id="update" parameterType="AllotSalesman">
+		update i_allot_salesman set
+		unique_key=#{uniqueKey}, name=#{name}, phone=#{phone}, type=#{type}, modify_time=CURRENT_TIMESTAMP
+		where
+		id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		delete from i_allot_salesman where
+		id=#{id}
+	</delete>
+
+	<select id="getById" parameterType="long" resultMap="allotSalesmanResultMap">
+		select *
+		from i_allot_salesman where id=#{id}
+	</select>
+
+	<select id="getByUniqueKey" parameterType="String" resultMap="allotSalesmanResultMap">
+		select *
+		from i_allot_salesman where unique_key=#{uniqueKey}
+	</select>
+
+	<select id="getCountByCondition" parameterType="com.het.ice.dao.query.AllotSalesmanQuery" resultType="int">
+		select
+		count(*) from i_allot_salesman where 1=1
+		<if test="name != null and '' != name ">
+			and name like CONCAT('%', #{name}, '%')
+		</if>
+	</select>
+
+	<select id="queryByCondition" parameterType="com.het.ice.dao.query.AllotSalesmanQuery" resultMap="allotSalesmanResultMap">
+		select
+		* from i_allot_salesman where 1=1
+		<if test="name != null and '' != name ">
+			and name like CONCAT('%', #{name}, '%')
+		</if>
+		limit #{start}, #{limit}
+	</select>
+
+	<select id="queryByType" parameterType="String" resultMap="allotSalesmanResultMap">
+		select
+		* from i_allot_salesman where type=#{type}
+	</select>
+
+	<select id="queryAll" resultMap="allotSalesmanResultMap">
+		select
+		* from i_allot_salesman
+	</select>
+
+	<resultMap type="AllotSalesman" id="allotSalesmanResultMap">
+		<result property="uniqueKey" column="unique_key" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+</mapper>

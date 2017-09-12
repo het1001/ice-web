@@ -4,6 +4,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
+		<typeAlias alias="AllotDisSla" type="com.het.ice.dao.model.AllotDisSalDO"/>
+		<typeAlias alias="AllotDistrict" type="com.het.ice.dao.model.AllotDistrictDO"/>
+		<typeAlias alias="AllotSalesman" type="com.het.ice.dao.model.AllotSalesmanDO"/>
 		<typeAlias alias="AppMainImg" type="com.het.ice.dao.model.AppMainImgDO"/>
         <typeAlias alias="User" type="com.het.ice.dao.model.UserDO"/>
 		<typeAlias alias="UserAuthCode" type="com.het.ice.dao.model.UserAuthCodeDO"/>
@@ -22,6 +25,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     </typeAliases>
 
 	<mappers>
+		<mapper resource="/mybatis/mapper/allotDisSlaMapper.xml" />
+		<mapper resource="/mybatis/mapper/allotDistrictMapper.xml" />
+		<mapper resource="/mybatis/mapper/allotSalesmanMapper.xml" />
 		<mapper resource="/mybatis/mapper/appMainImgMapper.xml" />
 		<mapper resource="/mybatis/mapper/userMapper.xml" />
 		<mapper resource="/mybatis/mapper/userAuthCodeMapper.xml" />

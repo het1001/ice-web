@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="AllotDistrict" type="com.het.ice.dao.model.AllotDistrictDO"/>
 		<typeAlias alias="AllotSalesman" type="com.het.ice.dao.model.AllotSalesmanDO"/>
 		<typeAlias alias="AppMainImg" type="com.het.ice.dao.model.AppMainImgDO"/>
+		<typeAlias alias="Arithmetic" type="com.het.ice.dao.model.ArithmeticDO"/>
         <typeAlias alias="User" type="com.het.ice.dao.model.UserDO"/>
 		<typeAlias alias="UserAuthCode" type="com.het.ice.dao.model.UserAuthCodeDO"/>
 		<typeAlias alias="UserPhoneInfo" type="com.het.ice.dao.model.UserPhoneInfoDO"/>
@@ -19,6 +20,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="CommodityPic" type="com.het.ice.dao.model.CommodityPicDO"/>
         <typeAlias alias="CommodityIn" type="com.het.ice.dao.model.CommodityInDO"/>
         <typeAlias alias="CommodityInItem" type="com.het.ice.dao.model.CommodityInItemDO"/>
+		<typeAlias alias="Promotion" type="com.het.ice.dao.model.PromotionDO"/>
         <typeAlias alias="Lob" type="com.het.ice.dao.model.LobDO"/>
         <typeAlias alias="Order" type="com.het.ice.dao.model.OrderDO"/>
         <typeAlias alias="LobQuery" type="com.het.ice.dao.query.LobQuery"/>
@@ -29,6 +31,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mybatis/mapper/allotDistrictMapper.xml" />
 		<mapper resource="/mybatis/mapper/allotSalesmanMapper.xml" />
 		<mapper resource="/mybatis/mapper/appMainImgMapper.xml" />
+		<mapper resource="/mybatis/mapper/arithmeticMapper.xml" />
 		<mapper resource="/mybatis/mapper/userMapper.xml" />
 		<mapper resource="/mybatis/mapper/userAuthCodeMapper.xml" />
 		<mapper resource="/mybatis/mapper/userPhoneInfoMapper.xml" />
@@ -39,6 +42,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mybatis/mapper/comPicMapper.xml" />
 		<mapper resource="/mybatis/mapper/comInMapper.xml" />
 		<mapper resource="/mybatis/mapper/comInItemMapper.xml" />
+		<mapper resource="/mybatis/mapper/comPromotionMapper.xml" />
 		<mapper resource="/mybatis/mapper/catMapper.xml" />
 		<mapper resource="/mybatis/mapper/lobMapper.xml" />
 		<mapper resource="/mybatis/mapper/orderMapper.xml" />

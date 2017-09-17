@@ -139,6 +139,10 @@ public class CommodityServiceImpl implements CommodityService {
 				// 计算价格/支
 				com.setPriceBr(com.getPricePi() / com.getStandardPice());
 
+				// 计算终端极润
+				com.setProfitBr(com.getRetailPriceBr() - com.getPriceBr());
+				com.setProfitPi(com.getProfitBr() * com.getStandardPice());
+
 				// 生成条形码图片
 				if (StringUtils.isNotBlank(com.getBarCode())) {
 					String key = OssUtil.putObject(new ByteArrayInputStream(BarcodeUtil.generate(com.getBarCode())), ".png");
@@ -185,6 +189,8 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setStandardPice(com.getStandardPice());
 				comDo.setPricePi(com.getPricePi());
 				comDo.setPriceBr(com.getPricePi() / com.getStandardPice());
+				comDo.setProfitBr(com.getRetailPriceBr() - com.getPriceBr());
+				comDo.setProfitPi(com.getProfitBr() * com.getStandardPice());
 				comDo.setRetailPriceBr(com.getRetailPriceBr());
 				comDo.setDescription(com.getDesc());
 				comDo.setPersonType(com.getPersonType());

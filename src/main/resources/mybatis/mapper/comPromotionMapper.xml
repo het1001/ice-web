@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.PromotionDAO">
+
+	<insert id="insert" parameterType="Promotion">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_com_promotion(com_id, com_name, arith_id, description, params, state, effective_date, deadline, create_time, modify_time)
+		values(#{comId}, #{comName}, #{arithId}, #{description}, #{params}, #{state}, #{effectiveDate}, #{deadline}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<update id="update" parameterType="Promotion">
+		update i_com_promotion set
+		arith_id=#{arithId}, description=#{description}, params=#{params}, state=#{state},
+		effective_date=#{effectiveDate}, deadline=#{deadline}, modify_time=CURRENT_TIMESTAMP
+		where
+		id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		delete from i_com_promotion where
+		id=#{id}
+	</delete>
+
+	<select id="getById" parameterType="long" resultMap="promotionResultMap">
+		select *
+		from i_com_promotion where id=#{id}
+	</select>
+
+	<select id="getCountByCondition" parameterType="com.het.ice.dao.query.PromotionQuery" resultType="int">
+		select
+		count(*) from i_com_promotion where 1=1
+		<if test="comId>0">
+			and com_id=#{comId}
+		</if>
+		<if test="state != null and '' != state ">
+			and state=#{state}
+		</if>
+		<if test="date != null and '' != date ">
+			and #{date}>effective_date and #{date}&lt;deadline
+		</if>
+	</select>
+
+	<select id="queryByCondition" parameterType="com.het.ice.dao.query.PromotionQuery" resultMap="promotionResultMap">
+		select
+		* from i_com_promotion where 1=1
+		<if test="comId>0">
+			and com_id=#{comId}
+		</if>
+		<if test="state != null and '' != state ">
+			and state=#{state}
+		</if>
+		<if test="date != null and '' != date ">
+			and #{date}>effective_date and #{date}&lt;deadline
+		</if>
+		limit #{start}, #{limit}
+	</select>
+
+	<select id="queryCurrent" resultMap="promotionResultMap">
+		select
+		* from i_com_promotion where state='ON_LINE' and CURRENT_TIMESTAMP>effective_date and CURRENT_TIMESTAMP&lt;deadline
+	</select>
+
+	<resultMap type="Promotion" id="promotionResultMap">
+		<result property="comId" column="com_id" />
+		<result property="comName" column="com_name" />
+		<result property="arithId" column="arith_id" />
+		<result property="effectiveDate" column="effective_date" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+</mapper>

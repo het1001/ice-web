@@ -39,6 +39,9 @@
 		<if test="name != null and '' != name ">
 			and name like CONCAT('%', #{name}, '%')
 		</if>
+		<if test="type != null and '' != type ">
+			and type = #{type}
+		</if>
 	</select>
 
 	<select id="queryByCondition" parameterType="com.het.ice.dao.query.AllotSalesmanQuery" resultMap="allotSalesmanResultMap">
@@ -46,6 +49,9 @@
 		* from i_allot_salesman where 1=1
 		<if test="name != null and '' != name ">
 			and name like CONCAT('%', #{name}, '%')
+		</if>
+		<if test="type != null and '' != type ">
+			and type = #{type}
 		</if>
 		limit #{start}, #{limit}
 	</select>

@@ -1,5 +1,6 @@
 package com.het.ice.util;
 
+import com.googlecode.aviator.AviatorEvaluator;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import net.sf.json.JSONObject;
@@ -10,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -66,8 +69,10 @@ class Test {
     public static void main(String[] args) throws Exception {
         /*Random random = new Random(new Date().getTime());
         System.out.print(random.nextInt(1));*/
+        Map<String, Object> env = new HashMap<>();
+        env.put("total", 8.2);
 
-        JSONObject jsonObject = JSONObject.fromObject("{\"a\":\"1\"}");
-        System.out.print(jsonObject.getString("a"));
+        Double result = (Double) AviatorEvaluator.execute("total+2*(total/5)", env);
+        System.out.println(JSONObject.fromObject(env).toString());
     }
 }

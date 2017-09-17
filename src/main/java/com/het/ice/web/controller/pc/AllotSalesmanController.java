@@ -136,11 +136,12 @@ public class AllotSalesmanController {
 	 * @return
 	 */
 	@RequestMapping(value = "queryList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap list(String name, String pageNum, String pageSize) {
+	public @ResponseBody ModelMap list(String name, String type, String pageNum, String pageSize) {
 		WebResult webResult = new WebResult();
 
 		AllotSalesmanQuery query = new AllotSalesmanQuery();
 		query.setName(name);
+		query.setType(type);
 
 		Result<List<AllotSalesman>> result = allotSalesmanService.queryByCondition(query, pageNum, pageSize);
 		if (result.isSuccess()) {

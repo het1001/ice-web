@@ -5,7 +5,7 @@ import com.het.ice.model.ToString;
 /**
  * Created by Administrator on 2017/6/4.
  */
-public class UserShopRequest extends ToString {
+public class UserInfoRequest extends ToString {
 
     private static final long serialVersionUID = 2322714090693148909L;
 

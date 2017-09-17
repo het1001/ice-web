@@ -3,7 +3,7 @@ package com.het.ice.service;
 import com.het.ice.dao.query.UserQuery;
 import com.het.ice.enums.UserTypeEnum;
 import com.het.ice.model.User;
-import com.het.ice.model.UserShopInfo;
+import com.het.ice.model.UserInfo;
 import com.het.ice.service.template.Result;
 import com.het.ice.web.request.*;
 
@@ -65,7 +65,7 @@ public interface UserService {
 	 * @param request
 	 * @return
 	 */
-	Result<Void> completeShopInfo(UserShopRequest request);
+	Result<Void> completeUserInfo(UserInfoRequest request);
 
 	/**
 	 * 创建用户
@@ -133,7 +133,7 @@ public interface UserService {
 	 * @param request
 	 * @return
 	 */
-	Result<Void> auditShopInfo(UserActionRequest request);
+	Result<Void> auditUserInfo(UserActionRequest request);
 
 	/**
 	 * 冻结账户（仅限会员账户）
@@ -155,7 +155,7 @@ public interface UserService {
 	 * @param phone
 	 * @return
 	 */
-	Result<UserShopInfo> getLastShopInfo(String phone);
+	Result<UserInfo> getLastUserInfo(String phone);
 
 	/**
 	 * 获取审核好的店铺信息
@@ -163,5 +163,5 @@ public interface UserService {
 	 * @param phone
 	 * @return
 	 */
-	Result<UserShopInfo> getAccessShopInfo(String phone);
+	Result<UserInfo> getAccessUserInfo(String phone);
 }

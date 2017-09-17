@@ -3,7 +3,7 @@ package com.het.ice.model;
 /**
  * Created by Administrator on 2017/5/24.
  */
-public class UserShopInfo extends BaseModel {
+public class UserInfo extends BaseModel {
 
     private static final long serialVersionUID = 9084823644073567126L;
 

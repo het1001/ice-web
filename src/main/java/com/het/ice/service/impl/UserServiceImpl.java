@@ -4,7 +4,7 @@ import com.het.ice.dao.*;
 import com.het.ice.dao.model.UserAuthCodeDO;
 import com.het.ice.dao.model.UserDO;
 import com.het.ice.dao.model.UserOperateTraceDO;
-import com.het.ice.dao.model.UserShopInfoDO;
+import com.het.ice.dao.model.UserInfoDO;
 import com.het.ice.dao.query.AuthCodeQuery;
 import com.het.ice.dao.query.UserQuery;
 import com.het.ice.enums.LobWhereUsedEnum;
@@ -14,12 +14,12 @@ import com.het.ice.enums.UserTypeEnum;
 import com.het.ice.model.User;
 import com.het.ice.model.UserAuthCode;
 import com.het.ice.model.UserPhoneInfo;
-import com.het.ice.model.UserShopInfo;
+import com.het.ice.model.UserInfo;
 import com.het.ice.service.UserService;
 import com.het.ice.service.conv.UserAuthCodeConvert;
 import com.het.ice.service.conv.UserConvert;
 import com.het.ice.service.conv.UserPhoneInfoConvert;
-import com.het.ice.service.conv.UserShopInfoConvert;
+import com.het.ice.service.conv.UserInfoConvert;
 import com.het.ice.service.exception.BizException;
 import com.het.ice.service.exception.ParamCheckException;
 import com.het.ice.service.exception.ResultCodeEnum;
@@ -53,7 +53,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	private UserPhoneInfoDAO userPhoneInfoDAO;
 
 	@Resource
-	private UserShopInfoDAO userShopInfoDAO;
+	private UserInfoDAO userInfoDAO;
 
 	@Resource
 	private UserOperateTraceDAO userOperateTraceDAO;
@@ -422,7 +422,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public Result<Void> completeShopInfo(UserShopRequest request) {
+	public Result<Void> completeUserInfo(UserInfoRequest request) {
 		return template.complete(new ResultCallback<Void>() {
 
 			@Override
@@ -446,13 +446,13 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 						throw new BizException(ResultCodeEnum.USER_EXCEPTION);
 					}
 
-					UserShopInfoDO userShopInfoDO = new UserShopInfoDO();
-					userShopInfoDO.setPhone(request.getPhone());
-					userShopInfoDO.setShopName(request.getShopName());
-					userShopInfoDO.setShopAddress(request.getShopAddress());
-					userShopInfoDO.setShopImgKey(request.getShopImgKey());
-					userShopInfoDO.setIsAccess(0);
-					userShopInfoDAO.insert(userShopInfoDO);
+					UserInfoDO userInfoDO = new UserInfoDO();
+					userInfoDO.setPhone(request.getPhone());
+					userInfoDO.setShopName(request.getShopName());
+					userInfoDO.setShopAddress(request.getShopAddress());
+					userInfoDO.setShopImgKey(request.getShopImgKey());
+					userInfoDO.setIsAccess(0);
+					userInfoDAO.insert(userInfoDO);
 
 					UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
 					userOperateTraceDO.setPhone(request.getPhone());
@@ -657,7 +657,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public Result<Void> auditShopInfo(final UserActionRequest request) {
+	public Result<Void> auditUserInfo(final UserActionRequest request) {
 		return template.complete(new ResultCallback<Void>() {
 
 			@Override
@@ -675,20 +675,20 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
 				}
 
-				UserShopInfoDO userShopInfoDO = userShopInfoDAO.getLastNotAccessByPhone(userDO.getPhone());
+				UserInfoDO userInfoDO = userInfoDAO.getLastNotAccessByPhone(userDO.getPhone());
 				if (StringUtils.equals(request.getAction(), "agree")) {
 					userDO.setState(UserStateEnum.NORMAL.getCode());
 					userDao.update(userDO);
 
-					userShopInfoDO.setIsAccess(1);
-					userShopInfoDAO.update(userShopInfoDO);
+					userInfoDO.setIsAccess(1);
+					userInfoDAO.update(userInfoDO);
 				} else {
 					userDO.setState(UserStateEnum.AUDIT_NO.getCode());
 					userDao.update(userDO);
 
-					userShopInfoDO.setIsAccess(-1);
-					userShopInfoDO.setAuditMemo(request.getMemo());
-					userShopInfoDAO.update(userShopInfoDO);
+					userInfoDO.setIsAccess(-1);
+					userInfoDO.setAuditMemo(request.getMemo());
+					userInfoDAO.update(userInfoDO);
 				}
 			}
 		});
@@ -772,8 +772,8 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	}
 
 	@Override
-	public Result<UserShopInfo> getLastShopInfo(final String phone) {
-		return template.complete(new ResultCallback<UserShopInfo>() {
+	public Result<UserInfo> getLastUserInfo(final String phone) {
+		return template.complete(new ResultCallback<UserInfo>() {
 
 			@Override
 			public void check() {
@@ -782,14 +782,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 			@Override
 			public void excute() {
-				returnValue = UserShopInfoConvert.conv(userShopInfoDAO.getLastByPhone(phone));
+				returnValue = UserInfoConvert.conv(userInfoDAO.getLastByPhone(phone));
 			}
 		});
 	}
 
 	@Override
-	public Result<UserShopInfo> getAccessShopInfo(final String phone) {
-		return template.complete(new ResultCallback<UserShopInfo>() {
+	public Result<UserInfo> getAccessUserInfo(final String phone) {
+		return template.complete(new ResultCallback<UserInfo>() {
 
 			@Override
 			public void check() {
@@ -798,7 +798,7 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 			@Override
 			public void excute() {
-				returnValue = UserShopInfoConvert.conv(userShopInfoDAO.getAccessByPhone(phone));
+				returnValue = UserInfoConvert.conv(userInfoDAO.getAccessByPhone(phone));
 			}
 		});
 	}

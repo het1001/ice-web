@@ -1,19 +1,19 @@
 package com.het.ice.service.conv;
 
-import com.het.ice.dao.model.UserShopInfoDO;
-import com.het.ice.model.UserShopInfo;
+import com.het.ice.dao.model.UserInfoDO;
+import com.het.ice.model.UserInfo;
 
 /**
  * Created by Administrator on 2017/5/24.
  */
-public class UserShopInfoConvert {
+public class UserInfoConvert {
 
-    public static UserShopInfo conv(UserShopInfoDO doModel) {
+    public static UserInfo conv(UserInfoDO doModel) {
         if (doModel == null) {
             return null;
         }
 
-        UserShopInfo model = new UserShopInfo();
+        UserInfo model = new UserInfo();
         model.setId(doModel.getId());
         model.setPhone(doModel.getPhone());
         model.setShopName(doModel.getShopName());
@@ -25,12 +25,12 @@ public class UserShopInfoConvert {
         return model;
     }
 
-    public static UserShopInfoDO conv(UserShopInfo model) {
+    public static UserInfoDO conv(UserInfo model) {
         if (model == null) {
             return null;
         }
 
-        UserShopInfoDO doModel = new UserShopInfoDO();
+        UserInfoDO doModel = new UserInfoDO();
         doModel.setId(model.getId());
         doModel.setPhone(model.getPhone());
         doModel.setShopName(model.getShopName());

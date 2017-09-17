@@ -134,14 +134,14 @@ public class AppUserController {
 	/**
 	 * 提交商铺信息
 	 *
-	 * @param userShopRequest
+	 * @param userInfoRequest
 	 * @return
 	 */
 	@RequestMapping(value = "/completeShopInfo.json", method = RequestMethod.POST)
-	public @ResponseBody ModelMap completeInfo(@RequestBody UserShopRequest userShopRequest) {
+	public @ResponseBody ModelMap completeInfo(@RequestBody UserInfoRequest userInfoRequest) {
 		WebResult webResult = new WebResult(new ModelMap());
 
-		Result<Void> result = userService.completeShopInfo(userShopRequest);
+		Result<Void> result = userService.completeUserInfo(userInfoRequest);
 		if (result.isSuccess()) {
 			webResult.setResultCode(true, ResultCode.SUCCESS);
 		} else {

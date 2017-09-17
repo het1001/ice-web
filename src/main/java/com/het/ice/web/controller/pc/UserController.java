@@ -3,7 +3,7 @@ package com.het.ice.web.controller.pc;
 import javax.servlet.http.HttpSession;
 
 import com.het.ice.dao.query.UserQuery;
-import com.het.ice.model.UserShopInfo;
+import com.het.ice.model.UserInfo;
 import com.het.ice.web.request.UserActionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -125,7 +125,7 @@ public class UserController {
 	@RequestMapping(value = "auditShopInfo.json", method = { RequestMethod.POST })
 	public @ResponseBody ModelMap auditShopInfo(@RequestBody UserActionRequest request) {
 		WebResult webResult = new WebResult();
-		Result<Void> result = userService.auditShopInfo(request);
+		Result<Void> result = userService.auditUserInfo(request);
 		if (result.isSuccess()) {
 			webResult.setSuccess(true);
 		} else {
@@ -138,7 +138,7 @@ public class UserController {
 	@RequestMapping(value = "getLastShopInfo.json", method = { RequestMethod.GET })
 	public @ResponseBody ModelMap getLastShopInfo(String phone) {
 		WebResult webResult = new WebResult();
-		Result<UserShopInfo> result = userService.getLastShopInfo(phone);
+		Result<UserInfo> result = userService.getLastUserInfo(phone);
 		if (result.isSuccess()) {
 			webResult.setData(true, result.getResult());
 		} else {
@@ -151,7 +151,7 @@ public class UserController {
 	@RequestMapping(value = "getAccessShopInfo.json", method = { RequestMethod.GET })
 	public @ResponseBody ModelMap getAccessShopInfo(String phone) {
 		WebResult webResult = new WebResult();
-		Result<UserShopInfo> result = userService.getAccessShopInfo(phone);
+		Result<UserInfo> result = userService.getAccessUserInfo(phone);
 		if (result.isSuccess()) {
 			webResult.setData(true, result.getResult());
 		} else {

@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         <typeAlias alias="User" type="com.het.ice.dao.model.UserDO"/>
 		<typeAlias alias="UserAuthCode" type="com.het.ice.dao.model.UserAuthCodeDO"/>
 		<typeAlias alias="UserPhoneInfo" type="com.het.ice.dao.model.UserPhoneInfoDO"/>
-		<typeAlias alias="UserShopInfo" type="com.het.ice.dao.model.UserShopInfoDO"/>
+		<typeAlias alias="UserInfo" type="com.het.ice.dao.model.UserInfoDO"/>
 		<typeAlias alias="UserOperateTrace" type="com.het.ice.dao.model.UserOperateTraceDO"/>
         <typeAlias alias="Business" type="com.het.ice.dao.model.BusinessDO"/>
         <typeAlias alias="Cat" type="com.het.ice.dao.model.CatDO"/>
@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mybatis/mapper/userMapper.xml" />
 		<mapper resource="/mybatis/mapper/userAuthCodeMapper.xml" />
 		<mapper resource="/mybatis/mapper/userPhoneInfoMapper.xml" />
-		<mapper resource="/mybatis/mapper/userShopInfoMapper.xml" />
+		<mapper resource="/mybatis/mapper/userInfoMapper.xml" />
 		<mapper resource="/mybatis/mapper/userActionTraceMapper.xml" />
 		<mapper resource="/mybatis/mapper/businessMapper.xml" />
 		<mapper resource="/mybatis/mapper/comMapper.xml" />

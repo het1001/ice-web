@@ -62,7 +62,7 @@
 	</bean>
 
 	<bean id="userShopInfoDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
-		<property name="mapperInterface" value="com.het.ice.dao.UserShopInfoDAO"></property>
+		<property name="mapperInterface" value="com.het.ice.dao.UserInfoDAO"></property>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
 

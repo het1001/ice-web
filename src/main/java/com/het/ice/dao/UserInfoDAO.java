@@ -1,21 +1,21 @@
 package com.het.ice.dao;
 
-import com.het.ice.dao.model.UserShopInfoDO;
+import com.het.ice.dao.model.UserInfoDO;
 
-public interface UserShopInfoDAO {
+public interface UserInfoDAO {
 
 	/**
 	 *
-	 * @param userShopInfoDO
+	 * @param userInfoDO
 	 */
-	int insert(UserShopInfoDO userShopInfoDO);
+	int insert(UserInfoDO userInfoDO);
 
 	/**
 	 *
-	 * @param userShopInfoDO
+	 * @param userInfoDO
 	 * @return
 	 */
-	int update(UserShopInfoDO userShopInfoDO);
+	int update(UserInfoDO userInfoDO);
 
 	/**
      * 根据手机号获取通过审核的店铺信息
@@ -23,7 +23,7 @@ public interface UserShopInfoDAO {
 	 * @param phone
      * @return
      */
-	UserShopInfoDO getAccessByPhone(String phone);
+	UserInfoDO getAccessByPhone(String phone);
 
 	/**
 	 * 根据手机号获取最新一条店铺信息
@@ -31,7 +31,7 @@ public interface UserShopInfoDAO {
 	 * @param phone
 	 * @return
 	 */
-	UserShopInfoDO getLastByPhone(String phone);
+	UserInfoDO getLastByPhone(String phone);
 
 	/**
 	 * 根据手机号获取最新一条没有审核的店铺信息
@@ -39,5 +39,5 @@ public interface UserShopInfoDAO {
 	 * @param phone
 	 * @return
 	 */
-	UserShopInfoDO getLastNotAccessByPhone(String phone);
+	UserInfoDO getLastNotAccessByPhone(String phone);
 }

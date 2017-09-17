@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.het.ice.dao.UserShopInfoDAO">
+<mapper namespace="com.het.ice.dao.UserInfoDAO">
 
-	<insert id="insert" parameterType="UserShopInfo">
+	<insert id="insert" parameterType="UserInfo">
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_user_shop_info (phone, shop_name, shop_address, shop_img_key, is_access,
+		insert into i_user_info (phone, shop_name, shop_address, shop_img_key, is_access,
 		audit_memo, create_time, modify_time)
 		values(#{phone}, #{shopName}, #{shopAddress}, #{shopImgKey}, #{isAccess}, #{auditMemo},
 		CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
-	<update id="update" parameterType="UserShopInfo">
-		update i_user_shop_info set
+	<update id="update" parameterType="UserInfo">
+		update i_user_info set
 		is_access=#{isAccess}, audit_memo=#{auditMemo}, modify_time=CURRENT_TIMESTAMP
 		where id=#{id}
 	</update>
 
-	<select id="getAccessByPhone" parameterType="String" resultMap="userShopInfoResultMap">
+	<select id="getAccessByPhone" parameterType="String" resultMap="userInfoResultMap">
 		select *
-		from i_user_shop_info where phone=#{phone} and is_access=1
+		from i_user_info where phone=#{phone} and is_access=1
 	</select>
 
-	<select id="getLastNotAccessByPhone" parameterType="String" resultMap="userShopInfoResultMap">
+	<select id="getLastNotAccessByPhone" parameterType="String" resultMap="userInfoResultMap">
 		select *
-		from i_user_shop_info where phone=#{phone} and is_access=0 order by create_time desc limit 1
+		from i_user_info where phone=#{phone} and is_access=0 order by create_time desc limit 1
 	</select>
 
-	<select id="getLastByPhone" parameterType="String" resultMap="userShopInfoResultMap">
+	<select id="getLastByPhone" parameterType="String" resultMap="userInfoResultMap">
 		select *
-		from i_user_shop_info where phone=#{phone} order by create_time desc limit 1
+		from i_user_info where phone=#{phone} order by create_time desc limit 1
 	</select>
 
-	<resultMap type="UserShopInfo" id="userShopInfoResultMap">
+	<resultMap type="UserInfo" id="userInfoResultMap">
 		<result property="shopName" column="shop_name" />
 		<result property="shopAddress" column="shop_address" />
 		<result property="shopImgKey" column="shop_img_key" />

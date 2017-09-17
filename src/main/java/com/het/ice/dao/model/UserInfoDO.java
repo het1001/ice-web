@@ -3,7 +3,7 @@ package com.het.ice.dao.model;
 /**
  * Created by Administrator on 2017/5/23.
  */
-public class UserShopInfoDO extends BaseModel {
+public class UserInfoDO extends BaseModel {
 
     private static final long serialVersionUID = 727230220555503247L;
 

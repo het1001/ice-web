@@ -42,9 +42,6 @@ public class Commodity extends BaseModel {
 	/** 终端利润/支 */
 	private double profitBr;
 
-	/** 促销 */
-	private String promotion;
-
 	/** 品牌 */
 	private String brand;
 
@@ -298,21 +295,6 @@ public class Commodity extends BaseModel {
 	 */
 	public void setBizId(long bizId) {
 		this.bizId = bizId;
-	}
-
-	/**
-	 * @return the promotion
-	 */
-	public String getPromotion() {
-		return promotion;
-	}
-
-	/**
-	 * @param promotion
-	 *            the promotion to set
-	 */
-	public void setPromotion(String promotion) {
-		this.promotion = promotion;
 	}
 
 	/**

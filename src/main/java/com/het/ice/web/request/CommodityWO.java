@@ -40,9 +40,6 @@ public class CommodityWO implements Serializable {
 	/** 陈列位置 */
 	private String position;
 
-	/** 促销 */
-	private String promotion;
-
 	/** 品牌 */
 	private String brand;
 
@@ -188,21 +185,6 @@ public class CommodityWO implements Serializable {
 	 */
 	public void setPosition(String position) {
 		this.position = position;
-	}
-
-	/**
-	 * @return the promotion
-	 */
-	public String getPromotion() {
-		return promotion;
-	}
-
-	/**
-	 * @param promotion
-	 *            the promotion to set
-	 */
-	public void setPromotion(String promotion) {
-		this.promotion = promotion;
 	}
 
 	/**

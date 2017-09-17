@@ -51,7 +51,6 @@ public class CommodityConvert {
 		com.setProfitPi(comDO.getProfitPi());
 		com.setProfitBr(comDO.getProfitBr());
 
-		com.setPromotion(comDO.getPromotion());
 		com.setBrand(comDO.getBrand());
 		com.setBarCode(comDO.getBarCode());
 		com.setBarImgKey(comDO.getBarImgKey());
@@ -94,7 +93,6 @@ public class CommodityConvert {
 		comDO.setProfitPi(com.getProfitPi());
 		comDO.setProfitBr(com.getProfitBr());
 
-		comDO.setPromotion(com.getPromotion());
 		comDO.setBrand(com.getBrand());
 		comDO.setBarCode(com.getBarCode());
 		comDO.setBarImgKey(com.getBarImgKey());
@@ -122,7 +120,6 @@ public class CommodityConvert {
 		com.setPosition(commodityWO.getPosition());
 		com.setPriceBr(commodityWO.getPriceBr());
 		com.setPricePi(commodityWO.getPricePi());
-		com.setPromotion(commodityWO.getPromotion());
 		com.setRetailPriceBr(commodityWO.getRetailPriceBr());
 		com.setStandardPice(commodityWO.getStandardPice());
 		com.setImgKey(commodityWO.getFileKey());

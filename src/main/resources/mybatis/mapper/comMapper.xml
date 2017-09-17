@@ -9,11 +9,11 @@
 		</selectKey>
 		insert into i_com (
 			code, name, brand, standard_pice, price_pi, price_br, retail_price_br, profit_pi, profit_br, person_type,
-			position, promotion, description, total, sales, state, cat_id, biz_id, bar_code, bar_img_key,
+			position, description, total, sales, state, cat_id, biz_id, bar_code, bar_img_key,
 			create_time, modify_time, create_user, update_user)
 		values (
 			#{code}, #{name}, #{brand}, #{standardPice}, #{pricePi}, #{priceBr}, #{retailPriceBr}, #{profitPi}, #{profitBr}, #{personType}, 
-			#{position}, #{promotion}, #{description}, #{total}, #{sales}, #{state}, #{catId}, #{bizId}, #{barCode}, #{barImgKey},
+			#{position}, #{description}, #{total}, #{sales}, #{state}, #{catId}, #{bizId}, #{barCode}, #{barImgKey},
 			CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{createUser}, #{updateUser})
 	</insert>
 
@@ -25,7 +25,7 @@
 	<update id="update" parameterType="Commodity">
 		update i_com set
 		name=#{name}, brand=#{brand}, standard_pice=#{standardPice}, price_pi=#{pricePi}, price_br=#{priceBr}, retail_price_br=#{retailPriceBr}, 
-		profit_pi=#{profitPi}, profit_br=#{profitBr}, person_type=#{personType}, position=#{position}, promotion=#{promotion}, 
+		profit_pi=#{profitPi}, profit_br=#{profitBr}, person_type=#{personType}, position=#{position},
 		description=#{description}, total=#{total}, state=#{state}, sales=#{sales}, cat_id=#{catId}, bar_code=#{barCode},
 		bar_img_key=#{barImgKey},
 		modify_time=CURRENT_TIMESTAMP, update_user = #{updateUser}

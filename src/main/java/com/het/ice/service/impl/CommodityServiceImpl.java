@@ -195,7 +195,6 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setDescription(com.getDesc());
 				comDo.setPersonType(com.getPersonType());
 				comDo.setPosition(com.getPosition());
-				comDo.setPromotion(com.getPromotion());
 				comDo.setBrand(com.getBrand());
 
 				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());

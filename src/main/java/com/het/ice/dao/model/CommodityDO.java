@@ -31,8 +31,6 @@ public class CommodityDO extends BaseModel {
 
 	private String position;
 
-	private String promotion;
-
 	private int total;
 
 	private int sales;
@@ -180,21 +178,6 @@ public class CommodityDO extends BaseModel {
 	 */
 	public void setProfitBr(double profitBr) {
 		this.profitBr = profitBr;
-	}
-
-	/**
-	 * @return the promotion
-	 */
-	public String getPromotion() {
-		return promotion;
-	}
-
-	/**
-	 * @param promotion
-	 *            the promotion to set
-	 */
-	public void setPromotion(String promotion) {
-		this.promotion = promotion;
 	}
 
 	/**

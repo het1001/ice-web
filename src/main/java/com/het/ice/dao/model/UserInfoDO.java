@@ -1,5 +1,7 @@
 package com.het.ice.dao.model;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/5/23.
  */
@@ -9,11 +11,21 @@ public class UserInfoDO extends BaseModel {
 
     private String phone;
 
+    private String userName;
+
     private String shopName;
 
     private String shopAddress;
 
     private String shopImgKey;
+
+    private String freezerType;
+
+    private Date arkTime;
+
+    private String freezerModel;
+
+    private long districtId;
 
     private int isAccess;
 
@@ -65,5 +77,45 @@ public class UserInfoDO extends BaseModel {
 
     public void setAuditMemo(String auditMemo) {
         this.auditMemo = auditMemo;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFreezerType() {
+        return freezerType;
+    }
+
+    public void setFreezerType(String freezerType) {
+        this.freezerType = freezerType;
+    }
+
+    public Date getArkTime() {
+        return arkTime;
+    }
+
+    public void setArkTime(Date arkTime) {
+        this.arkTime = arkTime;
+    }
+
+    public String getFreezerModel() {
+        return freezerModel;
+    }
+
+    public void setFreezerModel(String freezerModel) {
+        this.freezerModel = freezerModel;
+    }
+
+    public long getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(long districtId) {
+        this.districtId = districtId;
     }
 }

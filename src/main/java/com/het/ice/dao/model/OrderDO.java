@@ -13,8 +13,11 @@ public class OrderDO extends BaseModel {
 	/** 订单号 */
 	private String orderNum;
 
-	/** 用户id */
-	private long userId;
+	/** 手机号 */
+	private String phone;
+
+	/** 用户名 */
+	private String userName;
 
 	/** 总价 */
 	private double priceTotal;
@@ -24,12 +27,6 @@ public class OrderDO extends BaseModel {
 
 	/** 地址 */
 	private String address;
-
-	/** 电话 */
-	private String phone;
-
-	/** 流转记录 */
-	private String process;
 
 	/**
 	 * @return the orderNum
@@ -59,21 +56,6 @@ public class OrderDO extends BaseModel {
 	 */
 	public void setPriceTotal(double priceTotal) {
 		this.priceTotal = priceTotal;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public long getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId
-	 *            the userId to set
-	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
 	}
 
 	/**
@@ -121,19 +103,11 @@ public class OrderDO extends BaseModel {
 		this.phone = phone;
 	}
 
-	/**
-	 * @return the process
-	 */
-	public String getProcess() {
-		return process;
+	public String getUserName() {
+		return userName;
 	}
 
-	/**
-	 * @param process
-	 *            the process to set
-	 */
-	public void setProcess(String process) {
-		this.process = process;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-
 }

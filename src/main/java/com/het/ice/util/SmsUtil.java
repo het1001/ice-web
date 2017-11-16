@@ -22,10 +22,7 @@ import com.aliyuncs.sms.model.v20160927.SingleSendSmsResponse;
 public class SmsUtil {
 
 	public static boolean send(String phone, String code) {
-
-		return true;
-
-		/*try {
+		try {
 			IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAIifrLWuAMwVpR",
 					"DdsIl69gVLedduE1hEJUkWb6Sy3EAF");
 			DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", "Sms", "sms.aliyuncs.com");
@@ -44,10 +41,10 @@ public class SmsUtil {
 		} catch (ClientException e) {
 			e.printStackTrace();
 			return false;
-		}*/
+		}
 	}
 
-	/*
+	/**
 	 * 说明：移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
 	 * 联通：130、131、132、152、155、156、185、186 电信：133、153、180、189
 	 * 总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9 验证号码 手机号 固话均可

@@ -26,7 +26,7 @@ public class PcSessionInterceptor extends HandlerInterceptorAdapter {
 		request.setCharacterEncoding("utf-8");
 		String requestUrl = request.getRequestURI();
 
-		System.out.println("******** " + requestUrl);
+		System.out.println("******** " + request.getHeader("referer"));
 
 		for (String url : allowUrls) {
 			if (requestUrl.endsWith(url)) {

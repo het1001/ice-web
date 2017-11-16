@@ -24,5 +24,7 @@ public interface CommodityService {
 
 	Result<List<Commodity>> queryAll();
 
+	Result<List<Commodity>> queryAllOnline();
+
 	Result<List<Commodity>> queryByBizId(long bizId, String pageNum, String pageSize);
 }

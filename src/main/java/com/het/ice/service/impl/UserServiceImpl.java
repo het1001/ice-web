@@ -1,10 +1,7 @@
 package com.het.ice.service.impl;
 
 import com.het.ice.dao.*;
-import com.het.ice.dao.model.UserAuthCodeDO;
-import com.het.ice.dao.model.UserDO;
-import com.het.ice.dao.model.UserOperateTraceDO;
-import com.het.ice.dao.model.UserInfoDO;
+import com.het.ice.dao.model.*;
 import com.het.ice.dao.query.AuthCodeQuery;
 import com.het.ice.dao.query.UserQuery;
 import com.het.ice.enums.LobWhereUsedEnum;
@@ -13,13 +10,13 @@ import com.het.ice.enums.UserStateEnum;
 import com.het.ice.enums.UserTypeEnum;
 import com.het.ice.model.User;
 import com.het.ice.model.UserAuthCode;
-import com.het.ice.model.UserPhoneInfo;
 import com.het.ice.model.UserInfo;
+import com.het.ice.model.UserPhoneInfo;
 import com.het.ice.service.UserService;
 import com.het.ice.service.conv.UserAuthCodeConvert;
 import com.het.ice.service.conv.UserConvert;
-import com.het.ice.service.conv.UserPhoneInfoConvert;
 import com.het.ice.service.conv.UserInfoConvert;
+import com.het.ice.service.conv.UserPhoneInfoConvert;
 import com.het.ice.service.exception.BizException;
 import com.het.ice.service.exception.ParamCheckException;
 import com.het.ice.service.exception.ResultCodeEnum;
@@ -32,14 +29,20 @@ import com.het.ice.web.request.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author houenteng
+ *
+ */
 @Service
 public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
@@ -57,6 +60,9 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 	@Resource
 	private UserOperateTraceDAO userOperateTraceDAO;
+
+	@Resource
+	private UserDeliveryAddrDAO userDeliveryAddrDAO;
 
 	@Resource
 	private Template template;
@@ -247,18 +253,16 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		AuthCodeQuery authCodeQuery = new AuthCodeQuery();
 		authCodeQuery.setPhone(phone);
 		Calendar calendar1 = Calendar.getInstance();
-		Date start = calendar1.getTime();
-		start.setHours(0);
-		start.setMinutes(0);
-		start.setSeconds(0);
-		authCodeQuery.setStartTime(start);
+		calendar1.set(Calendar.HOUR_OF_DAY, 0);
+		calendar1.set(Calendar.MINUTE, 0);
+		calendar1.set(Calendar.SECOND, 0);
+		authCodeQuery.setStartTime(calendar1.getTime());
 
 		Calendar calendar2 = Calendar.getInstance();
-		Date end = calendar2.getTime();
-		end.setHours(23);
-		end.setMinutes(59);
-		end.setSeconds(59);
-		authCodeQuery.setEndTime(end);
+		calendar1.set(Calendar.HOUR_OF_DAY, 23);
+		calendar1.set(Calendar.MINUTE, 59);
+		calendar1.set(Calendar.SECOND, 59);
+		authCodeQuery.setEndTime(calendar2.getTime());
 
 		int count = userAuthCodeDAO.getCountBetween(authCodeQuery);
 		if (count >= 5) {
@@ -448,6 +452,15 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 					UserInfoDO userInfoDO = new UserInfoDO();
 					userInfoDO.setPhone(request.getPhone());
+					userInfoDO.setUserName(request.getUserName());
+					userInfoDO.setFreezerType(request.getFreezerType());
+					userInfoDO.setFreezerModel(request.getFreezerModel());
+					try {
+						userInfoDO.setArkTime(DateUtils.parseDate(request.getArkTime() + " 00:00:00", "yyyy-MM-dd HH:mm:ss"));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					userInfoDO.setDistrictId(NumberUtils.toLong(request.getDistrictId()));
 					userInfoDO.setShopName(request.getShopName());
 					userInfoDO.setShopAddress(request.getShopAddress());
 					userInfoDO.setShopImgKey(request.getShopImgKey());
@@ -678,10 +691,21 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 				UserInfoDO userInfoDO = userInfoDAO.getLastNotAccessByPhone(userDO.getPhone());
 				if (StringUtils.equals(request.getAction(), "agree")) {
 					userDO.setState(UserStateEnum.NORMAL.getCode());
+					userDO.setRealName(userInfoDO.getUserName());
+					userDO.setShopName(userInfoDO.getShopName());
+					userDO.setShopAddress(userInfoDO.getShopAddress());
 					userDao.update(userDO);
 
 					userInfoDO.setIsAccess(1);
 					userInfoDAO.update(userInfoDO);
+
+					UserDeliveryAddrDO userDeliveryAddrDO = new UserDeliveryAddrDO();
+					userDeliveryAddrDO.setPhone(userInfoDO.getPhone());
+					userDeliveryAddrDO.setFullName(userInfoDO.getUserName());
+					userDeliveryAddrDO.setDelPhone(userInfoDO.getPhone());
+					userDeliveryAddrDO.setAddress(userInfoDO.getShopAddress());
+					userDeliveryAddrDO.setStatus(1);
+					userDeliveryAddrDAO.insert(userDeliveryAddrDO);
 				} else {
 					userDO.setState(UserStateEnum.AUDIT_NO.getCode());
 					userDao.update(userDO);

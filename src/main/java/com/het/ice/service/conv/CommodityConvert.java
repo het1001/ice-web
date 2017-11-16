@@ -51,6 +51,8 @@ public class CommodityConvert {
 		com.setProfitPi(comDO.getProfitPi());
 		com.setProfitBr(comDO.getProfitBr());
 
+		com.setImgKey(comDO.getImgKey());
+
 		com.setBrand(comDO.getBrand());
 		com.setBarCode(comDO.getBarCode());
 		com.setBarImgKey(comDO.getBarImgKey());
@@ -92,6 +94,8 @@ public class CommodityConvert {
 		comDO.setPosition(com.getPosition());
 		comDO.setProfitPi(com.getProfitPi());
 		comDO.setProfitBr(com.getProfitBr());
+
+		comDO.setImgKey(com.getImgKey());
 
 		comDO.setBrand(com.getBrand());
 		comDO.setBarCode(com.getBarCode());

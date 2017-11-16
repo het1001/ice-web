@@ -1,17 +1,19 @@
 package com.het.ice.dao;
 
+import com.het.ice.dao.model.OrderListDO;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
-import com.het.ice.dao.model.OrderDO;
-
 public interface OrderListDAO {
-	void insert(OrderDO orderDO);
 
-	void update(OrderDO orderDO);
+	void insert(OrderListDO orderListDO);
+
+	void update(OrderListDO orderListDO);
 
 	void delete(long id);
 
-	OrderDO getById(long id);
+	OrderListDO getById(long id);
 
-	List<OrderDO> queryByUserId(long userId);
+	List<OrderListDO> queryByOrderNum(@Param("orderNum") String orderNum);
 }

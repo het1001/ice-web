@@ -37,11 +37,10 @@ public class UserController {
      * @return
      */
 	@RequestMapping(value = "/login.json", method = RequestMethod.POST)
-	public @ResponseBody ModelMap login(@RequestBody UserLoginRequest userLoginRequest, HttpSession httpSession) {
+	public @ResponseBody ModelMap login(@RequestBody UserLoginRequest userLoginRequest, String anchor, HttpSession httpSession) {
 		ModelMap model = new ModelMap();
 
 		WebResult webResult = new WebResult(model);
-
 		Result<User> result = userService.bizLogin(userLoginRequest.getUserName(), userLoginRequest.getPassWord(), true);
 		if (result.isSuccess()) {
 			if (result.getResult() != null) {

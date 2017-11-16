@@ -7,10 +7,10 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_user_info (phone, shop_name, shop_address, shop_img_key, is_access,
-		audit_memo, create_time, modify_time)
-		values(#{phone}, #{shopName}, #{shopAddress}, #{shopImgKey}, #{isAccess}, #{auditMemo},
-		CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		insert into i_user_info (phone, user_name, shop_name, shop_address, shop_img_key, freezer_type, ark_time,
+		freezer_model, district_id, is_access, audit_memo, create_time, modify_time)
+		values(#{phone}, #{userName}, #{shopName}, #{shopAddress}, #{shopImgKey}, #{freezerType}, #{arkTime},
+		#{freezerModel}, #{districtId}, #{isAccess}, #{auditMemo}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<update id="update" parameterType="UserInfo">
@@ -35,9 +35,14 @@
 	</select>
 
 	<resultMap type="UserInfo" id="userInfoResultMap">
+		<result property="userName" column="user_name" />
 		<result property="shopName" column="shop_name" />
 		<result property="shopAddress" column="shop_address" />
 		<result property="shopImgKey" column="shop_img_key" />
+		<result property="freezerType" column="freezer_type" />
+		<result property="arkTime" column="ark_time" />
+		<result property="freezerModel" column="freezer_model" />
+		<result property="districtId" column="district_id" />
 		<result property="isAccess" column="is_access" />
 		<result property="auditMemo" column="audit_memo" />
 		<result property="createTime" column="create_time" />

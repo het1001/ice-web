@@ -14,7 +14,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="UserPhoneInfo" type="com.het.ice.dao.model.UserPhoneInfoDO"/>
 		<typeAlias alias="UserInfo" type="com.het.ice.dao.model.UserInfoDO"/>
 		<typeAlias alias="UserOperateTrace" type="com.het.ice.dao.model.UserOperateTraceDO"/>
+		<typeAlias alias="UserDeliveryAddr" type="com.het.ice.dao.model.UserDeliveryAddrDO"/>
         <typeAlias alias="Business" type="com.het.ice.dao.model.BusinessDO"/>
+		<typeAlias alias="ShoppingCart" type="com.het.ice.dao.model.ShoppingCartDO"/>
         <typeAlias alias="Cat" type="com.het.ice.dao.model.CatDO"/>
         <typeAlias alias="Commodity" type="com.het.ice.dao.model.CommodityDO"/>
 		<typeAlias alias="CommodityPic" type="com.het.ice.dao.model.CommodityPicDO"/>
@@ -23,7 +25,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="Promotion" type="com.het.ice.dao.model.PromotionDO"/>
         <typeAlias alias="Lob" type="com.het.ice.dao.model.LobDO"/>
         <typeAlias alias="Order" type="com.het.ice.dao.model.OrderDO"/>
-        <typeAlias alias="LobQuery" type="com.het.ice.dao.query.LobQuery"/>
+		<typeAlias alias="OrderList" type="com.het.ice.dao.model.OrderListDO"/>
+		<typeAlias alias="OrderTrace" type="com.het.ice.dao.model.OrderTraceDO"/>
     </typeAliases>
 
 	<mappers>
@@ -37,7 +40,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mybatis/mapper/userPhoneInfoMapper.xml" />
 		<mapper resource="/mybatis/mapper/userInfoMapper.xml" />
 		<mapper resource="/mybatis/mapper/userActionTraceMapper.xml" />
+		<mapper resource="/mybatis/mapper/userDeliveryAddrMapper.xml" />
 		<mapper resource="/mybatis/mapper/businessMapper.xml" />
+		<mapper resource="/mybatis/mapper/shoppingCartMapper.xml" />
 		<mapper resource="/mybatis/mapper/comMapper.xml" />
 		<mapper resource="/mybatis/mapper/comPicMapper.xml" />
 		<mapper resource="/mybatis/mapper/comInMapper.xml" />
@@ -46,5 +51,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mybatis/mapper/catMapper.xml" />
 		<mapper resource="/mybatis/mapper/lobMapper.xml" />
 		<mapper resource="/mybatis/mapper/orderMapper.xml" />
+		<mapper resource="/mybatis/mapper/orderListMapper.xml" />
+		<mapper resource="/mybatis/mapper/orderTraceMapper.xml" />
 	</mappers>
 </configuration>

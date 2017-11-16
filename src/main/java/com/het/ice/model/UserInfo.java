@@ -1,5 +1,7 @@
 package com.het.ice.model;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/5/24.
  */
@@ -7,8 +9,11 @@ public class UserInfo extends BaseModel {
 
     private static final long serialVersionUID = 9084823644073567126L;
 
-    /** 验证码 */
+    /** 手机号 */
     private String phone;
+
+    /** 姓名 */
+    private String userName;
 
     /** 店铺名称 */
     private String shopName;
@@ -18,6 +23,18 @@ public class UserInfo extends BaseModel {
 
     /** 店铺图片key */
     private String shopImgKey;
+
+    /** 冰柜类型 */
+    private String freezerType;
+
+    /** 投柜时间 */
+    private Date arkTime;
+
+    /** 冰柜型号 */
+    private String freezerModel;
+
+    /** 片区ID */
+    private long districtId;
 
     /** 是否审核通过（0：无审核，1：审核通过，-1：审核不通过） */
     private int isAccess;
@@ -71,5 +88,45 @@ public class UserInfo extends BaseModel {
 
     public void setAuditMemo(String auditMemo) {
         this.auditMemo = auditMemo;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFreezerType() {
+        return freezerType;
+    }
+
+    public void setFreezerType(String freezerType) {
+        this.freezerType = freezerType;
+    }
+
+    public Date getArkTime() {
+        return arkTime;
+    }
+
+    public void setArkTime(Date arkTime) {
+        this.arkTime = arkTime;
+    }
+
+    public String getFreezerModel() {
+        return freezerModel;
+    }
+
+    public void setFreezerModel(String freezerModel) {
+        this.freezerModel = freezerModel;
+    }
+
+    public long getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(long districtId) {
+        this.districtId = districtId;
     }
 }

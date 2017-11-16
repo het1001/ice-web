@@ -1,112 +1,72 @@
 package com.het.ice.dao.model;
 
+/**
+ *
+ */
 public class OrderListDO extends BaseModel {
 
 	/**
-	 * 
+	 *
 	 */
-	private static final long serialVersionUID = -6756898505256760393L;
+	private static final long serialVersionUID = 7198862148499550828L;
 
-	private String num;
+	private String orderNum;
 
-	private long userId;
+	private long comId;
 
-	private String state;
+	private String comName;
 
-	private String address;
+	private int comStandard;
 
-	private String phone;
+	private double comPrice;
 
-	private String process;
+	private int comNum;
 
-	/**
-	 * @return the num
-	 */
-	public String getNum() {
-		return num;
+	public String getOrderNum() {
+		return orderNum;
 	}
 
-	/**
-	 * @param num
-	 *            the num to set
-	 */
-	public void setNum(String num) {
-		this.num = num;
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
 	}
 
-	/**
-	 * @return the userId
-	 */
-	public long getUserId() {
-		return userId;
+	public long getComId() {
+		return comId;
 	}
 
-	/**
-	 * @param userId
-	 *            the userId to set
-	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setComId(long comId) {
+		this.comId = comId;
 	}
 
-	/**
-	 * @return the state
-	 */
-	public String getState() {
-		return state;
+	public String getComName() {
+		return comName;
 	}
 
-	/**
-	 * @param state
-	 *            the state to set
-	 */
-	public void setState(String state) {
-		this.state = state;
+	public void setComName(String comName) {
+		this.comName = comName;
 	}
 
-	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
+	public int getComStandard() {
+		return comStandard;
 	}
 
-	/**
-	 * @param address
-	 *            the address to set
-	 */
-	public void setAddress(String address) {
-		this.address = address;
+	public void setComStandard(int comStandard) {
+		this.comStandard = comStandard;
 	}
 
-	/**
-	 * @return the phone
-	 */
-	public String getPhone() {
-		return phone;
+	public double getComPrice() {
+		return comPrice;
 	}
 
-	/**
-	 * @param phone
-	 *            the phone to set
-	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setComPrice(double comPrice) {
+		this.comPrice = comPrice;
 	}
 
-	/**
-	 * @return the process
-	 */
-	public String getProcess() {
-		return process;
+	public int getComNum() {
+		return comNum;
 	}
 
-	/**
-	 * @param process
-	 *            the process to set
-	 */
-	public void setProcess(String process) {
-		this.process = process;
+	public void setComNum(int comNum) {
+		this.comNum = comNum;
 	}
-
 }

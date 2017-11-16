@@ -1,8 +1,10 @@
 package com.het.ice.dao;
 
-import java.util.List;
-
 import com.het.ice.dao.model.OrderDO;
+import com.het.ice.dao.query.OrderQuery;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 订单DAO
@@ -42,10 +44,25 @@ public interface OrderDAO {
 	OrderDO getById(long id);
 
 	/**
-	 * 根据用户id获取订单
+	 * 根据phone获取订单
 	 * 
-	 * @param userId
+	 * @param phone
 	 * @return
 	 */
-	List<OrderDO> queryByUserId(long userId);
+	List<OrderDO> queryByPhone(@Param("phone") String phone);
+
+	/**
+	 *
+	 * @param query
+	 * @return
+	 */
+	List<OrderDO> queryByCondition(OrderQuery query);
+
+	/**
+	 * 根据状态查询用户总量
+	 *
+	 * @param query
+	 * @return
+	 */
+	int countByCondition(OrderQuery query);
 }

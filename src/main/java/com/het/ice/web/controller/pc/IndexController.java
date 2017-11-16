@@ -26,7 +26,8 @@ public class IndexController {
 	 * @return
 	 */
 	@RequestMapping(value = "pc/login.htm", method = { RequestMethod.GET })
-	public String login() {
+	public String login(String hash, ModelMap modelMap) {
+		modelMap.put("hash", hash);
 		return "login";
 	}
 

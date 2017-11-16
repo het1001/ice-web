@@ -19,11 +19,11 @@ public interface UserDeliveryAddrDAO {
 	UserDeliveryAddrDO getById(long id);
 
 	/**
-	 * 根据用户id查收货地址
+	 * 根据用户phone查收货地址
 	 *
-	 * @param userId
+	 * @param phone
 	 * @return
 	 */
-	List<UserDeliveryAddrDO> queryByUserId(@Param(value = "userId") long userId);
+	List<UserDeliveryAddrDO> queryByPhone(@Param(value = "phone") String phone);
 
 }

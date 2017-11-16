@@ -1,5 +1,8 @@
 package com.het.ice.service.template;
 
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class ResultCallback<T> implements Callback {
 
 	@Override
@@ -11,7 +14,7 @@ public abstract class ResultCallback<T> implements Callback {
 	}
 
 	@Override
-	public void excute() {
+	public void excute() throws IllegalAccessException, IntrospectionException, InvocationTargetException {
 	}
 
 	@Override

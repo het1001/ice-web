@@ -3,15 +3,12 @@
 
 <mapper namespace="com.het.ice.dao.OrderDAO">
 
-	<insert id="create" parameterType="Order">
+	<insert id="insert" parameterType="Order">
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_order(order_num, user_id, price_total, state, address, phone,
-		process, create_time, modify_time, create_user, update_user)
-		values(#{orderNum}, #{userId}, #{priceTotal}, #{state}, #{address},
-		#{phone}, #{process}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP,
-		#{createUser}, #{updateUser})
+		insert into i_order(order_num, phone, user_name, price_total, state, address, create_time, modify_time)
+		values(#{orderNum}, #{phone}, #{userName}, #{priceTotal}, #{state}, #{address}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<delete id="delete" parameterType="long">
@@ -19,11 +16,10 @@
 		id=#{id}
 	</delete>
 
-	<update id="update" parameterType="Lob">
+	<update id="update" parameterType="Order">
 		update i_order set
-		state=#{state}, address=#{address}, phone=#{phone},
-		process=#{process}, modify_time=CURRENT_TIMESTAMP,
-		update_user=#{updateUser}
+		state=#{state}, address=#{address},
+		modify_time=CURRENT_TIMESTAMP
 		where id=#{id}
 	</update>
 
@@ -33,26 +29,36 @@
 		i_order where id=#{id}
 	</select>
 
-	<select id="queryByUserId" parameterType="long" resultMap="orderResultMap">
+	<select id="queryByPhone" parameterType="String" resultMap="orderResultMap">
 		select
-		* from i_order where user_id = #{userId} order by create_time
+		* from i_order where phone = #{phone} order by create_time
 		desc
 	</select>
 
-	<select id="queryByCondition" parameterType="long" resultMap="orderResultMap">
+	<select id="queryByCondition" parameterType="com.het.ice.dao.query.OrderQuery" resultMap="orderResultMap">
 		select
-		* from i_order where user_id = #{userId} order by create_time
-		desc
+		* from i_order where 1=1
+		<if test="state != null and '' != state ">
+			and state = #{state}
+		</if>
+		order by create_time desc
+		limit #{start}, #{limit}
+	</select>
+
+	<select id="countByCondition" parameterType="com.het.ice.dao.query.UserQuery" resultType="int">
+		select
+		count(*) from i_order where 1=1
+		<if test="state != null and '' != state ">
+			and state = #{state}
+		</if>
 	</select>
 
 	<resultMap type="Order" id="orderResultMap">
 	    <result property="orderNum" column="order_num" />
-		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
 		<result property="priceTotal" column="price_total" />
 		<result property="createTime" column="create_time" />
 		<result property="modifyTime" column="modify_time" />
-		<result property="createUser" column="create_user" />
-		<result property="updateUser" column="update_user" />
 	</resultMap>
 
 </mapper>

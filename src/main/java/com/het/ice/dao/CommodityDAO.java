@@ -19,13 +19,15 @@ public interface CommodityDAO {
     CommodityDO getByName(String name);
 
     List<CommodityDO> queryByBizId(@Param("bizId") long bizId, @Param("start") int pageNum,
-                                   @Param("limit") int pageSize);
+          @Param("limit") int pageSize);
 
     List<CommodityDO> queryByCondition(CommodityQuery commodityQuery);
 
     int getCountByBizId(@Param("bizId") long bizId);
 
     int getCountByCondition(CommodityQuery commodityQuery);
+
+    List<CommodityDO> queryAllOnline();
 
     List<CommodityDO> queryAll();
 }

@@ -9,14 +9,18 @@ import com.het.ice.enums.PromotionStateEnum;
 import com.het.ice.model.Promotion;
 import com.het.ice.service.PromotionService;
 import com.het.ice.service.conv.PromotionConvert;
+import com.het.ice.service.exception.BizException;
 import com.het.ice.service.template.PageResultCallback;
 import com.het.ice.service.template.Result;
 import com.het.ice.service.template.ResultCallback;
 import com.het.ice.service.template.Template;
 import com.het.ice.util.AssertUtil;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -100,6 +104,10 @@ public class PromotionServiceImpl implements PromotionService {
 
             @Override
             public void excute() {
+                if (state == PromotionStateEnum.ON_LINE && promotionDO.getDeadline().before(new Date())) {
+                    throw new BizException("该促销已结束，请重新设置生效时间后启用");
+                }
+
                 promotionDO.setState(state.getCode());
                 promotionDAO.update(promotionDO);
             }

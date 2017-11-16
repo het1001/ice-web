@@ -21,6 +21,10 @@ public class UserDO extends BaseModel {
 
 	private String realName;
 
+	private String shopName;
+
+	private String shopAddress;
+
 	private String state;
 
 	private String token;
@@ -139,5 +143,21 @@ public class UserDO extends BaseModel {
 
 	public void setProperty(String property) {
 		this.property = property;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public String getShopAddress() {
+		return shopAddress;
+	}
+
+	public void setShopAddress(String shopAddress) {
+		this.shopAddress = shopAddress;
 	}
 }

@@ -29,6 +29,9 @@ public class UserConvert {
 		user.setPassWord(userDO.getPassWord());
 		user.setType(UserTypeEnum.getByCode(userDO.getType()));
 		user.setPhone(userDO.getPhone());
+		user.setRealName(userDO.getRealName());
+		user.setShopName(userDO.getShopName());
+		user.setShopAddress(userDO.getShopAddress());
 		user.setCreateTime(userDO.getCreateTime());
 		user.setModifyTime(userDO.getModifyTime());
 		user.setCreateUser(userDO.getCreateUser());
@@ -51,6 +54,9 @@ public class UserConvert {
 		userDO.setPassWord(user.getPassWord());
 		userDO.setType(user.getType().getCode());
 		userDO.setPhone(user.getPhone());
+		userDO.setRealName(user.getRealName());
+		userDO.setShopName(user.getShopName());
+		userDO.setShopAddress(user.getShopAddress());
 		userDO.setCreateTime(user.getCreateTime());
 		userDO.setModifyTime(user.getModifyTime());
 		userDO.setCreateUser(user.getCreateUser());

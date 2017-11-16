@@ -31,6 +31,12 @@ public class User extends BaseModel {
 	/** 姓名 */
 	private String realName;
 
+	/** 商铺名称 */
+	private String shopName;
+
+	/** 商铺地址 */
+	private String shopAddress;
+
 	/** 状态 */
 	private UserStateEnum state;
 
@@ -152,5 +158,21 @@ public class User extends BaseModel {
 
 	public void setProperty(JSONObject property) {
 		this.property = property;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public String getShopAddress() {
+		return shopAddress;
+	}
+
+	public void setShopAddress(String shopAddress) {
+		this.shopAddress = shopAddress;
 	}
 }

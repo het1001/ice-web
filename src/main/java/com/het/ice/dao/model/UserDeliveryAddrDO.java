@@ -7,23 +7,15 @@ public class UserDeliveryAddrDO extends BaseModel {
 
 	private static final long serialVersionUID = -7465268949841121402L;
 
-	private long userId;
+	private String phone;
 
 	private String fullName;
 
-	private String phone;
-
 	private String address;
 
+	private String delPhone;
+
 	private int status;
-
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
 
 	public String getFullName() {
 		return fullName;
@@ -55,5 +47,13 @@ public class UserDeliveryAddrDO extends BaseModel {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getDelPhone() {
+		return delPhone;
+	}
+
+	public void setDelPhone(String delPhone) {
+		this.delPhone = delPhone;
 	}
 }

@@ -1,19 +1,23 @@
 package com.het.ice.service;
 
-import java.util.List;
-
-import com.het.ice.model.Commodity;
+import com.het.ice.dao.query.OrderQuery;
+import com.het.ice.model.Order;
 import com.het.ice.service.template.Result;
+import com.het.ice.web.request.OrderWO;
+
+import java.util.List;
 
 public interface OrderService {
 
-	public Result<Void> create(Commodity com);
+	Result<Void> create(OrderWO orderWO);
 
-	public Result<Void> update(Commodity com);
+	Result<List<Order>> queryByPhone(String phone);
 
-	public Result<Void> delete(long comId);
+	Result<List<Order>> queryByCondition(OrderQuery query, String pageNum, String pageSize);
 
-	public Result<Commodity> getById(long comId);
+	Result<Void> verify(String id);
 
-	public Result<List<Commodity>> queryByBizId(long bizId);
+	Result<Void> cancel(String id);
+
+	Result<Void> complete(String id);
 }

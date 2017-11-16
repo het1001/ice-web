@@ -7,15 +7,25 @@ import com.het.ice.model.ToString;
  */
 public class UserInfoRequest extends ToString {
 
-    private static final long serialVersionUID = 2322714090693148909L;
+    private static final long serialVersionUID = -3013825012322536483L;
 
     private String phone;
+
+    private String userName;
 
     private String shopName;
 
     private String shopAddress;
 
     private String shopImgKey;
+
+    private String freezerType;
+
+    private String arkTime;
+
+    private String freezerModel;
+
+    private String districtId;
 
     public String getPhone() {
         return phone;
@@ -47,5 +57,45 @@ public class UserInfoRequest extends ToString {
 
     public void setShopImgKey(String shopImgKey) {
         this.shopImgKey = shopImgKey;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFreezerType() {
+        return freezerType;
+    }
+
+    public void setFreezerType(String freezerType) {
+        this.freezerType = freezerType;
+    }
+
+    public String getArkTime() {
+        return arkTime;
+    }
+
+    public void setArkTime(String arkTime) {
+        this.arkTime = arkTime;
+    }
+
+    public String getFreezerModel() {
+        return freezerModel;
+    }
+
+    public void setFreezerModel(String freezerModel) {
+        this.freezerModel = freezerModel;
+    }
+
+    public String getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(String districtId) {
+        this.districtId = districtId;
     }
 }

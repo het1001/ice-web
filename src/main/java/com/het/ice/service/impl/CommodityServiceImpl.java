@@ -196,6 +196,7 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setPersonType(com.getPersonType());
 				comDo.setPosition(com.getPosition());
 				comDo.setBrand(com.getBrand());
+				comDo.setImgKey(com.getImgKey());
 
 				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());
 				if (!StringUtils.equals(commodityPicDO.getPicKey(), com.getImgKey())) {
@@ -331,6 +332,20 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
+	public Result<List<Commodity>> queryAllOnline() {
+		return template.complete(new ResultCallback<List<Commodity>>() {
+
+			@Override
+			public void excute() {
+				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline();
+				returnValue = CommodityConvert.conv(commodityDOs);
+			}
+
+		});
+	}
+
+
+	@Override
 	public Result<List<Commodity>> queryAll() {
 		return template.complete(new ResultCallback<List<Commodity>>() {
 
@@ -342,4 +357,5 @@ public class CommodityServiceImpl implements CommodityService {
 
 		});
 	}
+
 }

@@ -1,19 +1,21 @@
 package com.het.ice.util;
 
 import com.googlecode.aviator.AviatorEvaluator;
+import com.het.ice.dao.model.CommodityDO;
+import com.het.ice.enums.SalesmanTypeEnum;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/1/14.
@@ -69,10 +71,33 @@ class Test {
     public static void main(String[] args) throws Exception {
         /*Random random = new Random(new Date().getTime());
         System.out.print(random.nextInt(1));*/
-        Map<String, Object> env = new HashMap<>();
+        /*Map<String, Object> env = new HashMap<>();
         env.put("total", 8.2);
 
         Double result = (Double) AviatorEvaluator.execute("total+2*(total/5)", env);
-        System.out.println(JSONObject.fromObject(env).toString());
+        System.out.println(JSONObject.fromObject(env).toString());*/
+
+        /*Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(Calendar.HOUR_OF_DAY, 23);
+        calendar1.set(Calendar.MINUTE, 59);
+        calendar1.set(Calendar.SECOND, 59);
+        Date start = calendar1.getTime();
+        System.out.println(start);*/
+
+        CommodityDO commodityDO = new CommodityDO();
+
+//        commodityDO.setPricePi(2.5d);
+/*
+
+        InvokeUtil.get("pricePi", commodityDO);
+
+        PropertyDescriptor descriptor = new PropertyDescriptor("pricePi", commodityDO.getClass());
+        Method method = descriptor.getReadMethod();
+        Object object = method.invoke(commodityDO);
+*/
+//        InvokeUtil.set("pricePi", commodityDO, 2.6d);
+        StringUtils.split("a.b", "\\.");
+
+        System.out.println(StringUtils.split("a.b", "\\.")[0]);
     }
 }

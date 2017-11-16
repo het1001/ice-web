@@ -3,110 +3,47 @@ package com.het.ice.dao.model;
 public class OrderTraceDO extends BaseModel {
 
 	/**
-	 * 
+	 *
 	 */
-	private static final long serialVersionUID = -6756898505256760393L;
+	private static final long serialVersionUID = 8792749986024654560L;
 
-	private String num;
+	private String orderNum;
 
-	private long userId;
+	private String operate;
 
-	private String state;
+	private String operateDisplay;
 
-	private String address;
+	private String description;
 
-	private String phone;
-
-	private String process;
-
-	/**
-	 * @return the num
-	 */
-	public String getNum() {
-		return num;
+	public String getOrderNum() {
+		return orderNum;
 	}
 
-	/**
-	 * @param num
-	 *            the num to set
-	 */
-	public void setNum(String num) {
-		this.num = num;
+	public void setOrderNum(String orderNum) {
+		this.orderNum = orderNum;
 	}
 
-	/**
-	 * @return the userId
-	 */
-	public long getUserId() {
-		return userId;
+	public String getOperate() {
+		return operate;
 	}
 
-	/**
-	 * @param userId
-	 *            the userId to set
-	 */
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setOperate(String operate) {
+		this.operate = operate;
 	}
 
-	/**
-	 * @return the state
-	 */
-	public String getState() {
-		return state;
+	public String getDescription() {
+		return description;
 	}
 
-	/**
-	 * @param state
-	 *            the state to set
-	 */
-	public void setState(String state) {
-		this.state = state;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
+	public String getOperateDisplay() {
+		return operateDisplay;
 	}
 
-	/**
-	 * @param address
-	 *            the address to set
-	 */
-	public void setAddress(String address) {
-		this.address = address;
+	public void setOperateDisplay(String operateDisplay) {
+		this.operateDisplay = operateDisplay;
 	}
-
-	/**
-	 * @return the phone
-	 */
-	public String getPhone() {
-		return phone;
-	}
-
-	/**
-	 * @param phone
-	 *            the phone to set
-	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	/**
-	 * @return the process
-	 */
-	public String getProcess() {
-		return process;
-	}
-
-	/**
-	 * @param process
-	 *            the process to set
-	 */
-	public void setProcess(String process) {
-		this.process = process;
-	}
-
 }

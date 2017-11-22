@@ -112,7 +112,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                     for (ShoppingCart shoppingCart : shoppingCarts) {
                         CommodityDO commodityDO = commodityDAO.getById(shoppingCart.getComId());
                         shoppingCart.setComName(commodityDO.getName());
+                        shoppingCart.setPrice(commodityDO.getPricePi());
                         shoppingCart.setImgKey(commodityDO.getImgKey());
+                        shoppingCart.setComStock(commodityDO.getTotal());
 
                         PromotionQuery query = new PromotionQuery();
                         query.setComId(commodityDO.getId());
@@ -140,8 +142,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                             for (String inPa : arithmeticDO.getInParams().split(",")) {
                                 if (inPa.indexOf(".") > -1) {
                                     String[] arrs = inPa.split("\\.");
-
-                                    System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~" + arrs);
                                     if (StringUtils.equals(arrs[0],"commodity")) {
                                         env.put(arrs[1], InvokeUtil.get(arrs[1], commodityDO));
                                     } else if (StringUtils.equals(arrs[0],"shopCart")) {
@@ -152,8 +152,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
                             Object result = AviatorEvaluator.execute(arithmeticDO.getFunction(), env);
 
-                            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~" + result);
-
                             // 把值根据出参设置到对象里
                             String[] outArrs = arithmeticDO.getOutParam().split("\\.");
                             if (StringUtils.equals(outArrs[0],"commodity")) {
@@ -163,9 +161,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                             }
                         }
 
-                        System.out.println(commodityDO.getPricePi());
-
-                        shoppingCart.setPrice(commodityDO.getPricePi() * shoppingCart.getComNum());
+                        shoppingCart.setTotalPrice(commodityDO.getPricePi() * shoppingCart.getComNum());
                     }
                 }
 

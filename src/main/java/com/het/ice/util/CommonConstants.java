@@ -11,4 +11,6 @@ public class CommonConstants {
     public final static int BAR_CODE_LENGTH = 13;
 
     public final static String USER_PROPERTY_LAST_STATE = "lastState";
+
+    public final static int APP_VERSION = 20171120;
 }

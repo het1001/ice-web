@@ -1,12 +1,8 @@
 package com.het.ice.web.controller.app;
 
-import com.het.ice.enums.LobTypeEnum;
-import com.het.ice.model.Lob;
-import com.het.ice.service.template.Result;
 import com.het.ice.util.OssUtil;
 import com.het.ice.web.controller.BaseController;
 import com.het.ice.web.result.WebResult;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;

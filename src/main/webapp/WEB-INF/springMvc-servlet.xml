@@ -80,6 +80,7 @@
                         <value>/getAuthCode.json</value>
                         <value>/getMainKey.json</value>
                         <value>/uploadImage.json</value>
+                        <value>/isUpdate.json</value>
                     </list>
                 </property>
             </bean>

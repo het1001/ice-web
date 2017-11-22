@@ -92,6 +92,11 @@ public class OrderServiceImpl implements OrderService {
 
                 for (String shopId : list) {
                     ShoppingCartDO shoppingCartDO = shoppingCartDAO.getById(NumberUtils.toLong(shopId));
+                    //排除掉删除的
+                    if (shoppingCartDO == null) {
+                        continue;
+                    }
+
                     CommodityDO commodityDO = commodityDAO.getById(shoppingCartDO.getComId());
 
                     if (shoppingCartDO.getComNum() > commodityDO.getTotal()) {
@@ -174,6 +179,7 @@ public class OrderServiceImpl implements OrderService {
 
                     orderListDAO.insert(orderListDO);
 
+                    // 设置库存
                     commodityDO.setTotal(commodityDO.getTotal() - shoppingCartDO.getComNum());
                     commodityDAO.update(commodityDO);
 

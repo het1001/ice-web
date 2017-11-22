@@ -12,9 +12,17 @@ public class ShoppingCart extends BaseModel {
 
     private String imgKey;
 
+    /** 单价 */
     private double price;
 
+    /** 数量 */
     private int comNum;
+
+    /** 库存 */
+    private int comStock;
+
+    /** 总价 */
+    private double totalPrice;
 
     public String getPhone() {
         return phone;
@@ -62,5 +70,21 @@ public class ShoppingCart extends BaseModel {
 
     public void setImgKey(String imgKey) {
         this.imgKey = imgKey;
+    }
+
+    public int getComStock() {
+        return comStock;
+    }
+
+    public void setComStock(int comStock) {
+        this.comStock = comStock;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

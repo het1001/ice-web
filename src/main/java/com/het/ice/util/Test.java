@@ -84,7 +84,7 @@ class Test {
         Date start = calendar1.getTime();
         System.out.println(start);*/
 
-        CommodityDO commodityDO = new CommodityDO();
+//        CommodityDO commodityDO = new CommodityDO();
 
 //        commodityDO.setPricePi(2.5d);
 /*
@@ -96,8 +96,7 @@ class Test {
         Object object = method.invoke(commodityDO);
 */
 //        InvokeUtil.set("pricePi", commodityDO, 2.6d);
-        StringUtils.split("a.b", "\\.");
 
-        System.out.println(StringUtils.split("a.b", "\\.")[0]);
+        System.out.println(CommonUtil.isWinOS());
     }
 }

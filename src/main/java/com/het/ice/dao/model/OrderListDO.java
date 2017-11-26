@@ -22,6 +22,8 @@ public class OrderListDO extends BaseModel {
 
 	private int comNum;
 
+	private int finishFlag;
+
 	public String getOrderNum() {
 		return orderNum;
 	}
@@ -68,5 +70,13 @@ public class OrderListDO extends BaseModel {
 
 	public void setComNum(int comNum) {
 		this.comNum = comNum;
+	}
+
+	public int getFinishFlag() {
+		return finishFlag;
+	}
+
+	public void setFinishFlag(int finishFlag) {
+		this.finishFlag = finishFlag;
 	}
 }

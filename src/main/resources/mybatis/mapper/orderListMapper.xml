@@ -7,8 +7,8 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_order_list(order_num, com_id, com_name, com_standard, com_price, com_num)
-		values(#{orderNum}, #{comId}, #{comName}, #{comStandard}, #{comPrice}, #{comNum})
+		insert into i_order_list(order_num, com_id, com_name, com_standard, com_price, com_num, finish_flag, create_time, modify_time)
+		values(#{orderNum}, #{comId}, #{comName}, #{comStandard}, #{comPrice}, #{comNum}, #{finishFlag}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<delete id="delete" parameterType="long">
@@ -18,7 +18,7 @@
 
 	<update id="update" parameterType="OrderList">
 		update i_order_list set
-		order_num=#{orderNum} where id=#{id}
+		finish_flag=#{finishFlag}, modify_time=CURRENT_TIMESTAMP where id=#{id}
 	</update>
 
 	<select id="getById" parameterType="long" resultMap="orderListResultMap">
@@ -32,6 +32,11 @@
 		* from i_order_list where order_num = #{orderNum}
 	</select>
 
+	<select id="queryWeekFinishListByComId" parameterType="long" resultMap="orderListResultMap">
+		select
+		* from i_order_list where com_id = #{comId} and finish_flag=1 and create_time > date_sub(curdate(), INTERVAL 7 DAY)
+	</select>
+
 	<resultMap type="OrderList" id="orderListResultMap">
 	    <result property="orderNum" column="order_num" />
 		<result property="comId" column="com_id" />
@@ -39,5 +44,8 @@
 		<result property="comStandard" column="com_standard" />
 		<result property="comPrice" column="com_price" />
 		<result property="comNum" column="com_num" />
+		<result property="finishFlag" column="finish_flag" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
 	</resultMap>
 </mapper>

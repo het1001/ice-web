@@ -184,6 +184,7 @@ public class OrderServiceImpl implements OrderService {
                                 zOrderListDO.setComStandard(zDO.getStandardPice());
                                 zOrderListDO.setOrderNum(orderNum);
                                 zOrderListDO.setComPrice(0);
+                                zOrderListDO.setFinishFlag(0);
 
                                 orderListDAO.insert(zOrderListDO);
                             }
@@ -196,6 +197,7 @@ public class OrderServiceImpl implements OrderService {
                     orderListDO.setComNum(shoppingCartDO.getComNum());
                     orderListDO.setComStandard(commodityDO.getStandardPice());
                     orderListDO.setOrderNum(orderNum);
+                    orderListDO.setFinishFlag(0);
                     orderListDO.setComPrice(DoubleUtil.multiply(commodityDO.getPricePi(), shoppingCartDO.getComNum()));
 
                     orderListDAO.insert(orderListDO);
@@ -360,6 +362,15 @@ public class OrderServiceImpl implements OrderService {
 
                 orderDO.setState(OrderStateEnum.COMPLETED.getCode());
                 orderDAO.update(orderDO);
+
+                List<OrderListDO> orderListDOS = orderListDAO.queryByOrderNum(orderDO.getOrderNum());
+                if (!CollectionUtils.isEmpty(orderListDOS)) {
+                    for (OrderListDO orderListDO : orderListDOS) {
+                        // 更新状态为完成
+                        orderListDO.setFinishFlag(1);
+                        orderListDAO.update(orderListDO);
+                    }
+                }
 
                 OrderTraceDO orderTraceDO = new OrderTraceDO();
                 orderTraceDO.setOrderNum(orderDO.getOrderNum());

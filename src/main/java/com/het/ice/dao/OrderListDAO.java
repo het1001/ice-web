@@ -16,4 +16,6 @@ public interface OrderListDAO {
 	OrderListDO getById(long id);
 
 	List<OrderListDO> queryByOrderNum(@Param("orderNum") String orderNum);
+
+	List<OrderListDO> queryWeekFinishListByComId(@Param("comId") long comId);
 }

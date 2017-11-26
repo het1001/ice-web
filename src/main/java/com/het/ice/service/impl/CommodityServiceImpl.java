@@ -2,9 +2,11 @@ package com.het.ice.service.impl;
 
 import com.het.ice.dao.CommodityDAO;
 import com.het.ice.dao.CommodityPicDAO;
+import com.het.ice.dao.OrderListDAO;
 import com.het.ice.dao.PromotionDAO;
 import com.het.ice.dao.model.CommodityDO;
 import com.het.ice.dao.model.CommodityPicDO;
+import com.het.ice.dao.model.OrderListDO;
 import com.het.ice.dao.model.PromotionDO;
 import com.het.ice.dao.query.CommodityQuery;
 import com.het.ice.model.Commodity;
@@ -47,6 +49,9 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Resource
 	private PromotionDAO promotionDAO;
+
+	@Resource
+	private OrderListDAO orderListDAO;
 
 	/**
 	 * 
@@ -360,7 +365,6 @@ public class CommodityServiceImpl implements CommodityService {
 		});
 	}
 
-
 	@Override
 	public Result<List<Commodity>> queryAll() {
 		return template.complete(new ResultCallback<List<Commodity>>() {
@@ -371,6 +375,31 @@ public class CommodityServiceImpl implements CommodityService {
 				returnValue = CommodityConvert.conv(commodityDOs);
 			}
 
+		});
+	}
+
+	@Override
+	public Result<Void> resetSales() {
+		return template.complete(new ResultCallback<Void>() {
+
+			@Override
+			public void excute() {
+				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline();
+				if (!CollectionUtils.isEmpty(commodityDOs)) {
+					for (CommodityDO commodityDO : commodityDOs) {
+						List<OrderListDO> orderListDOS = orderListDAO.queryWeekFinishListByComId(commodityDO.getId());
+						int sales = 0;
+						if (!CollectionUtils.isEmpty(orderListDOS)) {
+							for (OrderListDO orderListDO : orderListDOS) {
+								sales = sales + orderListDO.getComNum();
+							}
+						}
+
+						commodityDO.setSales(sales);
+						commodityDao.update(commodityDO);
+					}
+				}
+			}
 		});
 	}
 

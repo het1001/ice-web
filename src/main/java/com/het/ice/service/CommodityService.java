@@ -27,4 +27,6 @@ public interface CommodityService {
 	Result<List<Commodity>> queryAllOnline();
 
 	Result<List<Commodity>> queryByBizId(long bizId, String pageNum, String pageSize);
+
+	Result<Void> resetSales();
 }

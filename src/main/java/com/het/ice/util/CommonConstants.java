@@ -12,5 +12,5 @@ public class CommonConstants {
 
     public final static String USER_PROPERTY_LAST_STATE = "lastState";
 
-    public final static int APP_VERSION = 20171120;
+    public final static int APP_VERSION = 20171126;
 }

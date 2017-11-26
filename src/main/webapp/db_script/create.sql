@@ -75,6 +75,7 @@ CREATE TABLE `i_app_main_img` (
 CREATE TABLE `i_arithmetic` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `name` varchar(200) NOT NULL COMMENT '名称',
+  `type` tinyint(4) DEFAULT NULL COMMENT '类型：计算型or非计算型',
   `function` varchar(5000) NOT NULL COMMENT '表达式',
   `func_keys` varchar(100) DEFAULT NULL COMMENT '表达式未知参数key',
   `in_params` varchar(500) DEFAULT NULL COMMENT '入参',
@@ -231,6 +232,9 @@ CREATE TABLE `i_order_list` (
   `com_standard` mediumint(9) DEFAULT NULL COMMENT '规格',
   `com_price` double(10,2) NOT NULL COMMENT '商品单价',
   `com_num` int(11) NOT NULL COMMENT '商品数量',
+  `state` varchar(16) NOT NULL COMMENT '订单状态',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `modify_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -72,6 +72,12 @@ public class Commodity extends BaseModel {
 	/** 条形码图形key */
 	private String barImgKey;
 
+	/** 是否促销 */
+	private boolean isPromo;
+
+	/** 促销详情 */
+	private String promoDes;
+
 	/**
 	 * @return the name
 	 */
@@ -380,5 +386,21 @@ public class Commodity extends BaseModel {
 
 	public void setImgKeys(List<String> imgKeys) {
 		this.imgKeys = imgKeys;
+	}
+
+	public boolean isPromo() {
+		return isPromo;
+	}
+
+	public void setPromo(boolean promo) {
+		isPromo = promo;
+	}
+
+	public String getPromoDes() {
+		return promoDes;
+	}
+
+	public void setPromoDes(String promoDes) {
+		this.promoDes = promoDes;
 	}
 }

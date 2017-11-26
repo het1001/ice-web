@@ -164,4 +164,6 @@ public interface UserService {
 	 * @return
 	 */
 	Result<UserInfo> getAccessUserInfo(String phone);
+
+	Result<Void> updateVersion(UserUpdateVersionRequest userUpdateVersionRequest);
 }

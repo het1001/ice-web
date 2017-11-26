@@ -9,6 +9,8 @@ public class ArithmeticDO extends BaseModel {
 
     private String name;
 
+    private int type;
+
     private String function;
 
     private String funcKeys;
@@ -55,5 +57,13 @@ public class ArithmeticDO extends BaseModel {
 
     public void setOutParam(String outParam) {
         this.outParam = outParam;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

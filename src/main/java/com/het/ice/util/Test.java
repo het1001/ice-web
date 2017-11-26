@@ -15,6 +15,7 @@ import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -97,6 +98,10 @@ class Test {
 */
 //        InvokeUtil.set("pricePi", commodityDO, 2.6d);
 
-        System.out.println(CommonUtil.isWinOS());
+//        System.out.println(CommonUtil.isWinOS());
+
+    double a= 0.03;
+    int b = 15;
+        System.out.println(DoubleUtil.multiply(a, b));
     }
 }

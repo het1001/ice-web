@@ -5,17 +5,12 @@ import com.het.ice.dao.*;
 import com.het.ice.dao.model.*;
 import com.het.ice.dao.query.OrderQuery;
 import com.het.ice.dao.query.PromotionQuery;
-import com.het.ice.dao.query.ShoppingCartQuery;
-import com.het.ice.enums.*;
+import com.het.ice.enums.OrderOprateEnum;
+import com.het.ice.enums.OrderStateEnum;
+import com.het.ice.enums.PromotionStateEnum;
 import com.het.ice.model.Order;
-import com.het.ice.model.OrderTrace;
-import com.het.ice.model.ShoppingCart;
-import com.het.ice.model.User;
 import com.het.ice.service.OrderService;
-import com.het.ice.service.ShoppingCartService;
 import com.het.ice.service.conv.OrderConvert;
-import com.het.ice.service.conv.ShoppingCartConvert;
-import com.het.ice.service.conv.UserConvert;
 import com.het.ice.service.exception.BizException;
 import com.het.ice.service.exception.ParamCheckException;
 import com.het.ice.service.exception.ResultCodeEnum;
@@ -23,7 +18,10 @@ import com.het.ice.service.template.PageResultCallback;
 import com.het.ice.service.template.Result;
 import com.het.ice.service.template.ResultCallback;
 import com.het.ice.service.template.Template;
-import com.het.ice.util.*;
+import com.het.ice.util.AssertUtil;
+import com.het.ice.util.DoubleUtil;
+import com.het.ice.util.InvokeUtil;
+import com.het.ice.util.UUIDUtil;
 import com.het.ice.web.request.OrderWO;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -144,28 +142,51 @@ public class OrderServiceImpl implements OrderService {
                         Map<String, Object> env = new HashMap<>();
                         env.putAll(JSONObject.fromObject(promotionDO.getParams()));
 
-                        // 入参解析
-                        for (String inPa : arithmeticDO.getInParams().split(",")) {
-                            if (inPa.indexOf(".") > -1) {
-                                String[] arrs = StringUtils.split(inPa, "\\.");
-                                String model = arrs[0];
-                                String param = arrs[1];
-                                if (StringUtils.equals(model,"commodity")) {
-                                    env.put(param, InvokeUtil.get(param, commodityDO));
-                                } else if (StringUtils.equals(model,"shopCart")) {
-                                    env.put(param, InvokeUtil.get(param, shoppingCartDO));
+                        // type==1 要运算一下
+                        if (arithmeticDO.getType() == 1) {
+
+                            // 入参解析
+                            for (String inPa : arithmeticDO.getInParams().split(",")) {
+                                if (inPa.indexOf(".") > -1) {
+                                    String[] arrs = StringUtils.split(inPa, "\\.");
+                                    String model = arrs[0];
+                                    String param = arrs[1];
+                                    if (StringUtils.equals(model,"commodity")) {
+                                        env.put(param, InvokeUtil.get(param, commodityDO));
+                                    } else if (StringUtils.equals(model,"shopCart")) {
+                                        env.put(param, InvokeUtil.get(param, shoppingCartDO));
+                                    }
                                 }
                             }
-                        }
 
-                        Object result = AviatorEvaluator.execute(arithmeticDO.getFunction(), env);
+                            Object result = AviatorEvaluator.execute(arithmeticDO.getFunction(), env);
 
-                        // 把值根据出参设置到对象里
-                        String[] outArrs = arithmeticDO.getOutParam().split("\\.");
-                        if (StringUtils.equals(outArrs[0],"commodity")) {
-                            InvokeUtil.set(outArrs[1], commodityDO, result);
-                        } else if (StringUtils.equals(outArrs[0],"shopCart")) {
-                            InvokeUtil.set(outArrs[1], shoppingCartDO, result);
+                            // 把值根据出参设置到对象里
+                            String[] outArrs = arithmeticDO.getOutParam().split("\\.");
+                            if (StringUtils.equals(outArrs[0],"commodity")) {
+                                InvokeUtil.set(outArrs[1], commodityDO, result);
+                            } else if (StringUtils.equals(outArrs[0],"shopCart")) {
+                                InvokeUtil.set(outArrs[1], shoppingCartDO, result);
+                            }
+                        } else {
+                            // 先写死，还没有好的方案。。
+                            int x = (Integer) env.get("x");
+                            int y = (Integer) env.get("y");
+                            int z = (Integer) env.get("z");
+
+                            int temp = shoppingCartDO.getComNum() / x;
+                            if (temp > 0) {
+                                CommodityDO zDO = commodityDAO.getById(z);
+                                OrderListDO zOrderListDO = new OrderListDO();
+                                zOrderListDO.setComId(zDO.getId());
+                                zOrderListDO.setComName(zDO.getName() + "[赠品]");
+                                zOrderListDO.setComNum(temp * y);
+                                zOrderListDO.setComStandard(zDO.getStandardPice());
+                                zOrderListDO.setOrderNum(orderNum);
+                                zOrderListDO.setComPrice(0);
+
+                                orderListDAO.insert(zOrderListDO);
+                            }
                         }
                     }
 
@@ -175,7 +196,7 @@ public class OrderServiceImpl implements OrderService {
                     orderListDO.setComNum(shoppingCartDO.getComNum());
                     orderListDO.setComStandard(commodityDO.getStandardPice());
                     orderListDO.setOrderNum(orderNum);
-                    orderListDO.setComPrice(commodityDO.getPricePi() * shoppingCartDO.getComNum());
+                    orderListDO.setComPrice(DoubleUtil.multiply(commodityDO.getPricePi(), shoppingCartDO.getComNum()));
 
                     orderListDAO.insert(orderListDO);
 

@@ -21,7 +21,9 @@ public enum UserOperateEnum {
 
     LOGIN("LOGIN", "登录"),
 
-    AUTO_LOGIN("AUTO_LOGIN", "自动登录");
+    AUTO_LOGIN("AUTO_LOGIN", "自动登录"),
+
+    UPDATE_APP_VERSION("UPDATE_APP_VERSION", "更新app版本");
 
     UserOperateEnum(String code, String desc) {
         this.code = code;

@@ -152,27 +152,15 @@ public class AppUserController {
 	}
 
 	/**
+	 * 用户更新版本触发的action
 	 *
-	 * @param userLoginRequest
+	 * @param userUpdateVersionRequest
 	 * @return
 	 */
-	/*@RequestMapping(value = "/modifyPwd.json", method = RequestMethod.POST)
-	public @ResponseBody ModelMap modifyPwd(@RequestBody UserLoginRequest userLoginRequest) {
-
+	@RequestMapping(value = "/updateVersion.json", method = RequestMethod.POST)
+	public @ResponseBody ModelMap updateVersion(@RequestBody UserUpdateVersionRequest userUpdateVersionRequest) {
 		WebResult webResult = new WebResult();
-
-		Result<Boolean> result = userService.modifyPwd(userLoginRequest.getUserName(), userLoginRequest.getPassWord(), userLoginRequest.getType(),
-				userLoginRequest.getNewPassWord());
-		if (result.isSuccess()) {
-			if (result.getResult() != null) {
-				webResult.setMessage(true, "密码修改成功");
-			} else {
-				webResult.setMessage(false, "密码修改失败");
-			}
-		} else {
-			webResult.setMessage(false, result.getErrorMsg());
-		}
-
+		userService.updateVersion(userUpdateVersionRequest);
 		return webResult.getModel();
-	}*/
+	}
 }

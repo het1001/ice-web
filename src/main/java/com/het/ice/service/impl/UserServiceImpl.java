@@ -827,4 +827,25 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 		});
 	}
 
+	@Override
+	public Result<Void> updateVersion(UserUpdateVersionRequest userUpdateVersionRequest) {
+		return template.complete(new ResultCallback<Void>() {
+
+			@Override
+			public void check() {
+				AssertUtil.isEmpty(userUpdateVersionRequest.getPhone(), "手机号");
+			}
+
+			@Override
+			public void excute() {
+				UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
+				userOperateTraceDO.setPhone(userUpdateVersionRequest.getPhone());
+				userOperateTraceDO.setOperate(UserOperateEnum.UPDATE_APP_VERSION.getCode());
+				userOperateTraceDO.setMemo(userUpdateVersionRequest.getVersion());
+
+				userOperateTraceDAO.insert(userOperateTraceDO);
+			}
+		});
+	}
+
 }

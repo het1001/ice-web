@@ -8,6 +8,7 @@ import com.het.ice.dao.query.PromotionQuery;
 import com.het.ice.enums.PromotionStateEnum;
 import com.het.ice.model.Promotion;
 import com.het.ice.service.PromotionService;
+import com.het.ice.service.conv.CommodityConvert;
 import com.het.ice.service.conv.PromotionConvert;
 import com.het.ice.service.exception.BizException;
 import com.het.ice.service.template.PageResultCallback;
@@ -17,6 +18,7 @@ import com.het.ice.service.template.Template;
 import com.het.ice.util.AssertUtil;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
@@ -152,6 +154,13 @@ public class PromotionServiceImpl implements PromotionService {
         return template.complete(new ResultCallback<List<Promotion>>() {
             @Override
             public void excute() {
+                List<Promotion> promotions = PromotionConvert.conv(promotionDAO.queryCurrent());
+                if (CollectionUtils.isEmpty(promotions)) {
+                    for (Promotion promotion : promotions) {
+                        promotion.setCommodity(CommodityConvert.conv(commodityDAO.getById(promotion.getComId())));
+                    }
+                }
+
                 returnValue = PromotionConvert.conv(promotionDAO.queryCurrent());
             }
         });

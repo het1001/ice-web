@@ -19,6 +19,7 @@ import com.het.ice.service.template.Result;
 import com.het.ice.service.template.ResultCallback;
 import com.het.ice.service.template.Template;
 import com.het.ice.util.AssertUtil;
+import com.het.ice.util.DoubleUtil;
 import com.het.ice.util.InvokeUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -131,37 +132,39 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
                             // 获取算法模型
                             ArithmeticDO arithmeticDO = arithmeticDAO.getById(promotionDO.getArithId());
+                            if (arithmeticDO.getType() == 1) {
 
-                            // 参数
-                            Map<String, Object> env = new HashMap<>();
+                                // 参数
+                                Map<String, Object> env = new HashMap<>();
 
-                            JSONObject jsonObject = JSONObject.fromObject(promotionDO.getParams());
-                            env.putAll(jsonObject);
+                                JSONObject jsonObject = JSONObject.fromObject(promotionDO.getParams());
+                                env.putAll(jsonObject);
 
-                            // 入参解析
-                            for (String inPa : arithmeticDO.getInParams().split(",")) {
-                                if (inPa.indexOf(".") > -1) {
-                                    String[] arrs = inPa.split("\\.");
-                                    if (StringUtils.equals(arrs[0],"commodity")) {
-                                        env.put(arrs[1], InvokeUtil.get(arrs[1], commodityDO));
-                                    } else if (StringUtils.equals(arrs[0],"shopCart")) {
-                                        env.put(arrs[1], InvokeUtil.get(arrs[1], shoppingCart));
+                                // 入参解析
+                                for (String inPa : arithmeticDO.getInParams().split(",")) {
+                                    if (inPa.indexOf(".") > -1) {
+                                        String[] arrs = inPa.split("\\.");
+                                        if (StringUtils.equals(arrs[0],"commodity")) {
+                                            env.put(arrs[1], InvokeUtil.get(arrs[1], commodityDO));
+                                        } else if (StringUtils.equals(arrs[0],"shopCart")) {
+                                            env.put(arrs[1], InvokeUtil.get(arrs[1], shoppingCart));
+                                        }
                                     }
                                 }
-                            }
 
-                            Object result = AviatorEvaluator.execute(arithmeticDO.getFunction(), env);
+                                Object result = AviatorEvaluator.execute(arithmeticDO.getFunction(), env);
 
-                            // 把值根据出参设置到对象里
-                            String[] outArrs = arithmeticDO.getOutParam().split("\\.");
-                            if (StringUtils.equals(outArrs[0],"commodity")) {
-                                InvokeUtil.set(outArrs[1], commodityDO, result);
-                            } else if (StringUtils.equals(outArrs[0],"shopCart")) {
-                                InvokeUtil.set(outArrs[1], shoppingCart, result);
+                                // 把值根据出参设置到对象里
+                                String[] outArrs = arithmeticDO.getOutParam().split("\\.");
+                                if (StringUtils.equals(outArrs[0],"commodity")) {
+                                    InvokeUtil.set(outArrs[1], commodityDO, result);
+                                } else if (StringUtils.equals(outArrs[0],"shopCart")) {
+                                    InvokeUtil.set(outArrs[1], shoppingCart, result);
+                                }
                             }
                         }
 
-                        shoppingCart.setTotalPrice(commodityDO.getPricePi() * shoppingCart.getComNum());
+                        shoppingCart.setTotalPrice(DoubleUtil.multiply(commodityDO.getPricePi(), shoppingCart.getComNum()));
                     }
                 }
 

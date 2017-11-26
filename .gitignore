@@ -1,7 +1,7 @@
 target
 logs
 *.log.*
-.iml
+*.iml
 .idea
 .project
 .classpath

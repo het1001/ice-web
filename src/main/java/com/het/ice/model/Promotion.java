@@ -24,6 +24,8 @@ public class Promotion extends BaseModel {
 
     private Date deadline;
 
+    private Commodity commodity;
+
     public long getComId() {
         return comId;
     }
@@ -86,5 +88,13 @@ public class Promotion extends BaseModel {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public Commodity getCommodity() {
+        return commodity;
+    }
+
+    public void setCommodity(Commodity commodity) {
+        this.commodity = commodity;
     }
 }

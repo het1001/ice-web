@@ -1,36 +1,33 @@
 package com.het.ice.service.impl;
 
-import java.io.ByteArrayInputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import com.het.ice.dao.CommodityPicDAO;
-import com.het.ice.dao.model.CommodityPicDO;
-import com.het.ice.service.exception.ParamCheckException;
-import com.het.ice.util.BarcodeUtil;
-import com.het.ice.util.CommonConstants;
-import com.het.ice.util.OssUtil;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
-
 import com.het.ice.dao.CommodityDAO;
+import com.het.ice.dao.CommodityPicDAO;
+import com.het.ice.dao.PromotionDAO;
 import com.het.ice.dao.model.CommodityDO;
+import com.het.ice.dao.model.CommodityPicDO;
+import com.het.ice.dao.model.PromotionDO;
 import com.het.ice.dao.query.CommodityQuery;
 import com.het.ice.model.Commodity;
 import com.het.ice.service.CommodityService;
 import com.het.ice.service.conv.CommodityConvert;
+import com.het.ice.service.exception.ParamCheckException;
 import com.het.ice.service.template.PageResultCallback;
 import com.het.ice.service.template.Result;
 import com.het.ice.service.template.ResultCallback;
 import com.het.ice.service.template.Template;
-import com.het.ice.util.AssertUtil;
+import com.het.ice.util.*;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -47,6 +44,9 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Resource
 	private CommodityPicDAO commodityPicDAO;
+
+	@Resource
+	private PromotionDAO promotionDAO;
 
 	/**
 	 * 
@@ -141,7 +141,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 				// 计算终端极润
 				com.setProfitBr(com.getRetailPriceBr() - com.getPriceBr());
-				com.setProfitPi(com.getProfitBr() * com.getStandardPice());
+				com.setProfitPi(DoubleUtil.multiply(com.getProfitBr(), com.getStandardPice()));
 
 				// 生成条形码图片
 				if (StringUtils.isNotBlank(com.getBarCode())) {
@@ -190,7 +190,7 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setPricePi(com.getPricePi());
 				comDo.setPriceBr(com.getPricePi() / com.getStandardPice());
 				comDo.setProfitBr(com.getRetailPriceBr() - com.getPriceBr());
-				comDo.setProfitPi(com.getProfitBr() * com.getStandardPice());
+				comDo.setProfitPi(DoubleUtil.multiply(com.getProfitBr(), com.getStandardPice()));
 				comDo.setRetailPriceBr(com.getRetailPriceBr());
 				comDo.setDescription(com.getDesc());
 				comDo.setPersonType(com.getPersonType());
@@ -337,8 +337,24 @@ public class CommodityServiceImpl implements CommodityService {
 
 			@Override
 			public void excute() {
-				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline();
-				returnValue = CommodityConvert.conv(commodityDOs);
+				List<Commodity> commodities = CommodityConvert.conv(commodityDao.queryAllOnline());
+
+				List<PromotionDO> promotionDOS = promotionDAO.queryCurrent();
+				if (!CollectionUtils.isEmpty(promotionDOS)) {
+					Map<Long, String> map = new HashMap<>();
+					for (PromotionDO promotionDO : promotionDOS) {
+						map.put(promotionDO.getComId(), promotionDO.getDescription());
+					}
+
+					for (Commodity commodity : commodities) {
+						if (map.get(commodity.getId()) != null) {
+							commodity.setPromo(true);
+							commodity.setPromoDes(map.get(commodity.getId()));
+						}
+					}
+				}
+
+				returnValue = commodities;
 			}
 
 		});

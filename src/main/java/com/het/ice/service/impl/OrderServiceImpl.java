@@ -185,8 +185,10 @@ public class OrderServiceImpl implements OrderService {
                                 zOrderListDO.setOrderNum(orderNum);
                                 zOrderListDO.setComPrice(0);
                                 zOrderListDO.setFinishFlag(0);
-
                                 orderListDAO.insert(zOrderListDO);
+
+                                zDO.setTotal(zDO.getTotal() - temp * y);
+                                commodityDAO.update(zDO);
                             }
                         }
                     }

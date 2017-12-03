@@ -129,6 +129,7 @@ public class CommodityConvert {
 		com.setImgKey(commodityWO.getFileKey());
 		com.setImgKeys(commodityWO.getFileKeys());
 		com.setBarCode(commodityWO.getBarCode());
+		com.setCatId(NumberUtils.toLong(commodityWO.getCatId()));
 
 		return com;
 	}

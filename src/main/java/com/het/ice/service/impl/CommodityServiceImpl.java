@@ -137,7 +137,7 @@ public class CommodityServiceImpl implements CommodityService {
 				SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 				String code = format.format(new Date());
 				com.setCode(code);
-				com.setBizId(1);
+				com.setBizId(CommonConstants.DEFAULT_BIZ_ID);
 				com.setCreateUser("hou");
 				com.setUpdateUser("hou");
 
@@ -202,6 +202,7 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setPosition(com.getPosition());
 				comDo.setBrand(com.getBrand());
 				comDo.setImgKey(com.getImgKey());
+				comDo.setCatId(com.getCatId());
 
 				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());
 				if (!StringUtils.equals(commodityPicDO.getPicKey(), com.getImgKey())) {
@@ -337,12 +338,12 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
-	public Result<List<Commodity>> queryAllOnline() {
+	public Result<List<Commodity>> queryAllOnline(final long catId) {
 		return template.complete(new ResultCallback<List<Commodity>>() {
 
 			@Override
 			public void excute() {
-				List<Commodity> commodities = CommodityConvert.conv(commodityDao.queryAllOnline());
+				List<Commodity> commodities = CommodityConvert.conv(commodityDao.queryAllOnline(catId));
 
 				List<PromotionDO> promotionDOS = promotionDAO.queryCurrent();
 				if (!CollectionUtils.isEmpty(promotionDOS)) {
@@ -384,7 +385,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 			@Override
 			public void excute() {
-				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline();
+				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline(0);
 				if (!CollectionUtils.isEmpty(commodityDOs)) {
 					for (CommodityDO commodityDO : commodityDOs) {
 						List<OrderListDO> orderListDOS = orderListDAO.queryWeekFinishListByComId(commodityDO.getId());

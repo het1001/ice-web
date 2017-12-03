@@ -59,6 +59,9 @@
 		<if test="bizId>0">  
         	and biz_id=#{bizId}  
     	</if>
+		<if test="catId>0">
+			and cat_id=#{catId}
+		</if>
     	<if test="name != null and '' != name ">  
         	and name like CONCAT('%', #{name}, '%')
     	</if>
@@ -76,6 +79,9 @@
 		<if test="bizId>0">  
         	and biz_id=#{bizId}  
     	</if>
+		<if test="catId>0">
+			and cat_id=#{catId}
+		</if>
     	<if test="name != null and '' != name ">  
         	and name like CONCAT('%', #{name}, '%')
     	</if>
@@ -88,9 +94,12 @@
 		 limit #{start}, #{limit}
 	</select>
 	
-	<select id="queryAllOnline" resultMap="commodityResultMap">
+	<select id="queryAllOnline" parameterType="long" resultMap="commodityResultMap">
 		select
 		* from i_com where state = '1'
+		<if test="catId>0">
+			and cat_id=#{catId}
+		</if>
 	</select>
 
 	<select id="queryAll" resultMap="commodityResultMap">

@@ -25,6 +25,12 @@ public class UserDO extends BaseModel {
 
 	private String shopAddress;
 
+	private String freezerType;
+
+	private long districtId;
+
+	private String standbyPhone;
+
 	private String state;
 
 	private String token;
@@ -159,5 +165,29 @@ public class UserDO extends BaseModel {
 
 	public void setShopAddress(String shopAddress) {
 		this.shopAddress = shopAddress;
+	}
+
+	public String getFreezerType() {
+		return freezerType;
+	}
+
+	public void setFreezerType(String freezerType) {
+		this.freezerType = freezerType;
+	}
+
+	public long getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(long districtId) {
+		this.districtId = districtId;
+	}
+
+	public String getStandbyPhone() {
+		return standbyPhone;
+	}
+
+	public void setStandbyPhone(String standbyPhone) {
+		this.standbyPhone = standbyPhone;
 	}
 }

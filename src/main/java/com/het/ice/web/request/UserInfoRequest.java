@@ -27,6 +27,8 @@ public class UserInfoRequest extends ToString {
 
     private String districtId;
 
+    private String standbyPhone;
+
     public String getPhone() {
         return phone;
     }
@@ -97,5 +99,13 @@ public class UserInfoRequest extends ToString {
 
     public void setDistrictId(String districtId) {
         this.districtId = districtId;
+    }
+
+    public String getStandbyPhone() {
+        return standbyPhone;
+    }
+
+    public void setStandbyPhone(String standbyPhone) {
+        this.standbyPhone = standbyPhone;
     }
 }

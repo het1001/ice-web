@@ -34,10 +34,10 @@ public class AppCommodityController {
 	 * @return
 	 */
 	@RequestMapping(value = "queryAllOnline.json", method = { RequestMethod.POST })
-	public @ResponseBody ModelMap queryAllOnline() {
+	public @ResponseBody ModelMap queryAllOnline(@RequestBody CommodityRequest request) {
 		WebResult webResult = new WebResult();
 
-		Result<List<Commodity>> result = commodityService.queryAllOnline();
+		Result<List<Commodity>> result = commodityService.queryAllOnline(NumberUtils.toLong(request.getCatId()));
 		if (result.isSuccess()) {
 			webResult.setData(true, result.getResult());
 		} else {

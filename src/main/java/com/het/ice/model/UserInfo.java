@@ -36,6 +36,9 @@ public class UserInfo extends BaseModel {
     /** 片区ID */
     private long districtId;
 
+    /** 备用手机号 */
+    private String standbyPhone;
+
     /** 是否审核通过（0：无审核，1：审核通过，-1：审核不通过） */
     private int isAccess;
 
@@ -128,5 +131,13 @@ public class UserInfo extends BaseModel {
 
     public void setDistrictId(long districtId) {
         this.districtId = districtId;
+    }
+
+    public String getStandbyPhone() {
+        return standbyPhone;
+    }
+
+    public void setStandbyPhone(String standbyPhone) {
+        this.standbyPhone = standbyPhone;
     }
 }

@@ -24,6 +24,7 @@ public class UserInfoConvert {
         model.setArkTime(doModel.getArkTime());
         model.setFreezerModel(doModel.getFreezerModel());
         model.setDistrictId(doModel.getDistrictId());
+        model.setStandbyPhone(doModel.getStandbyPhone());
         model.setIsAccess(doModel.getIsAccess());
         model.setAuditMemo(doModel.getAuditMemo());
         model.setCreateTime(doModel.getCreateTime());
@@ -46,6 +47,7 @@ public class UserInfoConvert {
         doModel.setArkTime(model.getArkTime());
         doModel.setFreezerModel(model.getFreezerModel());
         doModel.setDistrictId(model.getDistrictId());
+        doModel.setStandbyPhone(model.getStandbyPhone());
         doModel.setIsAccess(model.getIsAccess());
         doModel.setAuditMemo(model.getAuditMemo());
         doModel.setCreateTime(model.getCreateTime());

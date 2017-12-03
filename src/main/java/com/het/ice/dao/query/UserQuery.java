@@ -11,6 +11,10 @@ public class UserQuery implements Serializable {
 
 	private String state;
 
+	private String freezerType;
+
+	private long districtId;
+
 	private int start;
 
 	private int limit;
@@ -59,5 +63,21 @@ public class UserQuery implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getFreezerType() {
+		return freezerType;
+	}
+
+	public void setFreezerType(String freezerType) {
+		this.freezerType = freezerType;
+	}
+
+	public long getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(long districtId) {
+		this.districtId = districtId;
 	}
 }

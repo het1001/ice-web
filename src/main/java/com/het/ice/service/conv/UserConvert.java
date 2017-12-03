@@ -32,10 +32,15 @@ public class UserConvert {
 		user.setRealName(userDO.getRealName());
 		user.setShopName(userDO.getShopName());
 		user.setShopAddress(userDO.getShopAddress());
+		user.setFreezerType(userDO.getFreezerType());
+		user.setDistrictId(userDO.getDistrictId());
+		user.setStandbyPhone(userDO.getStandbyPhone());
+
 		user.setCreateTime(userDO.getCreateTime());
 		user.setModifyTime(userDO.getModifyTime());
 		user.setCreateUser(userDO.getCreateUser());
 		user.setUpdateUser(userDO.getUpdateUser());
+
 		user.setState(UserStateEnum.getByCode(userDO.getState()));
 		user.setLastLoginTime(userDO.getLastLoginTime());
 		user.setToken(userDO.getToken());
@@ -57,10 +62,15 @@ public class UserConvert {
 		userDO.setRealName(user.getRealName());
 		userDO.setShopName(user.getShopName());
 		userDO.setShopAddress(user.getShopAddress());
+		userDO.setFreezerType(user.getFreezerType());
+		userDO.setDistrictId(user.getDistrictId());
+		userDO.setStandbyPhone(user.getStandbyPhone());
+
 		userDO.setCreateTime(user.getCreateTime());
 		userDO.setModifyTime(user.getModifyTime());
 		userDO.setCreateUser(user.getCreateUser());
 		userDO.setUpdateUser(user.getUpdateUser());
+
 		userDO.setState(user.getState().getCode());
 		userDO.setLastLoginTime(user.getLastLoginTime());
 		userDO.setProperty(user.getProperty() != null ? user.getProperty().toString() : "");

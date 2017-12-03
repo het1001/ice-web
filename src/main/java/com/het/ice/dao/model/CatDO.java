@@ -9,6 +9,8 @@ public class CatDO extends BaseModel {
 
 	private String name;
 
+	private int orderr;
+
 	private long bizId;
 
 	/**
@@ -41,4 +43,11 @@ public class CatDO extends BaseModel {
 		this.bizId = bizId;
 	}
 
+	public int getOrderr() {
+		return orderr;
+	}
+
+	public void setOrderr(int orderr) {
+		this.orderr = orderr;
+	}
 }

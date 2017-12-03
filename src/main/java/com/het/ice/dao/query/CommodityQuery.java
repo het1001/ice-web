@@ -11,6 +11,8 @@ public class CommodityQuery implements Serializable {
 
 	private long bizId;
 
+	private long catId;
+
 	private String name;
 
 	private String brand;
@@ -112,4 +114,11 @@ public class CommodityQuery implements Serializable {
 		this.limit = limit;
 	}
 
+	public long getCatId() {
+		return catId;
+	}
+
+	public void setCatId(long catId) {
+		this.catId = catId;
+	}
 }

@@ -37,6 +37,15 @@ public class User extends BaseModel {
 	/** 商铺地址 */
 	private String shopAddress;
 
+	/** 冰柜种类 */
+	private String freezerType;
+
+	/** 片区ID */
+	private long districtId;
+
+	/** 备用手机号 */
+	private String standbyPhone;
+
 	/** 状态 */
 	private UserStateEnum state;
 
@@ -174,5 +183,29 @@ public class User extends BaseModel {
 
 	public void setShopAddress(String shopAddress) {
 		this.shopAddress = shopAddress;
+	}
+
+	public String getFreezerType() {
+		return freezerType;
+	}
+
+	public void setFreezerType(String freezerType) {
+		this.freezerType = freezerType;
+	}
+
+	public long getDistrictId() {
+		return districtId;
+	}
+
+	public void setDistrictId(long districtId) {
+		this.districtId = districtId;
+	}
+
+	public String getStandbyPhone() {
+		return standbyPhone;
+	}
+
+	public void setStandbyPhone(String standbyPhone) {
+		this.standbyPhone = standbyPhone;
 	}
 }

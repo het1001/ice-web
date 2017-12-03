@@ -8,9 +8,9 @@
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
 		insert into i_user_info (phone, user_name, shop_name, shop_address, shop_img_key, freezer_type, ark_time,
-		freezer_model, district_id, is_access, audit_memo, create_time, modify_time)
+		freezer_model, district_id, standby_phone, is_access, audit_memo, create_time, modify_time)
 		values(#{phone}, #{userName}, #{shopName}, #{shopAddress}, #{shopImgKey}, #{freezerType}, #{arkTime},
-		#{freezerModel}, #{districtId}, #{isAccess}, #{auditMemo}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		#{freezerModel}, #{districtId}, #{standbyPhone}, #{isAccess}, #{auditMemo}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<update id="update" parameterType="UserInfo">
@@ -43,6 +43,7 @@
 		<result property="arkTime" column="ark_time" />
 		<result property="freezerModel" column="freezer_model" />
 		<result property="districtId" column="district_id" />
+		<result property="standbyPhone" column="standby_phone" />
 		<result property="isAccess" column="is_access" />
 		<result property="auditMemo" column="audit_memo" />
 		<result property="createTime" column="create_time" />

@@ -2,6 +2,7 @@ package com.het.ice.web.controller.pc;
 
 import java.util.List;
 
+import com.het.ice.util.CommonConstants;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -110,13 +111,14 @@ public class CommodityController {
 	 * @return
 	 */
 	@RequestMapping(value = "queryList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap list(String name, String brand, String status, String pageNum, String pageSize) {
+	public @ResponseBody ModelMap list(String name, String brand, String status, String catId, String pageNum, String pageSize) {
 		WebResult webResult = new WebResult();
 
 		CommodityQuery query = new CommodityQuery();
-		query.setBizId(1);
+		query.setBizId(CommonConstants.DEFAULT_BIZ_ID);
 		query.setName(name);
 		query.setBrand(brand);
+		query.setCatId(NumberUtils.toLong(catId));
 		query.setStatus(status);
 
 		Result<List<Commodity>> result = commodityService.queryByCondition(query, pageNum, pageSize);

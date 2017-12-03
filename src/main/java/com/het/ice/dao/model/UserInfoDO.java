@@ -27,6 +27,8 @@ public class UserInfoDO extends BaseModel {
 
     private long districtId;
 
+    private String standbyPhone;
+
     private int isAccess;
 
     private String auditMemo;
@@ -117,5 +119,13 @@ public class UserInfoDO extends BaseModel {
 
     public void setDistrictId(long districtId) {
         this.districtId = districtId;
+    }
+
+    public String getStandbyPhone() {
+        return standbyPhone;
+    }
+
+    public void setStandbyPhone(String standbyPhone) {
+        this.standbyPhone = standbyPhone;
     }
 }

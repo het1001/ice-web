@@ -52,6 +52,9 @@ public class CommodityWO implements Serializable {
 	/** 条形码 */
 	private String barCode;
 
+	/** 类型ID */
+	private String catId;
+
 	/**
 	 * @return the id
 	 */
@@ -239,5 +242,13 @@ public class CommodityWO implements Serializable {
 
 	public void setFileKeys(List<String> fileKeys) {
 		this.fileKeys = fileKeys;
+	}
+
+	public String getCatId() {
+		return catId;
+	}
+
+	public void setCatId(String catId) {
+		this.catId = catId;
 	}
 }

@@ -2,12 +2,13 @@ package com.het.ice.model;
 
 public class Cat extends BaseModel {
 
+	private static final long serialVersionUID = 6738727460408641424L;
 	/**
 	 * uid
 	 */
-	private static final long serialVersionUID = 2631548087992626585L;
-
 	private String name;
+
+	private int orderr;
 
 	private long bizId;
 
@@ -41,4 +42,11 @@ public class Cat extends BaseModel {
 		this.bizId = bizId;
 	}
 
+	public int getOrderr() {
+		return orderr;
+	}
+
+	public void setOrderr(int orderr) {
+		this.orderr = orderr;
+	}
 }

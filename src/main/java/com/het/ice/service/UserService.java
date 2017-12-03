@@ -2,6 +2,7 @@ package com.het.ice.service;
 
 import com.het.ice.dao.query.UserQuery;
 import com.het.ice.enums.UserTypeEnum;
+import com.het.ice.model.AllotDistrict;
 import com.het.ice.model.User;
 import com.het.ice.model.UserInfo;
 import com.het.ice.service.template.Result;
@@ -166,4 +167,6 @@ public interface UserService {
 	Result<UserInfo> getAccessUserInfo(String phone);
 
 	Result<Void> updateVersion(UserUpdateVersionRequest userUpdateVersionRequest);
+
+	Result<AllotDistrict> getDistrictInfo(UserInfoRequest userInfoRequest);
 }

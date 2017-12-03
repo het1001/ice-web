@@ -2,16 +2,12 @@ package com.het.ice.service.impl;
 
 import com.het.ice.dao.*;
 import com.het.ice.dao.model.*;
+import com.het.ice.dao.query.AllotDisSlaQuery;
+import com.het.ice.dao.query.AllotSalesmanQuery;
 import com.het.ice.dao.query.AuthCodeQuery;
 import com.het.ice.dao.query.UserQuery;
-import com.het.ice.enums.LobWhereUsedEnum;
-import com.het.ice.enums.UserOperateEnum;
-import com.het.ice.enums.UserStateEnum;
-import com.het.ice.enums.UserTypeEnum;
-import com.het.ice.model.User;
-import com.het.ice.model.UserAuthCode;
-import com.het.ice.model.UserInfo;
-import com.het.ice.model.UserPhoneInfo;
+import com.het.ice.enums.*;
+import com.het.ice.model.*;
 import com.het.ice.service.UserService;
 import com.het.ice.service.conv.UserAuthCodeConvert;
 import com.het.ice.service.conv.UserConvert;
@@ -35,6 +31,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -147,50 +144,46 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<Void> authCode(final UserAuthRequest request) {
 		return template.complete(new ResultCallback<Void>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.lengthThan(request.getPhone(), 32, "手机号");
 				AssertUtil.lengthThan(request.getAuthCode(), 6, "验证码");
+				userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
+				checkUser(userDO);
 			}
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
-				if (userDO == null) {
+				/**
+				 * 2.1 用户为添加状态，则校验验证码
+				 */
+				if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.CREATE
+						|| UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.AUTHED) {
+					UserAuthCodeDO userAuthCodeDO = userAuthCodeDAO.getByPhoneAndCode(request.getPhone(), request.getAuthCode());
 					/**
-					 * 1. 用户为null，则抛出异常
+					 * 2.2 存在验证码则校验通过
 					 */
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-				} else {
-					/**
-					 * 2.1 用户为添加状态，则校验验证码
-					 */
-					if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.CREATE
-							|| UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.AUTHED) {
-						UserAuthCodeDO userAuthCodeDO = userAuthCodeDAO.getByPhoneAndCode(request.getPhone(), request.getAuthCode());
-						/**
-						 * 2.2 存在验证码则校验通过
-						 */
-						if (userAuthCodeDO != null) {
-							userDO.setState(UserStateEnum.AUTHED.getCode());
-							userDao.update(userDO);
+					if (userAuthCodeDO != null) {
+						userDO.setState(UserStateEnum.AUTHED.getCode());
+						userDao.update(userDO);
 
-							userAuthCodeDO.setUsed(1);
-							userAuthCodeDO.setUseTime(new Date());
-							userAuthCodeDAO.update(userAuthCodeDO);
+						userAuthCodeDO.setUsed(1);
+						userAuthCodeDO.setUseTime(new Date());
+						userAuthCodeDAO.update(userAuthCodeDO);
 
-							UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
-							userOperateTraceDO.setPhone(request.getPhone());
-							userOperateTraceDO.setOperate(UserOperateEnum.AUTH.getCode());
-							userOperateTraceDO.setMemo("校验验证码通过");
-							userOperateTraceDAO.insert(userOperateTraceDO);
-						} else {
-							throw new BizException(ResultCodeEnum.AUTH_FAILED);
-						}
+						UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
+						userOperateTraceDO.setPhone(request.getPhone());
+						userOperateTraceDO.setOperate(UserOperateEnum.AUTH.getCode());
+						userOperateTraceDO.setMemo("校验验证码通过");
+						userOperateTraceDAO.insert(userOperateTraceDO);
 					} else {
-						if (StringUtils.isBlank(request.getType())) {
-							throw new BizException(ResultCodeEnum.USER_AUTHED);
-						}
+						throw new BizException(ResultCodeEnum.AUTH_FAILED);
+					}
+				} else {
+					if (StringUtils.isBlank(request.getType())) {
+						throw new BizException(ResultCodeEnum.USER_AUTHED);
 					}
 				}
 			}
@@ -201,45 +194,41 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<Void> setPassWord(final UserSetPassWordRequest request) {
 		return template.complete(new ResultCallback<Void>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.lengthThan(request.getPhone(), 32, "手机号");
 				AssertUtil.lengthThan(request.getPassWord(), 32, "密码");
+				userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
+				checkUser(userDO);
 			}
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
-				/**
-				 * 用户为null，则抛出异常
-				 */
-				if (userDO == null) {
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
+				if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.AUTHED) {
+					userDO.setPassWord(MD5Util.encry(request.getPassWord()));
+					userDO.setState(UserStateEnum.PASSED.getCode());
+					userDao.update(userDO);
+
+					UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
+					userOperateTraceDO.setPhone(request.getPhone());
+					userOperateTraceDO.setOperate(UserOperateEnum.SET_PASSWORD.getCode());
+					userOperateTraceDO.setMemo("设置密码");
+					userOperateTraceDAO.insert(userOperateTraceDO);
 				} else {
-					if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.AUTHED) {
-						userDO.setPassWord(MD5Util.encry(request.getPassWord()));
-						userDO.setState(UserStateEnum.PASSED.getCode());
-						userDao.update(userDO);
-
-						UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
-						userOperateTraceDO.setPhone(request.getPhone());
-						userOperateTraceDO.setOperate(UserOperateEnum.SET_PASSWORD.getCode());
-						userOperateTraceDO.setMemo("设置密码");
-						userOperateTraceDAO.insert(userOperateTraceDO);
-					} else {
-						if (StringUtils.isBlank(request.getType())) {
-							throw new BizException(ResultCodeEnum.USER_NOT_AUTHED);
-						}
-
-						userDO.setPassWord(MD5Util.encry(request.getPassWord()));
-						userDao.update(userDO);
-
-						UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
-						userOperateTraceDO.setPhone(request.getPhone());
-						userOperateTraceDO.setOperate(UserOperateEnum.RE_SET_PASSWORD.getCode());
-						userOperateTraceDO.setMemo("重置密码");
-						userOperateTraceDAO.insert(userOperateTraceDO);
+					if (StringUtils.isBlank(request.getType())) {
+						throw new BizException(ResultCodeEnum.USER_NOT_AUTHED);
 					}
+
+					userDO.setPassWord(MD5Util.encry(request.getPassWord()));
+					userDao.update(userDO);
+
+					UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
+					userOperateTraceDO.setPhone(request.getPhone());
+					userOperateTraceDO.setOperate(UserOperateEnum.RE_SET_PASSWORD.getCode());
+					userOperateTraceDO.setMemo("重置密码");
+					userOperateTraceDAO.insert(userOperateTraceDO);
 				}
 			}
 		});
@@ -344,52 +333,50 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<User> normalLogin(final UserLoginRequest request) {
 		return template.complete(new ResultCallback<User>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.lengthThan(request.getUserName(), 32, "手机号");
 				AssertUtil.lengthThan(request.getPassWord(), 32, "密码");
+				userDO = userDao.getByUserName(request.getUserName(), UserTypeEnum.NORMAL.getCode());
+				checkUser(userDO);
 			}
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getByUserName(request.getUserName(), UserTypeEnum.NORMAL.getCode());
-				if (userDO == null) {
-					// 用户名不存在
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
+				if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.CREATE) {
+					throw new BizException(ResultCodeEnum.USER_NOT_COMPLEAT_REGISTER);
+				} else if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.AUTHED) {
+					throw new BizException(ResultCodeEnum.USER_NOT_SET_PASSWORD);
+				}
+
+				if (!StringUtils.equals(MD5Util.encry(request.getPassWord()), userDO.getPassWord())) {
+					// 密码错误
+					throw new BizException(ResultCodeEnum.PWD_CHECK_FAILED);
 				} else {
-					if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.CREATE) {
-						throw new BizException(ResultCodeEnum.USER_NOT_COMPLEAT_REGISTER);
-					} else if (UserStateEnum.getByCode(userDO.getState()) == UserStateEnum.AUTHED) {
-						throw new BizException(ResultCodeEnum.USER_NOT_SET_PASSWORD);
-					}
+					// 生成token
+					String token = UUIDUtil.getCode();
 
-					if (!StringUtils.equals(MD5Util.encry(request.getPassWord()), userDO.getPassWord())) {
-						// 密码错误
-						throw new BizException(ResultCodeEnum.PWD_CHECK_FAILED);
+					userDO.setLastLoginTime(new Date());
+					userDO.setToken(token);
+					userDao.update(userDO);
+					returnValue = UserConvert.conv(userDO);
+
+					UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
+					userOperateTraceDO.setPhone(request.getUserName());
+
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("position", request.getPosition());
+					jsonObject.put("device", request.getDevice());
+					userOperateTraceDO.setNewInfo(jsonObject.toString());
+					if (StringUtils.equals(request.getType(), "AUTO")) {
+						userOperateTraceDO.setOperate(UserOperateEnum.AUTO_LOGIN.getCode());
 					} else {
-						// 生成token
-						String token = UUIDUtil.getCode();
-
-						userDO.setLastLoginTime(new Date());
-						userDO.setToken(token);
-						userDao.update(userDO);
-						returnValue = UserConvert.conv(userDO);
-
-						UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
-						userOperateTraceDO.setPhone(request.getUserName());
-
-						JSONObject jsonObject = new JSONObject();
-						jsonObject.put("position", request.getPosition());
-						jsonObject.put("device", request.getDevice());
-						userOperateTraceDO.setNewInfo(jsonObject.toString());
-						if (StringUtils.equals(request.getType(), "AUTO")) {
-							userOperateTraceDO.setOperate(UserOperateEnum.AUTO_LOGIN.getCode());
-						} else {
-							userOperateTraceDO.setOperate(UserOperateEnum.LOGIN.getCode());
-						}
-						userOperateTraceDO.setMemo("登录 token=" + token);
-						userOperateTraceDAO.insert(userOperateTraceDO);
+						userOperateTraceDO.setOperate(UserOperateEnum.LOGIN.getCode());
 					}
+					userOperateTraceDO.setMemo("登录 token=" + token);
+					userOperateTraceDAO.insert(userOperateTraceDO);
 				}
 			}
 
@@ -400,27 +387,24 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<Void> getAuthCode(UserGetAuthCodeRequest request) {
 		return template.complete(new ResultCallback<Void>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.lengthThan(request.getPhone(), 32, "手机号");
+				userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
+				checkUser(userDO);
 			}
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
-				// 用户为null，则为新用户
-				if (userDO == null) {
-					// 用户名不存在
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-				} else {
-					assertSendAuthCode(request.getPhone(), request.getDeviceUniqueId());
+				assertSendAuthCode(request.getPhone(), request.getDeviceUniqueId());
 
-					UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
-					userOperateTraceDO.setPhone(request.getPhone());
-					userOperateTraceDO.setOperate(UserOperateEnum.GET_AUTH_CODE.getCode());
-					userOperateTraceDO.setMemo("获取校验码-非第一次校验");
-					userOperateTraceDAO.insert(userOperateTraceDO);
-				}
+				UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
+				userOperateTraceDO.setPhone(request.getPhone());
+				userOperateTraceDO.setOperate(UserOperateEnum.GET_AUTH_CODE.getCode());
+				userOperateTraceDO.setMemo("获取校验码-非第一次校验");
+				userOperateTraceDAO.insert(userOperateTraceDO);
 			}
 		});
 	}
@@ -429,9 +413,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<Void> completeUserInfo(UserInfoRequest request) {
 		return template.complete(new ResultCallback<Void>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.lengthThan(request.getPhone(), 32, "手机号");
+				userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
+				checkUser(userDO);
+
 				AssertUtil.lengthThan(request.getShopName(), 128, "店铺名称");
 				AssertUtil.lengthThan(request.getShopAddress(), 256, "店铺地址");
 				AssertUtil.lengthThan(request.getShopImgKey(), 64, "店铺图片key");
@@ -439,45 +428,39 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getByUserName(request.getPhone(), UserTypeEnum.NORMAL.getCode());
-				// 用户为null，则为新用户
-				if (userDO == null) {
-					// 用户名不存在
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-				} else {
-					if (UserStateEnum.getByCode(userDO.getState()) != UserStateEnum.PASSED
-							&& UserStateEnum.getByCode(userDO.getState()) != UserStateEnum.AUDIT_NO) {
-						throw new BizException(ResultCodeEnum.USER_EXCEPTION);
-					}
-
-					UserInfoDO userInfoDO = new UserInfoDO();
-					userInfoDO.setPhone(request.getPhone());
-					userInfoDO.setUserName(request.getUserName());
-					userInfoDO.setFreezerType(request.getFreezerType());
-					userInfoDO.setFreezerModel(request.getFreezerModel());
-					try {
-						userInfoDO.setArkTime(DateUtils.parseDate(request.getArkTime() + " 00:00:00", "yyyy-MM-dd HH:mm:ss"));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-					userInfoDO.setDistrictId(NumberUtils.toLong(request.getDistrictId()));
-					userInfoDO.setShopName(request.getShopName());
-					userInfoDO.setShopAddress(request.getShopAddress());
-					userInfoDO.setShopImgKey(request.getShopImgKey());
-					userInfoDO.setIsAccess(0);
-					userInfoDAO.insert(userInfoDO);
-
-					UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
-					userOperateTraceDO.setPhone(request.getPhone());
-					userOperateTraceDO.setOperate(UserOperateEnum.COMPLETE_INFO.getCode());
-					userOperateTraceDO.setMemo("提交店铺信息");
-					userOperateTraceDAO.insert(userOperateTraceDO);
-
-					userDO.setState(UserStateEnum.AUDITING.getCode());
-					userDao.update(userDO);
-
-					setLobUsed(request.getShopImgKey(), LobWhereUsedEnum.USER_SHOP_PIC);
+				if (UserStateEnum.getByCode(userDO.getState()) != UserStateEnum.PASSED
+						&& UserStateEnum.getByCode(userDO.getState()) != UserStateEnum.AUDIT_NO) {
+					throw new BizException(ResultCodeEnum.USER_EXCEPTION);
 				}
+
+				UserInfoDO userInfoDO = new UserInfoDO();
+				userInfoDO.setPhone(request.getPhone());
+				userInfoDO.setUserName(request.getUserName());
+				userInfoDO.setFreezerType(request.getFreezerType());
+				userInfoDO.setFreezerModel(request.getFreezerModel());
+				try {
+					userInfoDO.setArkTime(DateUtils.parseDate(request.getArkTime() + " 00:00:00", "yyyy-MM-dd HH:mm:ss"));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				userInfoDO.setDistrictId(NumberUtils.toLong(request.getDistrictId()));
+				userInfoDO.setStandbyPhone(request.getStandbyPhone());
+				userInfoDO.setShopName(request.getShopName());
+				userInfoDO.setShopAddress(request.getShopAddress());
+				userInfoDO.setShopImgKey(request.getShopImgKey());
+				userInfoDO.setIsAccess(0);
+				userInfoDAO.insert(userInfoDO);
+
+				UserOperateTraceDO userOperateTraceDO = new UserOperateTraceDO();
+				userOperateTraceDO.setPhone(request.getPhone());
+				userOperateTraceDO.setOperate(UserOperateEnum.COMPLETE_INFO.getCode());
+				userOperateTraceDO.setMemo("提交店铺信息");
+				userOperateTraceDAO.insert(userOperateTraceDO);
+
+				userDO.setState(UserStateEnum.AUDITING.getCode());
+				userDao.update(userDO);
+
+				setLobUsed(request.getShopImgKey(), LobWhereUsedEnum.USER_SHOP_PIC);
 			}
 		});
 	}
@@ -673,9 +656,14 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<Void> auditUserInfo(final UserActionRequest request) {
 		return template.complete(new ResultCallback<Void>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.isEmpty(request.getId(), "用户ID");
+				userDO = userDao.getById(NumberUtils.toLong(request.getId()));
+				checkUser(userDO);
+
 				if (!StringUtils.equals(request.getAction(), "agree")) {
 					AssertUtil.isEmpty(request.getMemo(), "不通过意见");
 				}
@@ -683,17 +671,15 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getById(NumberUtils.toLong(request.getId()));
-				if (userDO == null) {
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-				}
-
 				UserInfoDO userInfoDO = userInfoDAO.getLastNotAccessByPhone(userDO.getPhone());
 				if (StringUtils.equals(request.getAction(), "agree")) {
 					userDO.setState(UserStateEnum.NORMAL.getCode());
 					userDO.setRealName(userInfoDO.getUserName());
 					userDO.setShopName(userInfoDO.getShopName());
 					userDO.setShopAddress(userInfoDO.getShopAddress());
+					userDO.setFreezerType(userInfoDO.getFreezerType());
+					userDO.setDistrictId(userInfoDO.getDistrictId());
+					userDO.setStandbyPhone(userInfoDO.getStandbyPhone());
 					userDao.update(userDO);
 
 					userInfoDO.setIsAccess(1);
@@ -722,18 +708,18 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<Void> freeae(final String userId) {
 		return template.complete(new ResultCallback<Void>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.isEmpty(userId, "用户ID");
+
+				userDO = userDao.getById(NumberUtils.toLong(userId));
+				checkUser(userDO);
 			}
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getById(NumberUtils.toLong(userId));
-				if (userDO == null) {
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-				}
-
 				if (!StringUtils.equals(UserTypeEnum.NORMAL.getCode(), userDO.getType())) {
 					throw new BizException(ResultCodeEnum.USER_TYPE_ERROR);
 				}
@@ -763,18 +749,18 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 	public Result<Void> unFreeae(final String userId) {
 		return template.complete(new ResultCallback<Void>() {
 
+			private UserDO userDO;
+
 			@Override
 			public void check() {
 				AssertUtil.isEmpty(userId, "用户ID");
+
+				userDO = userDao.getById(NumberUtils.toLong(userId));
+				checkUser(userDO);
 			}
 
 			@Override
 			public void excute() {
-				UserDO userDO = userDao.getById(NumberUtils.toLong(userId));
-				if (userDO == null) {
-					throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-				}
-
 				if (!StringUtils.equals(UserTypeEnum.NORMAL.getCode(), userDO.getType())) {
 					throw new BizException(ResultCodeEnum.USER_TYPE_ERROR);
 				}
@@ -846,6 +832,69 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService {
 				userOperateTraceDAO.insert(userOperateTraceDO);
 			}
 		});
+	}
+
+	@Resource
+	private AllotDisSalDAO allotDisSalDAO;
+
+	@Override
+	public Result<AllotDistrict> getDistrictInfo(final UserInfoRequest userInfoRequest) {
+		return template.complete(new ResultCallback<AllotDistrict>() {
+
+			private UserDO userDO;
+
+			@Override
+			public void check() {
+				AssertUtil.isEmpty(userInfoRequest.getPhone(), "手机号");
+				userDO = userDao.getByPhone(userInfoRequest.getPhone());
+				checkUser(userDO);
+			}
+
+			@Override
+			public void excute() {
+				AllotDistrict allotDistrict = new AllotDistrict();
+
+				AllotDisSlaQuery query = new AllotDisSlaQuery();
+				query.setDisId(userDO.getDistrictId());
+
+				query.setSalType(SalesmanTypeEnum.DELIVERYMEN.getCode());
+				allotDistrict.setDeliverymens(parseAllotSalesman(allotDisSalDAO.queryByDisIdAndType(query)));
+
+				query.setSalType(SalesmanTypeEnum.SALESMAN.getCode());
+				allotDistrict.setSalesmens(parseAllotSalesman(allotDisSalDAO.queryByDisIdAndType(query)));
+
+				returnValue = allotDistrict;
+			}
+		});
+	}
+
+	/**
+	 *
+	 * @param salesmanDOS
+	 * @return
+	 */
+	private List<AllotSalesman> parseAllotSalesman(List<AllotDisSalDO> salesmanDOS) {
+		List<AllotSalesman> salesmens = new ArrayList<>(salesmanDOS.size());
+		if (!CollectionUtils.isEmpty(salesmanDOS)) {
+			for (AllotDisSalDO allotDisSalDO : salesmanDOS) {
+				AllotSalesman allotSalesman = new AllotSalesman();
+				allotSalesman.setName(allotDisSalDO.getSalName());
+				allotSalesman.setPhone(allotDisSalDO.getSalPhone());
+				salesmens.add(allotSalesman);
+			}
+		}
+
+		return salesmens;
+	}
+
+	/**
+	 *
+	 * @param userDO
+	 */
+	private void checkUser(UserDO userDO) {
+		if (userDO == null) {
+			throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
+		}
 	}
 
 }

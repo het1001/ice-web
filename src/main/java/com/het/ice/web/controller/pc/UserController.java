@@ -96,12 +96,13 @@ public class UserController {
      * @return
      */
 	@RequestMapping(value = "queryList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap list(String phone, String state, String pageNum, String pageSize) {
+	public @ResponseBody ModelMap list(String phone, String state, String freezerType, String pageNum, String pageSize) {
 		WebResult webResult = new WebResult();
 
 		UserQuery query = new UserQuery();
 		query.setPhone(phone);
 		query.setState(state);
+		query.setFreezerType(freezerType);
 
 		Result<List<User>> result = userService.query(query, pageNum, pageSize);
 

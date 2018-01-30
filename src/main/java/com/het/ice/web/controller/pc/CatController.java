@@ -1,10 +1,12 @@
 package com.het.ice.web.controller.pc;
 
+import com.het.ice.enums.CatTypeEnum;
 import com.het.ice.model.Cat;
 import com.het.ice.service.CatService;
 import com.het.ice.service.template.Result;
 import com.het.ice.web.request.CatWO;
 import com.het.ice.web.result.WebResult;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -69,15 +71,65 @@ public class CatController {
 	}
 
 	/**
-	 * 列表
+	 * 删除
+	 *
+	 * @param catWO
+	 * @return
+	 */
+	@RequestMapping(value = "delete.json", method = { RequestMethod.POST })
+	public @ResponseBody ModelMap delete(@RequestBody CatWO catWO) {
+		WebResult webResult = new WebResult();
+
+		Result<Void> result = catService.delete(NumberUtils.toLong(catWO.getId()));
+
+		if (result.isSuccess()) {
+			webResult.setMessage(true, "删除成功");
+		} else {
+			webResult.setMessage(false, result.getErrorMsg());
+		}
+
+		return webResult.getModel();
+	}
+
+	/**
+	 * 价格类型列表
 	 *
 	 * @return
 	 */
-	@RequestMapping(value = "queryList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap queryList() {
-		WebResult webResult = new WebResult();
+	@RequestMapping(value = "queryPriceList.json", method = { RequestMethod.GET })
+	public @ResponseBody ModelMap queryPriceList() {
+		return queryByType(CatTypeEnum.PRICE);
+	}
 
-		Result<List<Cat>> result = catService.queryAll();
+	/**
+	 * 价格类型列表
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "queryPackageList.json", method = { RequestMethod.GET })
+	public @ResponseBody ModelMap queryPackageList() {
+		return queryByType(CatTypeEnum.PACKAGE);
+	}
+
+	/**
+	 * 品牌类型列表
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = "queryBrandList.json", method = { RequestMethod.GET })
+	public @ResponseBody ModelMap queryBrandList() {
+		return queryByType(CatTypeEnum.BRAND);
+	}
+
+	/**
+	 * 按类型查
+	 *
+	 * @param typeEnum
+	 * @return
+	 */
+	private ModelMap queryByType(CatTypeEnum typeEnum) {
+		WebResult webResult = new WebResult();
+		Result<List<Cat>> result = catService.queryByType(typeEnum);
 		if (result.isSuccess()) {
 			webResult.setData(true, result.getResult());
 			webResult.setTotal(result.getTotal());

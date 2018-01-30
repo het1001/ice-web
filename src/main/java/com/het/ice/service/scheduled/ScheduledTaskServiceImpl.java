@@ -12,8 +12,8 @@ public class ScheduledTaskServiceImpl {
     private CommodityService commodityService;
 
     @Scheduled(cron="0 0 1 * * ?")
-    public void aTask(){
-        System.out.println("*********重置销量**********");
+//    @Scheduled(cron="*/20 * * * * ?")
+    public void resetSales(){
         commodityService.resetSales();
     }
 }

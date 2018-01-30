@@ -53,7 +53,7 @@ public class CommodityPicController {
 	 * @return
 	 */
 	@RequestMapping(value = "queryOtherPicKeys.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap list(String comId) {
+	public @ResponseBody ModelMap queryOtherPicKeys(String comId) {
 		WebResult webResult = new WebResult();
 		Result<List<CommodityPic>> result = commodityPicService.queryOthersByComId(NumberUtils.toLong(comId, 0));
 

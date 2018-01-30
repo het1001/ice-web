@@ -23,6 +23,11 @@
 		id=#{id}
 	</delete>
 
+	<select id="getById" parameterType="long" resultMap="allotDistrictResultMap">
+		select *
+		from i_allot_district where id = #{id}
+	</select>
+
 	<select id="getByName" parameterType="String" resultMap="allotDistrictResultMap">
 		select *
 		from i_allot_district where name=#{name}

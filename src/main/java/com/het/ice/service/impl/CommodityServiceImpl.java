@@ -1,13 +1,7 @@
 package com.het.ice.service.impl;
 
-import com.het.ice.dao.CommodityDAO;
-import com.het.ice.dao.CommodityPicDAO;
-import com.het.ice.dao.OrderListDAO;
-import com.het.ice.dao.PromotionDAO;
-import com.het.ice.dao.model.CommodityDO;
-import com.het.ice.dao.model.CommodityPicDO;
-import com.het.ice.dao.model.OrderListDO;
-import com.het.ice.dao.model.PromotionDO;
+import com.het.ice.dao.*;
+import com.het.ice.dao.model.*;
 import com.het.ice.dao.query.CommodityQuery;
 import com.het.ice.model.Commodity;
 import com.het.ice.service.CommodityService;
@@ -19,6 +13,7 @@ import com.het.ice.service.template.ResultCallback;
 import com.het.ice.service.template.Template;
 import com.het.ice.util.*;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -26,10 +21,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 
@@ -52,6 +44,9 @@ public class CommodityServiceImpl implements CommodityService {
 
 	@Resource
 	private OrderListDAO orderListDAO;
+
+	@Resource
+	private CatDAO catDAO;
 
 	/**
 	 * 
@@ -141,6 +136,20 @@ public class CommodityServiceImpl implements CommodityService {
 				com.setCreateUser("hou");
 				com.setUpdateUser("hou");
 
+				if (com.getBrandId() > 0) {
+					CatDO catDO = catDAO.getById(com.getBrandId());
+					if (catDO != null) {
+						com.setBrand(catDO.getName());
+					}
+				}
+
+				if (com.getPackCatId() > 0) {
+					CatDO catDO = catDAO.getById(com.getPackCatId());
+					if (catDO != null) {
+						com.setPackCat(catDO.getName());
+					}
+				}
+
 				// 计算价格/支
 				com.setPriceBr(com.getPricePi() / com.getStandardPice());
 
@@ -202,7 +211,8 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setPosition(com.getPosition());
 				comDo.setBrand(com.getBrand());
 				comDo.setImgKey(com.getImgKey());
-				comDo.setCatId(com.getCatId());
+				comDo.setPricCatId(com.getPricCatId());
+				comDo.setPackCatId(com.getPackCatId());
 
 				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());
 				if (!StringUtils.equals(commodityPicDO.getPicKey(), com.getImgKey())) {
@@ -387,16 +397,27 @@ public class CommodityServiceImpl implements CommodityService {
 			public void excute() {
 				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline(0);
 				if (!CollectionUtils.isEmpty(commodityDOs)) {
+					Calendar yestoday = Calendar.getInstance();
+					yestoday.setTime(DateUtils.addDays(new Date(), -1));
+
 					for (CommodityDO commodityDO : commodityDOs) {
 						List<OrderListDO> orderListDOS = orderListDAO.queryWeekFinishListByComId(commodityDO.getId());
-						int sales = 0;
+						int weekSales = 0;
+						int daySales = 0;
 						if (!CollectionUtils.isEmpty(orderListDOS)) {
 							for (OrderListDO orderListDO : orderListDOS) {
-								sales = sales + orderListDO.getComNum();
+								weekSales += orderListDO.getComNum();
+
+								Calendar calendar = Calendar.getInstance();
+								calendar.setTime(orderListDO.getCreateTime());
+								if (yestoday.get(Calendar.DAY_OF_MONTH) == calendar.get(Calendar.DAY_OF_MONTH)) {
+									daySales += orderListDO.getComNum();
+								}
 							}
 						}
 
-						commodityDO.setSales(sales);
+						commodityDO.setWeekSales(weekSales);
+						commodityDO.setDaySales(daySales);
 						commodityDao.update(commodityDO);
 					}
 				}

@@ -7,8 +7,8 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_order(order_num, phone, user_name, price_total, state, address, create_time, modify_time)
-		values(#{orderNum}, #{phone}, #{userName}, #{priceTotal}, #{state}, #{address}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		insert into i_order(order_num, phone, user_name, price_total, state, address, exp_del_time_des, time, create_time, modify_time)
+		values(#{orderNum}, #{phone}, #{userName}, #{priceTotal}, #{state}, #{address}, #{expDelTimeDes}, #{time},CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<delete id="delete" parameterType="long">
@@ -18,7 +18,7 @@
 
 	<update id="update" parameterType="Order">
 		update i_order set
-		state=#{state}, address=#{address},
+		state=#{state}, address=#{address}, exp_del_time_des=#{expDelTimeDes}, time=#{time},
 		modify_time=CURRENT_TIMESTAMP
 		where id=#{id}
 	</update>
@@ -57,6 +57,7 @@
 	    <result property="orderNum" column="order_num" />
 		<result property="userName" column="user_name" />
 		<result property="priceTotal" column="price_total" />
+		<result property="expDelTimeDes" column="exp_del_time_des" />
 		<result property="createTime" column="create_time" />
 		<result property="modifyTime" column="modify_time" />
 	</resultMap>

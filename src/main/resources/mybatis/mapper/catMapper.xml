@@ -7,8 +7,8 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into i_cat(name, biz_id, orderr, create_time, modify_time)
-		values(#{name}, #{bizId}, #{orderr}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		insert into i_cat(name, biz_id, orderr, type, create_time, modify_time)
+		values(#{name}, #{bizId}, #{orderr}, #{type}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	</insert>
 
 	<delete id="delete" parameterType="long">
@@ -16,16 +16,21 @@
 	</delete>
 
 	<update id="update" parameterType="Cat">
-		update i_cat set name=#{name}, orderr=#{orderr}, modify_time=CURRENT_TIMESTAMP
+		update i_cat set name=#{name}, orderr=#{orderr}, type=#{type}, modify_time=CURRENT_TIMESTAMP
 		where id=#{id}
 	</update>
+
+	<select id="getById" parameterType="long" resultMap="catResultMap">
+		select *
+		from i_cat where id=#{id}
+	</select>
 
 	<select id="getByName" parameterType="String" resultMap="catResultMap">
 		select * from i_cat where name = #{name}
 	</select>
 
-	<select id="queryByBizId" parameterType="long" resultMap="catResultMap">
-		select * from i_cat where biz_id = #{bizId} ORDER BY orderr
+	<select id="queryByType" parameterType="com.het.ice.dao.query.CatQuery" resultMap="catResultMap">
+		select * from i_cat where type=#{type} AND biz_id = #{bizId} ORDER BY orderr
 	</select>
 
 	<resultMap type="Cat" id="catResultMap">

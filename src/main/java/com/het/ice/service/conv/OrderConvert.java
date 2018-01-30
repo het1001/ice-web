@@ -34,6 +34,8 @@ public class OrderConvert {
         model.setPriceTotal(doModel.getPriceTotal());
         model.setState(doModel.getState());
         model.setUserName(doModel.getUserName());
+        model.setExpDelTimeDes(doModel.getExpDelTimeDes());
+        model.setTime(doModel.getTime());
         model.setOrderLists(convOrderList(orderListDOS));
         model.setOrderTraces(convOrderTrace(orderTraceDOS));
         model.setCreateTime(doModel.getCreateTime());

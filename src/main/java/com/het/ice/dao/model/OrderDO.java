@@ -28,6 +28,10 @@ public class OrderDO extends BaseModel {
 	/** 地址 */
 	private String address;
 
+	private String expDelTimeDes;
+
+	private String time;
+
 	/**
 	 * @return the orderNum
 	 */
@@ -109,5 +113,21 @@ public class OrderDO extends BaseModel {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getExpDelTimeDes() {
+		return expDelTimeDes;
+	}
+
+	public void setExpDelTimeDes(String expDelTimeDes) {
+		this.expDelTimeDes = expDelTimeDes;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 }

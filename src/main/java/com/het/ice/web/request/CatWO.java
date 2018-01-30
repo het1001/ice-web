@@ -11,6 +11,8 @@ public class CatWO {
 
     private String orderr;
 
+    private String type;
+
     public String getId() {
         return id;
     }
@@ -33,5 +35,13 @@ public class CatWO {
 
     public void setOrderr(String orderr) {
         this.orderr = orderr;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

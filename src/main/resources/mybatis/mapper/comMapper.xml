@@ -8,12 +8,13 @@
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
 		insert into i_com (
-			code, name, brand, standard_pice, price_pi, price_br, retail_price_br, profit_pi, profit_br, person_type,
-			position, description, total, sales, state, cat_id, biz_id, img_key, bar_code, bar_img_key,
-			create_time, modify_time, create_user, update_user)
+			code, name, brand_id, brand, standard_pice, price_pi, price_br, retail_price_br, profit_pi, profit_br, person_type,
+			position, description, total, sales, day_sales, week_sales, state, pric_cat_id, pack_cat_id, pack_cat, biz_id,
+			img_key, bar_code, bar_img_key, weight, create_time, modify_time, create_user, update_user)
 		values (
-			#{code}, #{name}, #{brand}, #{standardPice}, #{pricePi}, #{priceBr}, #{retailPriceBr}, #{profitPi}, #{profitBr}, #{personType}, 
-			#{position}, #{description}, #{total}, #{sales}, #{state}, #{catId}, #{bizId}, #{imgKey}, #{barCode}, #{barImgKey},
+			#{code}, #{name}, #{brandId}, #{brand}, #{standardPice}, #{pricePi}, #{priceBr}, #{retailPriceBr}, #{profitPi},
+			#{profitBr}, #{personType}, #{position}, #{description}, #{total}, #{sales}, #{daySales}, #{weekSales},
+			#{state}, #{pricCatId}, #{packCatId}, #{packCat}, #{bizId}, #{imgKey}, #{barCode}, #{barImgKey}, #{weight},
 			CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{createUser}, #{updateUser})
 	</insert>
 
@@ -24,11 +25,12 @@
 
 	<update id="update" parameterType="Commodity">
 		update i_com set
-		name=#{name}, brand=#{brand}, standard_pice=#{standardPice}, price_pi=#{pricePi}, price_br=#{priceBr}, retail_price_br=#{retailPriceBr}, 
-		profit_pi=#{profitPi}, profit_br=#{profitBr}, person_type=#{personType}, position=#{position},
-		description=#{description}, total=#{total}, state=#{state}, sales=#{sales}, cat_id=#{catId},
-		img_key=#{imgKey}, bar_code=#{barCode}, bar_img_key=#{barImgKey},
-		modify_time=CURRENT_TIMESTAMP, update_user = #{updateUser}
+		name=#{name}, brand=#{brand}, standard_pice=#{standardPice}, price_pi=#{pricePi}, price_br=#{priceBr},
+		retail_price_br=#{retailPriceBr}, profit_pi=#{profitPi}, profit_br=#{profitBr}, person_type=#{personType},
+		position=#{position}, description=#{description}, total=#{total}, state=#{state}, sales=#{sales},
+		day_sales=#{daySales}, week_sales=#{weekSales}, pric_cat_id=#{pricCatId}, pack_cat_id=#{packCatId},
+		img_key=#{imgKey}, bar_code=#{barCode}, bar_img_key=#{barImgKey}, brand_id=#{brandId}, pack_cat=#{packCat},
+		weight=#{weight}, modify_time=CURRENT_TIMESTAMP, update_user = #{updateUser}
 		where
 		id=#{id}
 	</update>
@@ -59,8 +61,11 @@
 		<if test="bizId>0">  
         	and biz_id=#{bizId}  
     	</if>
-		<if test="catId>0">
-			and cat_id=#{catId}
+		<if test="pricCatId>0">
+			and pric_cat_id=#{pricCatId}
+		</if>
+		<if test="packCatId>0">
+			and pack_cat_id=#{packCatId}
 		</if>
     	<if test="name != null and '' != name ">  
         	and name like CONCAT('%', #{name}, '%')
@@ -79,8 +84,14 @@
 		<if test="bizId>0">  
         	and biz_id=#{bizId}  
     	</if>
-		<if test="catId>0">
-			and cat_id=#{catId}
+		<if test="brandId>0">
+			and brand_id=#{brandId}
+		</if>
+		<if test="pricCatId>0">
+			and pric_cat_id=#{pricCatId}
+		</if>
+		<if test="packCatId>0">
+			and pack_cat_id=#{packCatId}
 		</if>
     	<if test="name != null and '' != name ">  
         	and name like CONCAT('%', #{name}, '%')
@@ -108,7 +119,10 @@
 	</select>
 	
 	<resultMap type="Commodity" id="commodityResultMap">
-		<result property="catId" column="cat_id" />
+		<result property="brandId" column="brand_id" />
+		<result property="pricCatId" column="pric_cat_id" />
+		<result property="packCatId" column="pack_cat_id" />
+		<result property="packCat" column="pack_cat" />
 		<result property="bizId" column="biz_id" />
 		<result property="standardPice" column="standard_pice" />
 		<result property="pricePi" column="price_pi" />
@@ -120,6 +134,8 @@
 		<result property="imgKey" column="img_key" />
 		<result property="barCode" column="bar_code" />
 		<result property="barImgKey" column="bar_img_key" />
+		<result property="daySales" column="day_sales" />
+		<result property="weekSales" column="week_sales" />
 		<result property="createTime" column="create_time" />
 		<result property="modifyTime" column="modify_time" />
 		<result property="createUser" column="create_user" />

@@ -13,6 +13,8 @@ public class CatDO extends BaseModel {
 
 	private long bizId;
 
+	private String type;
+
 	/**
 	 * @return the name
 	 */
@@ -49,5 +51,13 @@ public class CatDO extends BaseModel {
 
 	public void setOrderr(int orderr) {
 		this.orderr = orderr;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 }

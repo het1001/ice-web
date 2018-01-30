@@ -14,6 +14,8 @@ public interface AllotDistrictDAO {
 
     void delete(long id);
 
+    AllotDistrictDO getById(long id);
+
     AllotDistrictDO getByName(@Param(value = "name") String name);
 
     int getCountByCondition(AllotDistrictQuery allotDistrictQuery);

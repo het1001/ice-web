@@ -1,9 +1,7 @@
 package com.het.ice.web.controller.app;
 
 import com.het.ice.model.Order;
-import com.het.ice.model.ShoppingCart;
 import com.het.ice.service.OrderService;
-import com.het.ice.service.ShoppingCartService;
 import com.het.ice.service.template.Result;
 import com.het.ice.web.request.OrderWO;
 import com.het.ice.web.result.WebResult;
@@ -33,9 +31,9 @@ public class AppOrderController {
 	@RequestMapping(value = "/create.json", method = RequestMethod.POST)
 	public @ResponseBody ModelMap create(@RequestBody OrderWO orderWO) {
 		WebResult webResult = new WebResult();
-		Result<Void> result = orderService.create(orderWO);
+		Result<String> result = orderService.create(orderWO);
 		if (result.isSuccess()) {
-			webResult.setSuccess(true);
+			webResult.setData(true, result.getResult());
 		} else {
 			webResult.setMessage(false, result.getErrorMsg());
 		}
@@ -51,7 +49,7 @@ public class AppOrderController {
 	@RequestMapping(value = "/cancel.json", method = RequestMethod.POST)
 	public @ResponseBody ModelMap cancel(@RequestBody OrderWO orderWO) {
 		WebResult webResult = new WebResult();
-		Result<Void> result = orderService.cancel(orderWO.getId());
+		Result<Void> result = orderService.cancel(orderWO.getId(), orderWO.getPhone());
 		if (result.isSuccess()) {
 			webResult.setSuccess(true);
 		} else {
@@ -62,15 +60,32 @@ public class AppOrderController {
 	}
 
 	/**
+	 *
+	 * @param orderWO
+	 * @return
+	 */
+	@RequestMapping(value = "complete.json", method = { RequestMethod.POST })
+	public @ResponseBody ModelMap complete(@RequestBody OrderWO orderWO) {
+		WebResult webResult = new WebResult();
+		Result<Void> result = orderService.complete(orderWO.getId(), orderWO.getPhone());
+		if (result.isSuccess()) {
+			webResult.setSuccess(true);
+		} else {
+			webResult.setMessage(false, result.getErrorMsg());
+		}
+		return webResult.getModel();
+	}
+
+	/**
 	 * 根据phone查询
 	 *
-	 * @param order
+	 * @param orderWO
 	 * @return
 	 */
 	@RequestMapping(value = "/queryByPhone.json", method = RequestMethod.POST)
-	public @ResponseBody ModelMap queryByPhone(@RequestBody Order order) {
+	public @ResponseBody ModelMap queryByPhone(@RequestBody OrderWO orderWO) {
 		WebResult webResult = new WebResult();
-		Result<List<Order>> result = orderService.queryByPhone(order.getPhone());
+		Result<List<Order>> result = orderService.queryByPhone(orderWO.getPhone());
 		if (result.isSuccess()) {
 			webResult.setData(true, result.getResult());
 		} else {

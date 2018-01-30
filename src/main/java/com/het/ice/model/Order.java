@@ -29,8 +29,16 @@ public class Order extends BaseModel {
 	/** 地址 */
 	private String address;
 
+	/** 预计送达时间描述 */
+	private String expDelTimeDes;
+
+	/** 订单完成用时 */
+	private String time;
+
+	/** 订单列表 */
 	private List<OrderList> orderLists;
 
+	/** 订单操作记录 */
 	private List<OrderTrace> orderTraces;
 
 	/**
@@ -130,5 +138,21 @@ public class Order extends BaseModel {
 
 	public void setOrderTraces(List<OrderTrace> orderTraces) {
 		this.orderTraces = orderTraces;
+	}
+
+	public String getExpDelTimeDes() {
+		return expDelTimeDes;
+	}
+
+	public void setExpDelTimeDes(String expDelTimeDes) {
+		this.expDelTimeDes = expDelTimeDes;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 }

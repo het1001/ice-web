@@ -1,5 +1,7 @@
 package com.het.ice.model;
 
+import com.het.ice.enums.CatTypeEnum;
+
 public class Cat extends BaseModel {
 
 	private static final long serialVersionUID = 6738727460408641424L;
@@ -11,6 +13,8 @@ public class Cat extends BaseModel {
 	private int orderr;
 
 	private long bizId;
+
+	private CatTypeEnum type;
 
 	/**
 	 * @return the name
@@ -48,5 +52,13 @@ public class Cat extends BaseModel {
 
 	public void setOrderr(int orderr) {
 		this.orderr = orderr;
+	}
+
+	public CatTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(CatTypeEnum type) {
+		this.type = type;
 	}
 }

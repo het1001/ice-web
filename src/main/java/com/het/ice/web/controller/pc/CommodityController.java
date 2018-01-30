@@ -105,20 +105,21 @@ public class CommodityController {
 	 * 商品列表
 	 * 
 	 * @param name
-	 * @param brand
+	 * @param brandId
 	 * @param pageNum
 	 * @param pageSize
 	 * @return
 	 */
 	@RequestMapping(value = "queryList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap list(String name, String brand, String status, String catId, String pageNum, String pageSize) {
+	public @ResponseBody ModelMap list(String name, String brandId, String status, String pricCatId, String packCatId, String pageNum, String pageSize) {
 		WebResult webResult = new WebResult();
 
 		CommodityQuery query = new CommodityQuery();
 		query.setBizId(CommonConstants.DEFAULT_BIZ_ID);
 		query.setName(name);
-		query.setBrand(brand);
-		query.setCatId(NumberUtils.toLong(catId));
+		query.setBrandId(NumberUtils.toLong(brandId));
+		query.setPricCatId(NumberUtils.toLong(pricCatId));
+		query.setPackCatId(NumberUtils.toLong(packCatId));
 		query.setStatus(status);
 
 		Result<List<Commodity>> result = commodityService.queryByCondition(query, pageNum, pageSize);

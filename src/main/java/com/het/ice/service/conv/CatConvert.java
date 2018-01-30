@@ -2,6 +2,7 @@ package com.het.ice.service.conv;
 
 import com.het.ice.dao.model.CatDO;
 import com.het.ice.dao.model.CommodityDO;
+import com.het.ice.enums.CatTypeEnum;
 import com.het.ice.model.Cat;
 import com.het.ice.model.Commodity;
 import com.het.ice.web.request.CatWO;
@@ -22,6 +23,7 @@ public class CatConvert {
         catDO.setId(NumberUtils.toLong(catWO.getId()));
         catDO.setName(catWO.getName());
         catDO.setOrderr(NumberUtils.toInt(catWO.getOrderr()));
+        catDO.setType(catWO.getType());
 
         return catDO;
     }
@@ -35,6 +37,7 @@ public class CatConvert {
         cat.setId(catDO.getId());
         cat.setName(catDO.getName());
         cat.setOrderr(catDO.getOrderr());
+        cat.setType(CatTypeEnum.getByCode(catDO.getType()));
 
         return cat;
     }

@@ -3,8 +3,10 @@ package com.het.ice.service.impl;
 import com.googlecode.aviator.AviatorEvaluator;
 import com.het.ice.dao.*;
 import com.het.ice.dao.model.*;
+import com.het.ice.dao.query.AllotDisSlaQuery;
 import com.het.ice.dao.query.OrderQuery;
 import com.het.ice.dao.query.PromotionQuery;
+import com.het.ice.enums.DingTypeEnum;
 import com.het.ice.enums.OrderOprateEnum;
 import com.het.ice.enums.OrderStateEnum;
 import com.het.ice.enums.PromotionStateEnum;
@@ -18,14 +20,14 @@ import com.het.ice.service.template.PageResultCallback;
 import com.het.ice.service.template.Result;
 import com.het.ice.service.template.ResultCallback;
 import com.het.ice.service.template.Template;
-import com.het.ice.util.AssertUtil;
-import com.het.ice.util.DoubleUtil;
-import com.het.ice.util.InvokeUtil;
-import com.het.ice.util.UUIDUtil;
+import com.het.ice.util.*;
 import com.het.ice.web.request.OrderWO;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -62,11 +64,23 @@ public class OrderServiceImpl implements OrderService {
     private UserDAO userDAO;
 
     @Resource
+    private AllotDistrictDAO allotDistrictDAO;
+
+    @Resource
+    private AllotDisSalDAO allotDisSalDAO;
+
+    @Resource
     private Template template;
 
+    private static final String ACTION_CREATE = "create";
+
+    private static final String ACTION_CANCEL = "cancel";
+
+    private static final String ACTION_COMPLETE = "complete";
+
     @Override
-    public Result<Void> create(OrderWO orderWO) {
-        return template.complete(new ResultCallback<Void>() {
+    public Result<String> create(OrderWO orderWO) {
+        return template.complete(new ResultCallback<String>() {
 
             private List<ShoppingCartDO> shoppingCartDOS;
 
@@ -108,8 +122,8 @@ public class OrderServiceImpl implements OrderService {
 
             @Override
             public void excute() throws IllegalAccessException, IntrospectionException, InvocationTargetException {
-                double price = 0;
 
+                /** 1. 生成订单号  **/
                 String orderNum = UUIDUtil.getNum();
 
                 OrderDO orderDO = new OrderDO();
@@ -118,7 +132,26 @@ public class OrderServiceImpl implements OrderService {
                 orderDO.setUserName(userDO.getRealName());
                 orderDO.setAddress(userDO.getShopAddress());
                 orderDO.setState(OrderStateEnum.CREATED.getCode());
+                orderDO.setPriceTotal(0);
 
+                String expDelTimeDes = "";
+
+                Calendar calendar = Calendar.getInstance();
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                if ((hour >= 7 && hour < 10) || (hour >= 15 && hour < 18)) {
+                    expDelTimeDes = "预计2小时内送到";
+                } else if (hour >= 10 && hour < 15) {
+                    expDelTimeDes = "预计今天下午15：00-18：00送到";
+                } else if (hour >= 18) {
+                    expDelTimeDes = "预计[" + DateFormatUtils.format(DateUtils.addDays(calendar.getTime(), 1), "MM-dd") + "]上午送到";
+                } else if (hour >= 0 && hour < 7) {
+                    expDelTimeDes = "预计今天上午7：00-10：00送到";
+                }
+
+                orderDO.setExpDelTimeDes(expDelTimeDes);
+                returnValue = expDelTimeDes;
+
+                /** 2. 购物车model转换为订单model **/
                 for (ShoppingCartDO shoppingCartDO : shoppingCartDOS) {
                     CommodityDO commodityDO = comMap.get(shoppingCartDO.getId());
 
@@ -210,10 +243,9 @@ public class OrderServiceImpl implements OrderService {
 
                     shoppingCartDAO.delete(shoppingCartDO.getId());
 
-                    price = DoubleUtil.add(price, orderListDO.getComPrice());
+                    orderDO.setPriceTotal(DoubleUtil.add(orderDO.getPriceTotal(), orderListDO.getComPrice()));
                 }
 
-                orderDO.setPriceTotal(price);
                 orderDAO.insert(orderDO);
 
                 OrderTraceDO orderTraceDO = new OrderTraceDO();
@@ -223,8 +255,69 @@ public class OrderServiceImpl implements OrderService {
                 orderTraceDO.setDescription("");
 
                 orderTraceDAO.insert(orderTraceDO);
+
+                // 钉钉通知
+                dingSend(userDO, orderDO, ACTION_CREATE);
             }
         });
+    }
+
+    /**
+     * 钉钉通知（下单）
+     *
+     * @param userDO
+     * @param orderDO
+     */
+    private void dingSend(UserDO userDO, OrderDO orderDO, String action) {
+        AllotDistrictDO allotDistrictDO = allotDistrictDAO.getById(userDO.getDistrictId());
+
+        AllotDisSlaQuery allotDisSlaQuery = new AllotDisSlaQuery();
+        allotDisSlaQuery.setDisId(userDO.getDistrictId());
+        List<AllotDisSalDO> allotDisSalDOS = allotDisSalDAO.queryByDisId(allotDisSlaQuery);
+        JSONArray atMobiles = new JSONArray();
+        if (!CollectionUtils.isEmpty(allotDisSalDOS)) {
+            for (AllotDisSalDO allotDisSalDO : allotDisSalDOS) {
+                atMobiles.add(allotDisSalDO.getSalPhone());
+            }
+        }
+
+        StringBuffer sb = new StringBuffer();
+        if (StringUtils.equals(action, ACTION_CREATE)) {
+            sb.append("新订单到啦！！！\n");
+        } else if (StringUtils.equals(action, ACTION_CANCEL)) {
+            sb.append("订单被取消啦 ╥﹏╥... ！！！\n");
+        } else {
+            sb.append("订单完成啦 O(∩_∩)O ！！！\n");
+        }
+
+        sb.append("#订单号：").append(orderDO.getOrderNum()).append("\n\n");
+
+        if (StringUtils.equals(action, ACTION_CREATE)) {
+            List<OrderListDO> orderListDOS = orderListDAO.queryByOrderNum(orderDO.getOrderNum());
+            int index = 1;
+            for (OrderListDO orderListDO : orderListDOS) {
+                sb.append("> ").append(index++).append(". ").append(orderListDO.getComName())
+                        .append("  x").append(orderListDO.getComNum()).append("件")
+                        .append("  ").append(orderListDO.getComPrice()).append("元")
+                        .append("\n");
+            }
+
+            sb.append("共：").append(orderDO.getPriceTotal()).append("元").append("\n\n");
+        }
+
+        sb.append("* 地址：").append(orderDO.getAddress()).append("\n")
+                .append("* 姓名：").append(orderDO.getUserName()).append("\n")
+                .append("* 电话：").append(orderDO.getPhone()).append("\n")
+                .append("所属片区：").append(allotDistrictDO.getName()).append("\n\n");
+        if (StringUtils.equals(action, ACTION_CREATE)) {
+            sb.append("下单时间：").append(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        }
+
+        if (StringUtils.equals(action, ACTION_COMPLETE)) {
+            sb.append("用时").append(orderDO.getTime());
+        }
+
+        DingdingSendUtil.send(DingTypeEnum.TEXT, null, sb.toString(), atMobiles, true);
     }
 
     @Override
@@ -285,18 +378,19 @@ public class OrderServiceImpl implements OrderService {
     public Result<Void> verify(final String id) {
         return template.complete(new ResultCallback<Void>() {
 
+            private OrderDO orderDO;
+
             @Override
             public void check() {
                 AssertUtil.isEmpty(id, "订单ID");
+                orderDO = orderDAO.getById(NumberUtils.toLong(id));
+                if (orderDO == null) {
+                    throw new BizException(ResultCodeEnum.ORDER_NOT_EXIST);
+                }
             }
 
             @Override
             public void excute() {
-                OrderDO orderDO = orderDAO.getById(NumberUtils.toLong(id));
-                if (orderDO == null) {
-                    throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-                }
-
                 orderDO.setState(OrderStateEnum.ACCEPT.getCode());
                 orderDAO.update(orderDO);
 
@@ -310,21 +404,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Result<Void> cancel(final String id) {
+    public Result<Void> cancel(final String id, final String phone) {
         return template.complete(new ResultCallback<Void>() {
+
+            private OrderDO orderDO;
+
+            private UserDO userDO;
 
             @Override
             public void check() {
+                AssertUtil.lengthThan(phone, 32, "手机号");
+                userDO = userDAO.getByPhone(phone);
+                AssertUtil.isNull(userDO, "用户不存在");
+
                 AssertUtil.isEmpty(id, "订单ID");
+                orderDO = orderDAO.getById(NumberUtils.toLong(id));
+                if (orderDO == null) {
+                    throw new BizException(ResultCodeEnum.ORDER_NOT_EXIST);
+                }
             }
 
             @Override
             public void excute() {
-                OrderDO orderDO = orderDAO.getById(NumberUtils.toLong(id));
-                if (orderDO == null) {
-                    throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-                }
-
                 orderDO.setState(OrderStateEnum.CANCELED.getCode());
                 orderDAO.update(orderDO);
 
@@ -342,27 +443,41 @@ public class OrderServiceImpl implements OrderService {
                 orderTraceDO.setOperate(OrderOprateEnum.CANCEL.getCode());
                 orderTraceDO.setOperateDisplay(OrderOprateEnum.CANCEL.getDesc());
                 orderTraceDAO.insert(orderTraceDO);
+
+                dingSend(userDO, orderDO, ACTION_CANCEL);
             }
         });
     }
 
     @Override
-    public Result<Void> complete(final String id) {
+    public Result<Void> complete(final String id, final String phone) {
         return template.complete(new ResultCallback<Void>() {
+
+            private OrderDO orderDO;
+
+            private UserDO userDO;
 
             @Override
             public void check() {
+                AssertUtil.lengthThan(phone, 32, "手机号");
+                userDO = userDAO.getByPhone(phone);
+                AssertUtil.isNull(userDO, "用户不存在");
+
                 AssertUtil.isEmpty(id, "订单ID");
+                orderDO = orderDAO.getById(NumberUtils.toLong(id));
+                if (orderDO == null) {
+                    throw new BizException(ResultCodeEnum.ORDER_NOT_EXIST);
+                }
+
+                if (!StringUtils.equals(phone, orderDO.getPhone())) {
+                    throw new BizException(ResultCodeEnum.ORDER_PHONE_IS_ERROR);
+                }
             }
 
             @Override
             public void excute() {
-                OrderDO orderDO = orderDAO.getById(NumberUtils.toLong(id));
-                if (orderDO == null) {
-                    throw new BizException(ResultCodeEnum.USER_NOT_EXIST);
-                }
-
                 orderDO.setState(OrderStateEnum.COMPLETED.getCode());
+                orderDO.setTime(CommonUtil.parseTime(System.currentTimeMillis() - orderDO.getCreateTime().getTime()));
                 orderDAO.update(orderDO);
 
                 List<OrderListDO> orderListDOS = orderListDAO.queryByOrderNum(orderDO.getOrderNum());
@@ -371,6 +486,10 @@ public class OrderServiceImpl implements OrderService {
                         // 更新状态为完成
                         orderListDO.setFinishFlag(1);
                         orderListDAO.update(orderListDO);
+
+                        CommodityDO commodityDO = commodityDAO.getById(orderListDO.getComId());
+                        commodityDO.setSales(commodityDO.getSales() + orderListDO.getComNum());
+                        commodityDAO.update(commodityDO);
                     }
                 }
 
@@ -379,6 +498,8 @@ public class OrderServiceImpl implements OrderService {
                 orderTraceDO.setOperate(OrderOprateEnum.COMPLETE.getCode());
                 orderTraceDO.setOperateDisplay(OrderOprateEnum.COMPLETE.getDesc());
                 orderTraceDAO.insert(orderTraceDO);
+
+                dingSend(userDO, orderDO, ACTION_COMPLETE);
             }
         });
     }

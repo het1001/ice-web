@@ -31,7 +31,10 @@ public class CommodityConvert {
 		com.setId(comDO.getId());
 		com.setCode(comDO.getCode());
 		com.setBizId(comDO.getBizId());
-		com.setCatId(comDO.getCatId());
+		com.setPricCatId(comDO.getPricCatId());
+		com.setPackCatId(comDO.getPackCatId());
+		com.setPackCat(comDO.getPackCat());
+
 		com.setCreateTime(comDO.getCreateTime());
 		com.setModifyTime(comDO.getModifyTime());
 		com.setCreateUser(comDO.getCreateUser());
@@ -40,6 +43,8 @@ public class CommodityConvert {
 		com.setState(comDO.getState());
 		com.setTotal(comDO.getTotal());
 		com.setSales(comDO.getSales());
+		com.setDaySales(comDO.getDaySales());
+		com.setWeekSales(comDO.getWeekSales());
 		com.setDesc(comDO.getDescription());
 
 		com.setStandardPice(comDO.getStandardPice());
@@ -53,9 +58,12 @@ public class CommodityConvert {
 
 		com.setImgKey(comDO.getImgKey());
 
+		com.setBrandId(comDO.getBrandId());
 		com.setBrand(comDO.getBrand());
 		com.setBarCode(comDO.getBarCode());
 		com.setBarImgKey(comDO.getBarImgKey());
+
+		com.setWeight(comDO.getWeight());
 
 		return com;
 	}
@@ -75,7 +83,10 @@ public class CommodityConvert {
 		comDO.setId(com.getId());
 		comDO.setCode(com.getCode());
 		comDO.setBizId(com.getBizId());
-		comDO.setCatId(com.getCatId());
+		comDO.setPricCatId(com.getPricCatId());
+		comDO.setPackCatId(com.getPackCatId());
+		comDO.setPackCat(com.getPackCat());
+
 		comDO.setCreateTime(com.getCreateTime());
 		comDO.setModifyTime(com.getModifyTime());
 		comDO.setCreateUser(com.getCreateUser());
@@ -84,6 +95,8 @@ public class CommodityConvert {
 		comDO.setState(com.getState());
 		comDO.setTotal(com.getTotal());
 		comDO.setSales(com.getSales());
+		comDO.setDaySales(com.getDaySales());
+		comDO.setWeekSales(com.getWeekSales());
 		comDO.setDescription(com.getDesc());
 
 		comDO.setStandardPice(com.getStandardPice());
@@ -97,9 +110,12 @@ public class CommodityConvert {
 
 		comDO.setImgKey(com.getImgKey());
 
+		comDO.setBrandId(com.getBrandId());
 		comDO.setBrand(com.getBrand());
 		comDO.setBarCode(com.getBarCode());
 		comDO.setBarImgKey(com.getBarImgKey());
+
+		comDO.setWeight(com.getWeight());
 
 		return comDO;
 	}
@@ -118,7 +134,7 @@ public class CommodityConvert {
 		Commodity com = new Commodity();
 		com.setId(NumberUtils.toLong(commodityWO.getId(), 0));
 		com.setName(commodityWO.getName());
-		com.setBrand(commodityWO.getBrand());
+		com.setBrandId(NumberUtils.toLong(commodityWO.getBrandId()));
 		com.setDesc(commodityWO.getDesc());
 		com.setPersonType(commodityWO.getPersonType());
 		com.setPosition(commodityWO.getPosition());
@@ -129,7 +145,9 @@ public class CommodityConvert {
 		com.setImgKey(commodityWO.getFileKey());
 		com.setImgKeys(commodityWO.getFileKeys());
 		com.setBarCode(commodityWO.getBarCode());
-		com.setCatId(NumberUtils.toLong(commodityWO.getCatId()));
+		com.setPricCatId(NumberUtils.toLong(commodityWO.getPricCatId()));
+		com.setPackCatId(NumberUtils.toLong(commodityWO.getPackCatId()));
+		com.setWeight(NumberUtils.toInt(commodityWO.getWeight()));
 
 		return com;
 	}

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderService {
 
-	Result<Void> create(OrderWO orderWO);
+	Result<String> create(OrderWO orderWO);
 
 	Result<List<Order>> queryByPhone(String phone);
 
@@ -17,7 +17,7 @@ public interface OrderService {
 
 	Result<Void> verify(String id);
 
-	Result<Void> cancel(String id);
+	Result<Void> cancel(String id, String phone);
 
-	Result<Void> complete(String id);
+	Result<Void> complete(String id, String phone);
 }

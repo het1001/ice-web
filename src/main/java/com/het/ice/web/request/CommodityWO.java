@@ -40,8 +40,8 @@ public class CommodityWO implements Serializable {
 	/** 陈列位置 */
 	private String position;
 
-	/** 品牌 */
-	private String brand;
+	/** 品牌id */
+	private String brandId;
 
 	/** 商品key */
 	private String fileKey;
@@ -52,8 +52,14 @@ public class CommodityWO implements Serializable {
 	/** 条形码 */
 	private String barCode;
 
-	/** 类型ID */
-	private String catId;
+	/** 价格类型ID */
+	private String pricCatId;
+
+	/** 包装类型id */
+	private String packCatId;
+
+	/** 质量（g） */
+	private String weight;
 
 	/**
 	 * @return the id
@@ -191,21 +197,6 @@ public class CommodityWO implements Serializable {
 	}
 
 	/**
-	 * @return the brand
-	 */
-	public String getBrand() {
-		return brand;
-	}
-
-	/**
-	 * @param brand
-	 *            the brand to set
-	 */
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	/**
 	 * @return the fileKey
 	 */
 	public String getFileKey() {
@@ -244,11 +235,35 @@ public class CommodityWO implements Serializable {
 		this.fileKeys = fileKeys;
 	}
 
-	public String getCatId() {
-		return catId;
+	public String getPricCatId() {
+		return pricCatId;
 	}
 
-	public void setCatId(String catId) {
-		this.catId = catId;
+	public void setPricCatId(String pricCatId) {
+		this.pricCatId = pricCatId;
+	}
+
+	public String getPackCatId() {
+		return packCatId;
+	}
+
+	public void setPackCatId(String packCatId) {
+		this.packCatId = packCatId;
+	}
+
+	public String getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
+
+	public String getWeight() {
+		return weight;
+	}
+
+	public void setWeight(String weight) {
+		this.weight = weight;
 	}
 }

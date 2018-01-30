@@ -5,7 +5,6 @@ import com.het.ice.model.Order;
 import com.het.ice.service.OrderService;
 import com.het.ice.service.template.Result;
 import com.het.ice.web.controller.BaseController;
-import com.het.ice.web.request.AppMainImageCreateWO;
 import com.het.ice.web.request.OrderActionRequest;
 import com.het.ice.web.result.WebResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,15 @@ public class OrderController extends BaseController{
     @Autowired
     private OrderService orderService;
 
+    /**
+     * 根据订单状态（创建的、确认的、取消的、完成的）查询订单分页列表
+     *
+     * @param state
+     * @param pageNum
+     * @param pageSize
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "queryList.json", method = RequestMethod.GET)
     public @ResponseBody ModelMap queryList(String state, String pageNum, String pageSize) throws IOException {
         WebResult webResult = new WebResult();
@@ -47,34 +55,15 @@ public class OrderController extends BaseController{
         return webResult.getModel();
     }
 
+    /**
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "verify.json", method = { RequestMethod.POST })
     public @ResponseBody ModelMap verify(@RequestBody OrderActionRequest request) {
         WebResult webResult = new WebResult();
         Result<Void> result = orderService.verify(request.getId());
-        if (result.isSuccess()) {
-            webResult.setSuccess(true);
-        } else {
-            webResult.setMessage(false, result.getErrorMsg());
-        }
-        return webResult.getModel();
-    }
-
-    @RequestMapping(value = "cancel.json", method = { RequestMethod.POST })
-    public @ResponseBody ModelMap cancel(@RequestBody OrderActionRequest request) {
-        WebResult webResult = new WebResult();
-        Result<Void> result = orderService.cancel(request.getId());
-        if (result.isSuccess()) {
-            webResult.setSuccess(true);
-        } else {
-            webResult.setMessage(false, result.getErrorMsg());
-        }
-        return webResult.getModel();
-    }
-
-    @RequestMapping(value = "complete.json", method = { RequestMethod.POST })
-    public @ResponseBody ModelMap complete(@RequestBody OrderActionRequest request) {
-        WebResult webResult = new WebResult();
-        Result<Void> result = orderService.complete(request.getId());
         if (result.isSuccess()) {
             webResult.setSuccess(true);
         } else {

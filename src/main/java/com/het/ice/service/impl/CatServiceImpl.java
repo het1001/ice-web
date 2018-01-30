@@ -3,6 +3,8 @@ package com.het.ice.service.impl;
 import com.het.ice.dao.CatDAO;
 import com.het.ice.dao.model.AllotSalesmanDO;
 import com.het.ice.dao.model.CatDO;
+import com.het.ice.dao.query.CatQuery;
+import com.het.ice.enums.CatTypeEnum;
 import com.het.ice.model.AllotSalesman;
 import com.het.ice.model.Cat;
 import com.het.ice.service.CatService;
@@ -75,12 +77,33 @@ public class CatServiceImpl implements CatService {
     }
 
     @Override
-    public Result<List<Cat>> queryAll() {
+    public Result<Void> delete(final long id) {
+        return template.complete(new ResultCallback<Void>() {
+
+            @Override
+            public void check() {
+                AssertUtil.moreThanZero(id, "类目id");
+                AssertUtil.isNull(catDAO.getById(id), "类目");
+            }
+
+            @Override
+            public void excute() {
+                catDAO.delete(id);
+            }
+        });
+    }
+
+    @Override
+    public Result<List<Cat>> queryByType(CatTypeEnum type) {
         return template.complete(new ResultCallback<List<Cat>>() {
 
             @Override
             public void excute() {
-                List<CatDO> catDOS = catDAO.queryByBizId(CommonConstants.DEFAULT_BIZ_ID);
+                CatQuery query = new CatQuery();
+                query.setBizId(CommonConstants.DEFAULT_BIZ_ID);
+                query.setType(type.getCode());
+
+                List<CatDO> catDOS = catDAO.queryByType(query);
                 returnValue = CatConvert.conv(catDOS);
             }
 

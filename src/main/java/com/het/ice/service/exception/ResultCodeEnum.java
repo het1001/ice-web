@@ -46,7 +46,9 @@ public enum ResultCodeEnum {
 
 	AUTH_CODE_SEND_TOO_FAST("AUTH_CODE_SEND_TOO_FAST", "验证码发送太频繁（短于1分钟）"),
 
-	ORDER_NOT_EXIST("ORDER_NOT_EXIST", "订单不存在");
+	ORDER_NOT_EXIST("ORDER_NOT_EXIST", "订单不存在"),
+
+	ORDER_PHONE_IS_ERROR("ORDER_PHONE_IS_ERROR", "订单手机号错误");
 
 	ResultCodeEnum(String code, String desc) {
 		this.code = code;

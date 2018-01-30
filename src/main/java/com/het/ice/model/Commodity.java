@@ -42,20 +42,35 @@ public class Commodity extends BaseModel {
 	/** 终端利润/支 */
 	private double profitBr;
 
+	/** 品牌id */
+	private long brandId;
+
 	/** 品牌 */
 	private String brand;
 
 	/** 总量（库存） */
 	private int total;
 
-	/** 销量 */
+	/** 总销量 */
 	private int sales;
+
+	/** 销量 */
+	private int daySales;
+
+	/** 销量 */
+	private int weekSales;
 
 	/** 状态 */
 	private int state;
 
-	/** 类目id */
-	private long catId;
+	/** 价格类型id */
+	private long pricCatId;
+
+	/** 包装类型id */
+	private long packCatId;
+
+	/** 包装类型 */
+	private String packCat;
 
 	/** 商户id */
 	private long bizId;
@@ -77,6 +92,9 @@ public class Commodity extends BaseModel {
 
 	/** 促销详情 */
 	private String promoDes;
+
+	/** 重量（单位：g） */
+	private int weight;
 
 	/**
 	 * @return the name
@@ -229,21 +247,6 @@ public class Commodity extends BaseModel {
 	}
 
 	/**
-	 * @return the sales
-	 */
-	public int getSales() {
-		return sales;
-	}
-
-	/**
-	 * @param sales
-	 *            the sales to set
-	 */
-	public void setSales(int sales) {
-		this.sales = sales;
-	}
-
-	/**
 	 * @return the desc
 	 */
 	public String getDesc() {
@@ -271,21 +274,6 @@ public class Commodity extends BaseModel {
 	 */
 	public void setState(int state) {
 		this.state = state;
-	}
-
-	/**
-	 * @return the catId
-	 */
-	public long getCatId() {
-		return catId;
-	}
-
-	/**
-	 * @param catId
-	 *            the catId to set
-	 */
-	public void setCatId(long catId) {
-		this.catId = catId;
 	}
 
 	/**
@@ -402,5 +390,69 @@ public class Commodity extends BaseModel {
 
 	public void setPromoDes(String promoDes) {
 		this.promoDes = promoDes;
+	}
+
+	public int getDaySales() {
+		return daySales;
+	}
+
+	public void setDaySales(int daySales) {
+		this.daySales = daySales;
+	}
+
+	public int getWeekSales() {
+		return weekSales;
+	}
+
+	public void setWeekSales(int weekSales) {
+		this.weekSales = weekSales;
+	}
+
+	public int getSales() {
+		return sales;
+	}
+
+	public void setSales(int sales) {
+		this.sales = sales;
+	}
+
+	public long getPricCatId() {
+		return pricCatId;
+	}
+
+	public void setPricCatId(long pricCatId) {
+		this.pricCatId = pricCatId;
+	}
+
+	public long getPackCatId() {
+		return packCatId;
+	}
+
+	public void setPackCatId(long packCatId) {
+		this.packCatId = packCatId;
+	}
+
+	public String getPackCat() {
+		return packCat;
+	}
+
+	public void setPackCat(String packCat) {
+		this.packCat = packCat;
+	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public long getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(long brandId) {
+		this.brandId = brandId;
 	}
 }

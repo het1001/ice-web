@@ -32,6 +32,11 @@
 		* from i_order_list where order_num = #{orderNum}
 	</select>
 
+	<select id="queryLastDayFinishListByComId" parameterType="long" resultMap="orderListResultMap">
+		select
+		* from i_order_list where com_id = #{comId} and finish_flag=1 and create_time > date_sub(curdate(), INTERVAL 1 DAY)
+	</select>
+
 	<select id="queryWeekFinishListByComId" parameterType="long" resultMap="orderListResultMap">
 		select
 		* from i_order_list where com_id = #{comId} and finish_flag=1 and create_time > date_sub(curdate(), INTERVAL 7 DAY)

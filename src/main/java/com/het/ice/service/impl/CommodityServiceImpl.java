@@ -212,10 +212,21 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setDescription(com.getDesc());
 				comDo.setPersonType(com.getPersonType());
 				comDo.setPosition(com.getPosition());
-				comDo.setBrand(com.getBrand());
 				comDo.setImgKey(com.getImgKey());
 				comDo.setPricCatId(com.getPricCatId());
 				comDo.setPackCatId(com.getPackCatId());
+				comDo.setWeight(com.getWeight());
+
+				if (com.getBrandId() > 0) {
+					comDo.setBrandId(com.getBrandId());
+					BrandDO brandDO = brandDAO.getById(com.getBrandId());
+					if (brandDO != null) {
+						comDo.setBrand(brandDO.getName());
+					}
+				} else {
+					comDo.setBrandId(0);
+					comDo.setBrand("");
+				}
 
 				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());
 				if (!StringUtils.equals(commodityPicDO.getPicKey(), com.getImgKey())) {

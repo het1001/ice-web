@@ -159,6 +159,11 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
 
+	<bean id="brandDAO" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.het.ice.dao.BrandDAO"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
 	<task:annotation-driven scheduler="myScheduler"/>
 	<task:scheduler id="myScheduler" pool-size="5"/>
 </beans>

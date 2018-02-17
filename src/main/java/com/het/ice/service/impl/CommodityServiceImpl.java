@@ -48,6 +48,9 @@ public class CommodityServiceImpl implements CommodityService {
 	@Resource
 	private CatDAO catDAO;
 
+	@Resource
+	private BrandDAO brandDAO;
+
 	/**
 	 * 
 	 */
@@ -137,9 +140,9 @@ public class CommodityServiceImpl implements CommodityService {
 				com.setUpdateUser("hou");
 
 				if (com.getBrandId() > 0) {
-					CatDO catDO = catDAO.getById(com.getBrandId());
-					if (catDO != null) {
-						com.setBrand(catDO.getName());
+					BrandDO brandDO = brandDAO.getById(com.getBrandId());
+					if (brandDO != null) {
+						com.setBrand(brandDO.getName());
 					}
 				}
 
@@ -348,12 +351,16 @@ public class CommodityServiceImpl implements CommodityService {
 	}
 
 	@Override
-	public Result<List<Commodity>> queryAllOnline(final long catId) {
+	public Result<List<Commodity>> queryAllOnline(final String[] brandIds, final String[] pricCatIds, final String[] packCatIds) {
 		return template.complete(new ResultCallback<List<Commodity>>() {
 
 			@Override
 			public void excute() {
-				List<Commodity> commodities = CommodityConvert.conv(commodityDao.queryAllOnline(catId));
+				CommodityQuery query = new CommodityQuery();
+				query.setBrandIds(brandIds);
+				query.setPricCatIds(pricCatIds);
+				query.setPackCatIds(packCatIds);
+				List<Commodity> commodities = CommodityConvert.conv(commodityDao.queryAllOnline(query));
 
 				List<PromotionDO> promotionDOS = promotionDAO.queryCurrent();
 				if (!CollectionUtils.isEmpty(promotionDOS)) {
@@ -395,7 +402,7 @@ public class CommodityServiceImpl implements CommodityService {
 
 			@Override
 			public void excute() {
-				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline(0);
+				List<CommodityDO> commodityDOs = commodityDao.queryAllOnline(new CommodityQuery());
 				if (!CollectionUtils.isEmpty(commodityDOs)) {
 					Calendar yestoday = Calendar.getInstance();
 					yestoday.setTime(DateUtils.addDays(new Date(), -1));

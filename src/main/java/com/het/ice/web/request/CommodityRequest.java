@@ -7,7 +7,11 @@ public class CommodityRequest {
 
     private String id;
 
-    private String catId;
+    private String[] brandId;
+
+    private String[] pricCatId;
+
+    private String[] packCatId;
 
     public String getId() {
         return id;
@@ -17,11 +21,28 @@ public class CommodityRequest {
         this.id = id;
     }
 
-    public String getCatId() {
-        return catId;
+    public String[] getBrandId() {
+        return brandId;
     }
 
-    public void setCatId(String catId) {
-        this.catId = catId;
+    public void setBrandId(String[] brandId) {
+        this.brandId = brandId;
+    }
+
+
+    public String[] getPackCatId() {
+        return packCatId;
+    }
+
+    public void setPackCatId(String[] packCatId) {
+        this.packCatId = packCatId;
+    }
+
+    public String[] getPricCatId() {
+        return pricCatId;
+    }
+
+    public void setPricCatId(String[] pricCatId) {
+        this.pricCatId = pricCatId;
     }
 }

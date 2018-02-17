@@ -61,6 +61,9 @@
 		<if test="bizId>0">  
         	and biz_id=#{bizId}  
     	</if>
+		<if test="brandId>0">
+			and brand_id=#{brandId}
+		</if>
 		<if test="pricCatId>0">
 			and pric_cat_id=#{pricCatId}
 		</if>
@@ -69,9 +72,6 @@
 		</if>
     	<if test="name != null and '' != name ">  
         	and name like CONCAT('%', #{name}, '%')
-    	</if>
-    	<if test="brand != null and '' != brand ">  
-        	and brand like CONCAT('%', #{brand}, '%')
     	</if>
     	<if test="status != null and '' != status ">  
         	and state = #{status}
@@ -96,20 +96,29 @@
     	<if test="name != null and '' != name ">  
         	and name like CONCAT('%', #{name}, '%')
     	</if>
-    	<if test="brand != null and '' != brand ">  
-        	and brand like CONCAT('%', #{brand}, '%')
-    	</if>
     	<if test="status != null and '' != status ">  
         	and state = #{status}
     	</if>
 		 limit #{start}, #{limit}
 	</select>
 	
-	<select id="queryAllOnline" parameterType="long" resultMap="commodityResultMap">
+	<select id="queryAllOnline" parameterType="com.het.ice.dao.query.CommodityQuery" resultMap="commodityResultMap">
 		select
 		* from i_com where state = '1'
-		<if test="catId>0">
-			and cat_id=#{catId}
+		<if test="brandIds != null and brandIds.length!=0">
+			and brand_id in <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+			  #{item}
+			</foreach>
+		</if>
+		<if test="pricCatIds != null and pricCatIds.length!=0">
+			and pric_cat_id in <foreach collection="pricCatIds" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		</if>
+		<if test="packCatIds != null and packCatIds.length!=0">
+			and pack_cat_id in <foreach collection="packCatIds" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
 		</if>
 	</select>
 

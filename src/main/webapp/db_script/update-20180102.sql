@@ -16,3 +16,10 @@ ALTER TABLE i_com ADD COLUMN `pack_cat` VARCHAR(100) NULL COMMENT '包装类型�
 ALTER TABLE i_com ADD COLUMN `brand_id` BIGINT NULL COMMENT '品牌id' AFTER `name`;
 ALTER TABLE i_com ADD COLUMN `weight` INT NULL COMMENT '重量（g）' AFTER `bar_img_key`;
 
+CREATE TABLE `i_brand` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name`  varchar(200) NOT NULL COMMENT '品牌名称',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

@@ -87,6 +87,12 @@ public class AssertUtil {
 		}
 	}
 
+	public static void isNotEmpty(List<?> list, String field) {
+		if (!CollectionUtils.isEmpty(list)) {
+			throw new ParamCheckException(field);
+		}
+	}
+
 	/**
 	 * id 是否大于0
 	 * 

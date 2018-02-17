@@ -100,6 +100,14 @@ CREATE TABLE `i_business` (
   UNIQUE KEY `name` (`b_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- 品牌表
+CREATE TABLE `i_brand` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name`  varchar(200) NOT NULL COMMENT '品牌名称',
+  `create_time` datetime NOT NULL COMMENT '创建时间'
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- 类目表
 CREATE TABLE `i_cat` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',

@@ -27,7 +27,7 @@ public interface CommodityDAO {
 
     int getCountByCondition(CommodityQuery commodityQuery);
 
-    List<CommodityDO> queryAllOnline(@Param("catId") long catId);
+    List<CommodityDO> queryAllOnline(CommodityQuery commodityQuery);
 
     List<CommodityDO> queryAll();
 }

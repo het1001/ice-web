@@ -17,6 +17,12 @@ public class CommodityQuery implements Serializable {
 
 	private long packCatId;
 
+	private String[] brandIds;
+
+	private String[] pricCatIds;
+
+	private String[] packCatIds;
+
 	private String name;
 
 	/** 可选值：1、空 */
@@ -123,5 +129,29 @@ public class CommodityQuery implements Serializable {
 
 	public void setBrandId(long brandId) {
 		this.brandId = brandId;
+	}
+
+	public String[] getBrandIds() {
+		return brandIds;
+	}
+
+	public void setBrandIds(String[] brandIds) {
+		this.brandIds = brandIds;
+	}
+
+	public String[] getPricCatIds() {
+		return pricCatIds;
+	}
+
+	public void setPricCatIds(String[] pricCatIds) {
+		this.pricCatIds = pricCatIds;
+	}
+
+	public String[] getPackCatIds() {
+		return packCatIds;
+	}
+
+	public void setPackCatIds(String[] packCatIds) {
+		this.packCatIds = packCatIds;
 	}
 }

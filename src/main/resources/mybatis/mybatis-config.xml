@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="UserDeliveryAddr" type="com.het.ice.dao.model.UserDeliveryAddrDO"/>
         <typeAlias alias="Business" type="com.het.ice.dao.model.BusinessDO"/>
 		<typeAlias alias="ShoppingCart" type="com.het.ice.dao.model.ShoppingCartDO"/>
+		<typeAlias alias="Brand" type="com.het.ice.dao.model.BrandDO"/>
         <typeAlias alias="Cat" type="com.het.ice.dao.model.CatDO"/>
         <typeAlias alias="Commodity" type="com.het.ice.dao.model.CommodityDO"/>
 		<typeAlias alias="CommodityPic" type="com.het.ice.dao.model.CommodityPicDO"/>
@@ -43,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="/mybatis/mapper/userDeliveryAddrMapper.xml" />
 		<mapper resource="/mybatis/mapper/businessMapper.xml" />
 		<mapper resource="/mybatis/mapper/shoppingCartMapper.xml" />
+		<mapper resource="/mybatis/mapper/brandMapper.xml" />
 		<mapper resource="/mybatis/mapper/comMapper.xml" />
 		<mapper resource="/mybatis/mapper/comPicMapper.xml" />
 		<mapper resource="/mybatis/mapper/comInMapper.xml" />

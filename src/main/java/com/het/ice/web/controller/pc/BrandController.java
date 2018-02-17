@@ -1,10 +1,9 @@
 package com.het.ice.web.controller.pc;
 
-import com.het.ice.enums.CatTypeEnum;
-import com.het.ice.model.Cat;
-import com.het.ice.service.CatService;
+import com.het.ice.model.Brand;
+import com.het.ice.service.BrandService;
 import com.het.ice.service.template.Result;
-import com.het.ice.web.request.CatWO;
+import com.het.ice.web.request.BrandWO;
 import com.het.ice.web.result.WebResult;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +17,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
- * 类目控制器
+ * 品牌控制器
  *
  */
 @Controller
-@RequestMapping(value = "pc/cat")
-public class CatController {
+@RequestMapping(value = "pc/brand")
+public class BrandController {
 
 	@Autowired
-	private CatService catService;
+	private BrandService brandService;
 
 	/**
 	 * 新建
 	 * 
-	 * @param catWO
+	 * @param brandWO
 	 * @return
 	 */
 	@RequestMapping(value = "create.json", method = { RequestMethod.POST })
-	public @ResponseBody ModelMap create(@RequestBody CatWO catWO) {
+	public @ResponseBody ModelMap create(@RequestBody BrandWO brandWO) {
 		WebResult webResult = new WebResult();
 
-		Result<Void> result = catService.create(catWO);
+		Result<Void> result = brandService.create(brandWO);
 
 		if (result.isSuccess()) {
 			webResult.setMessage(true, "保存成功");
@@ -52,14 +51,14 @@ public class CatController {
 	/**
 	 * 更新
 	 *
-	 * @param catWO
+	 * @param brandWO
 	 * @return
      */
 	@RequestMapping(value = "update.json", method = { RequestMethod.POST })
-	public @ResponseBody ModelMap update(@RequestBody CatWO catWO) {
+	public @ResponseBody ModelMap update(@RequestBody BrandWO brandWO) {
 		WebResult webResult = new WebResult();
 
-		Result<Void> result = catService.update(catWO);
+		Result<Void> result = brandService.update(brandWO);
 
 		if (result.isSuccess()) {
 			webResult.setMessage(true, "更新成功");
@@ -71,16 +70,16 @@ public class CatController {
 	}
 
 	/**
-	 * 删除
+     * 删除
 	 *
-	 * @param catWO
-	 * @return
-	 */
+	 * @param brandWO
+     * @return
+     */
 	@RequestMapping(value = "delete.json", method = { RequestMethod.POST })
-	public @ResponseBody ModelMap delete(@RequestBody CatWO catWO) {
+	public @ResponseBody ModelMap delete(@RequestBody BrandWO brandWO) {
 		WebResult webResult = new WebResult();
 
-		Result<Void> result = catService.delete(NumberUtils.toLong(catWO.getId()));
+		Result<Void> result = brandService.delete(NumberUtils.toLong(brandWO.getId()));
 
 		if (result.isSuccess()) {
 			webResult.setMessage(true, "删除成功");
@@ -92,34 +91,14 @@ public class CatController {
 	}
 
 	/**
-	 * 价格类型列表
+	 * 全部列表
 	 *
 	 * @return
 	 */
-	@RequestMapping(value = "queryPriceList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap queryPriceList() {
-		return queryByType(CatTypeEnum.PRICE);
-	}
-
-	/**
-	 * 价格类型列表
-	 *
-	 * @return
-	 */
-	@RequestMapping(value = "queryPackageList.json", method = { RequestMethod.GET })
-	public @ResponseBody ModelMap queryPackageList() {
-		return queryByType(CatTypeEnum.PACKAGE);
-	}
-
-	/**
-	 * 按类型查
-	 *
-	 * @param typeEnum
-	 * @return
-	 */
-	private ModelMap queryByType(CatTypeEnum typeEnum) {
+	@RequestMapping(value = "queryAll.json", method = { RequestMethod.GET })
+	public @ResponseBody ModelMap queryAll() {
 		WebResult webResult = new WebResult();
-		Result<List<Cat>> result = catService.queryByType(typeEnum);
+		Result<List<Brand>> result = brandService.queryAll();
 		if (result.isSuccess()) {
 			webResult.setData(true, result.getResult());
 			webResult.setTotal(result.getTotal());

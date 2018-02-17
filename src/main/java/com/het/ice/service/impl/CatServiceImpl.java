@@ -1,9 +1,11 @@
 package com.het.ice.service.impl;
 
 import com.het.ice.dao.CatDAO;
+import com.het.ice.dao.CommodityDAO;
 import com.het.ice.dao.model.AllotSalesmanDO;
 import com.het.ice.dao.model.CatDO;
 import com.het.ice.dao.query.CatQuery;
+import com.het.ice.dao.query.CommodityQuery;
 import com.het.ice.enums.CatTypeEnum;
 import com.het.ice.model.AllotSalesman;
 import com.het.ice.model.Cat;
@@ -32,6 +34,9 @@ public class CatServiceImpl implements CatService {
 
     @Resource
     private CatDAO catDAO;
+
+    @Resource
+    private CommodityDAO commodityDAO;
 
     @Resource
     private Template template;
@@ -80,10 +85,26 @@ public class CatServiceImpl implements CatService {
     public Result<Void> delete(final long id) {
         return template.complete(new ResultCallback<Void>() {
 
+            private CatDO catDO;
+
             @Override
             public void check() {
                 AssertUtil.moreThanZero(id, "类目id");
-                AssertUtil.isNull(catDAO.getById(id), "类目");
+                catDO = catDAO.getById(id);
+                AssertUtil.isNull(catDO, "类目");
+                CommodityQuery query = new CommodityQuery();
+                query.setBizId(CommonConstants.DEFAULT_BIZ_ID);
+                query.setStart(0);
+                query.setLimit(1);
+                if (CatTypeEnum.PRICE == CatTypeEnum.getByCode(catDO.getType())) {
+                    query.setPricCatId(catDO.getId());
+                }
+
+                if (CatTypeEnum.PRICE == CatTypeEnum.getByCode(catDO.getType())) {
+                    query.setPricCatId(catDO.getId());
+                }
+
+                AssertUtil.isNotEmpty(commodityDAO.queryByCondition(query), "还有商品关联了该分类，请修改后重试");
             }
 
             @Override

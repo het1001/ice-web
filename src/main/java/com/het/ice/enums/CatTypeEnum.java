@@ -4,8 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum CatTypeEnum {
 
-    BRAND("BRAND", "品牌分类"),
-
     PRICE("PRICE", "价格分类"),
 
     PACKAGE("PACKAGE", "包装类型");

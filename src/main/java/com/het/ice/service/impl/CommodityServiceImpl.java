@@ -3,6 +3,7 @@ package com.het.ice.service.impl;
 import com.het.ice.dao.*;
 import com.het.ice.dao.model.*;
 import com.het.ice.dao.query.CommodityQuery;
+import com.het.ice.enums.CatTypeEnum;
 import com.het.ice.model.Commodity;
 import com.het.ice.service.CommodityService;
 import com.het.ice.service.conv.CommodityConvert;
@@ -153,6 +154,19 @@ public class CommodityServiceImpl implements CommodityService {
 					}
 				}
 
+				if (com.getRetailPriceBr() > 0) {
+					CatDO catDO = catDAO.getByName(com.getRetailPriceBr() + "元");
+					if (catDO != null) {
+						com.setPricCatId(catDO.getId());
+					} else {
+						catDO = new CatDO();
+						catDO.setName(com.getRetailPriceBr() + "元");
+						catDO.setType(CatTypeEnum.PRICE.getCode());
+						catDAO.insert(catDO);
+						com.setPricCatId(catDO.getId());
+					}
+				}
+
 				// 计算价格/支
 				com.setPriceBr(com.getPricePi() / com.getStandardPice());
 
@@ -213,7 +227,6 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setPersonType(com.getPersonType());
 				comDo.setPosition(com.getPosition());
 				comDo.setImgKey(com.getImgKey());
-				comDo.setPricCatId(com.getPricCatId());
 				comDo.setPackCatId(com.getPackCatId());
 				comDo.setWeight(com.getWeight());
 
@@ -226,6 +239,19 @@ public class CommodityServiceImpl implements CommodityService {
 				} else {
 					comDo.setBrandId(0);
 					comDo.setBrand("");
+				}
+
+				if (comDo.getRetailPriceBr() > 0) {
+					CatDO catDO = catDAO.getByName(comDo.getRetailPriceBr() + "元");
+					if (catDO != null) {
+						comDo.setPricCatId(catDO.getId());
+					} else {
+						catDO = new CatDO();
+						catDO.setName(comDo.getRetailPriceBr() + "元");
+						catDO.setType(CatTypeEnum.PRICE.getCode());
+						catDAO.insert(catDO);
+						comDo.setPricCatId(catDO.getId());
+					}
 				}
 
 				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());

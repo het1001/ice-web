@@ -145,7 +145,6 @@ public class CommodityConvert {
 		com.setImgKey(commodityWO.getFileKey());
 		com.setImgKeys(commodityWO.getFileKeys());
 		com.setBarCode(commodityWO.getBarCode());
-		com.setPricCatId(NumberUtils.toLong(commodityWO.getPricCatId()));
 		com.setPackCatId(NumberUtils.toLong(commodityWO.getPackCatId()));
 		com.setWeight(NumberUtils.toInt(commodityWO.getWeight()));
 

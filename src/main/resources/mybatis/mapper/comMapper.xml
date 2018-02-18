@@ -112,14 +112,15 @@
 		</if>
 		<if test="pricCatIds != null and pricCatIds.length!=0">
 			and pric_cat_id in <foreach collection="pricCatIds" index="index" item="item" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+				#{item}
+			</foreach>
 		</if>
 		<if test="packCatIds != null and packCatIds.length!=0">
 			and pack_cat_id in <foreach collection="packCatIds" index="index" item="item" open="(" separator="," close=")">
-			#{item}
-		</foreach>
+				#{item}
+			</foreach>
 		</if>
+		ORDER BY brand, retail_price_br
 	</select>
 
 	<select id="queryAll" resultMap="commodityResultMap">

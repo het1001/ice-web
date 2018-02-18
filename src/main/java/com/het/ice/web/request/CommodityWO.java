@@ -52,9 +52,6 @@ public class CommodityWO implements Serializable {
 	/** 条形码 */
 	private String barCode;
 
-	/** 价格类型ID */
-	private String pricCatId;
-
 	/** 包装类型id */
 	private String packCatId;
 
@@ -233,14 +230,6 @@ public class CommodityWO implements Serializable {
 
 	public void setFileKeys(List<String> fileKeys) {
 		this.fileKeys = fileKeys;
-	}
-
-	public String getPricCatId() {
-		return pricCatId;
-	}
-
-	public void setPricCatId(String pricCatId) {
-		this.pricCatId = pricCatId;
 	}
 
 	public String getPackCatId() {

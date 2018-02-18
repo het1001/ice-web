@@ -8,6 +8,9 @@ public class Test {
 
         System.out.println(t1.equals(t2));*/
 
-        SmsUtil.send("15888861560", "123456");
+//        SmsUtil.send("15888861560", "123456");
+
+
+        System.out.println(DoubleUtil.subtract(3d, 2d));
     }
 }

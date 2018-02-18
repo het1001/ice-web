@@ -12,7 +12,7 @@ public class CommonConstants {
 
     public final static String USER_PROPERTY_LAST_STATE = "lastState";
 
-    public final static int APP_VERSION = 20180219;
+    public final static int APP_VERSION = 20180220;
 
     /** 默认业务ID */
     public final static long DEFAULT_BIZ_ID = 1L;

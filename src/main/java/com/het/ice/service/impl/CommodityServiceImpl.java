@@ -157,7 +157,7 @@ public class CommodityServiceImpl implements CommodityService {
 				com.setPriceBr(com.getPricePi() / com.getStandardPice());
 
 				// 计算终端极润
-				com.setProfitBr(com.getRetailPriceBr() - com.getPriceBr());
+				com.setProfitBr(DoubleUtil.subtract(com.getRetailPriceBr(), com.getPriceBr()));
 				com.setProfitPi(DoubleUtil.multiply(com.getProfitBr(), com.getStandardPice()));
 
 				// 生成条形码图片
@@ -206,8 +206,8 @@ public class CommodityServiceImpl implements CommodityService {
 				comDo.setStandardPice(com.getStandardPice());
 				comDo.setPricePi(com.getPricePi());
 				comDo.setPriceBr(com.getPricePi() / com.getStandardPice());
-				comDo.setProfitBr(com.getRetailPriceBr() - com.getPriceBr());
-				comDo.setProfitPi(DoubleUtil.multiply(com.getProfitBr(), com.getStandardPice()));
+				comDo.setProfitBr(DoubleUtil.subtract(com.getRetailPriceBr(), comDo.getPriceBr()));
+				comDo.setProfitPi(DoubleUtil.multiply(comDo.getProfitBr(), com.getStandardPice()));
 				comDo.setRetailPriceBr(com.getRetailPriceBr());
 				comDo.setDescription(com.getDesc());
 				comDo.setPersonType(com.getPersonType());

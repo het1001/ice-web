@@ -162,6 +162,7 @@ public class CommodityServiceImpl implements CommodityService {
 						catDO = new CatDO();
 						catDO.setName(com.getRetailPriceBr() + "元");
 						catDO.setType(CatTypeEnum.PRICE.getCode());
+						catDO.setBizId(CommonConstants.DEFAULT_BIZ_ID);
 						catDAO.insert(catDO);
 						com.setPricCatId(catDO.getId());
 					}
@@ -249,6 +250,7 @@ public class CommodityServiceImpl implements CommodityService {
 						catDO = new CatDO();
 						catDO.setName(comDo.getRetailPriceBr() + "元");
 						catDO.setType(CatTypeEnum.PRICE.getCode());
+						catDO.setBizId(CommonConstants.DEFAULT_BIZ_ID);
 						catDAO.insert(catDO);
 						comDo.setPricCatId(catDO.getId());
 					}

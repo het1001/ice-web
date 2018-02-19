@@ -99,7 +99,7 @@
     	<if test="status != null and '' != status ">  
         	and state = #{status}
     	</if>
-		 limit #{start}, #{limit}
+		ORDER BY brand, retail_price_br limit #{start}, #{limit}
 	</select>
 	
 	<select id="queryAllOnline" parameterType="com.het.ice.dao.query.CommodityQuery" resultMap="commodityResultMap">

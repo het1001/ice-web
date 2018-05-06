@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.CommodityDAO">
+
+	<insert id="insert" parameterType="Commodity">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_com (
+			code, name, brand_id, brand, standard_pice, price_pi, price_br, retail_price_br, profit_pi, profit_br, person_type,
+			position, description, total, sales, day_sales, week_sales, state, pric_cat_id, pack_cat_id, pack_cat, biz_id,
+			img_key, bar_code, bar_img_key, weight, create_time, modify_time, create_user, update_user)
+		values (
+			#{code}, #{name}, #{brandId}, #{brand}, #{standardPice}, #{pricePi}, #{priceBr}, #{retailPriceBr}, #{profitPi},
+			#{profitBr}, #{personType}, #{position}, #{description}, #{total}, #{sales}, #{daySales}, #{weekSales},
+			#{state}, #{pricCatId}, #{packCatId}, #{packCat}, #{bizId}, #{imgKey}, #{barCode}, #{barImgKey}, #{weight},
+			CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{createUser}, #{updateUser})
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_com where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="Commodity">
+		update i_com set
+		name=#{name}, brand=#{brand}, standard_pice=#{standardPice}, price_pi=#{pricePi}, price_br=#{priceBr},
+		retail_price_br=#{retailPriceBr}, profit_pi=#{profitPi}, profit_br=#{profitBr}, person_type=#{personType},
+		position=#{position}, description=#{description}, total=#{total}, state=#{state}, sales=#{sales},
+		day_sales=#{daySales}, week_sales=#{weekSales}, pric_cat_id=#{pricCatId}, pack_cat_id=#{packCatId},
+		img_key=#{imgKey}, bar_code=#{barCode}, bar_img_key=#{barImgKey}, brand_id=#{brandId}, pack_cat=#{packCat},
+		weight=#{weight}, modify_time=CURRENT_TIMESTAMP, update_user = #{updateUser}
+		where
+		id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="commodityResultMap">
+		select *
+		from i_com where id=#{id}
+	</select>
+
+	<select id="getByName" parameterType="string" resultMap="commodityResultMap">
+		select *
+		from i_com where name=#{name}
+	</select>
+	
+	<select id="queryByBizId" resultMap="commodityResultMap">
+		select
+		* from i_com where biz_id=#{bizId} limit #{start}, #{limit}
+	</select>
+	
+	<select id="getCountByBizId" resultType="int">
+		select
+		count(*) from i_com where biz_id=#{bizId}
+	</select>
+	
+	<select id="getCountByCondition" parameterType="com.het.ice.dao.query.CommodityQuery" resultType="int">
+		select
+		count(*) from i_com where 1=1
+		<if test="bizId>0">  
+        	and biz_id=#{bizId}  
+    	</if>
+		<if test="brandId>0">
+			and brand_id=#{brandId}
+		</if>
+		<if test="pricCatId>0">
+			and pric_cat_id=#{pricCatId}
+		</if>
+		<if test="packCatId>0">
+			and pack_cat_id=#{packCatId}
+		</if>
+    	<if test="name != null and '' != name ">  
+        	and name like CONCAT('%', #{name}, '%')
+    	</if>
+    	<if test="status != null and '' != status ">  
+        	and state = #{status}
+    	</if>
+	</select>
+
+	<select id="queryByCondition" parameterType="com.het.ice.dao.query.CommodityQuery" resultMap="commodityResultMap">
+		select
+		* from i_com where 1=1
+		<if test="bizId>0">  
+        	and biz_id=#{bizId}  
+    	</if>
+		<if test="brandId>0">
+			and brand_id=#{brandId}
+		</if>
+		<if test="pricCatId>0">
+			and pric_cat_id=#{pricCatId}
+		</if>
+		<if test="packCatId>0">
+			and pack_cat_id=#{packCatId}
+		</if>
+    	<if test="name != null and '' != name ">  
+        	and name like CONCAT('%', #{name}, '%')
+    	</if>
+    	<if test="status != null and '' != status ">  
+        	and state = #{status}
+    	</if>
+		ORDER BY brand, retail_price_br limit #{start}, #{limit}
+	</select>
+	
+	<select id="queryAllOnline" parameterType="com.het.ice.dao.query.CommodityQuery" resultMap="commodityResultMap">
+		select
+		* from i_com where state = '1'
+		<if test="brandIds != null and brandIds.length!=0">
+			and brand_id in <foreach collection="brandIds" index="index" item="item" open="(" separator="," close=")">
+			  #{item}
+			</foreach>
+		</if>
+		<if test="pricCatIds != null and pricCatIds.length!=0">
+			and pric_cat_id in <foreach collection="pricCatIds" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="packCatIds != null and packCatIds.length!=0">
+			and pack_cat_id in <foreach collection="packCatIds" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		ORDER BY brand, retail_price_br
+	</select>
+
+	<select id="queryAll" resultMap="commodityResultMap">
+		select
+		* from i_com
+	</select>
+	
+	<resultMap type="Commodity" id="commodityResultMap">
+		<result property="brandId" column="brand_id" />
+		<result property="pricCatId" column="pric_cat_id" />
+		<result property="packCatId" column="pack_cat_id" />
+		<result property="packCat" column="pack_cat" />
+		<result property="bizId" column="biz_id" />
+		<result property="standardPice" column="standard_pice" />
+		<result property="pricePi" column="price_pi" />
+		<result property="priceBr" column="price_br" />
+		<result property="retailPriceBr" column="retail_price_br" />
+		<result property="personType" column="person_type" />
+		<result property="profitPi" column="profit_pi" />
+		<result property="profitBr" column="profit_br" />
+		<result property="imgKey" column="img_key" />
+		<result property="barCode" column="bar_code" />
+		<result property="barImgKey" column="bar_img_key" />
+		<result property="daySales" column="day_sales" />
+		<result property="weekSales" column="week_sales" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+		<result property="createUser" column="create_user" />
+		<result property="updateUser" column="update_user" />
+	</resultMap>
+</mapper>

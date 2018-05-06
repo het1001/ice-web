@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.UserDeliveryAddrDAO">
+
+	<insert id="insert" parameterType="UserDeliveryAddr">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_user_delivery_addr (phone, full_name, address, del_phone, status, create_time, modify_time)
+		values(#{phone}, #{fullName}, #{address}, #{delPhone}, #{status}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_user_delivery_addr where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="UserDeliveryAddr">
+		update i_user_delivery_addr set
+		del_phone=#{delPhone}, full_name=#{fullName}, address=#{address}, status=#{status}, modify_time=CURRENT_TIMESTAMP
+		where id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="userDeliveryAddrResultMap">
+		select *
+		from i_user_delivery_addr where id=#{id}
+	</select>
+
+	<select id="queryByPhone" parameterType="Long" resultMap="userDeliveryAddrResultMap">
+		select *
+		from i_user_delivery_addr where phone=#{phone}
+	</select>
+
+	<resultMap type="UserDeliveryAddr" id="userDeliveryAddrResultMap">
+		<result property="delPhone" column="del_phone" />
+		<result property="fullName" column="full_name" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+</mapper>

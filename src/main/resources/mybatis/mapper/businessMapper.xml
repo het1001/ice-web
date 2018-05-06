@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.BusinessDAO">
+	<insert id="insert" parameterType="Business">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_business(b_name, b_pwd, address, phone, create_time, modify_time)
+		values(#{name}, #{passWord}, #{address}, #{phone}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_business where id=#{id}
+	</delete>
+
+	<update id="update" parameterType="Business">
+		update i_business set b_pwd=#{passWord}, address=#{address}, phone=#{phone}, modify_time=CURRENT_TIMESTAMP
+		where id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="businessResultMap">
+		select * from i_business where id=#{id}
+	</select>
+
+	<select id="getByName" parameterType="String" resultMap="businessResultMap">
+		select * from i_business where b_name=#{name}
+	</select>
+
+	<resultMap type="Business" id="businessResultMap">
+		<result property="name" column="b_name" />
+		<result property="passWord" column="b_pwd" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+</mapper>

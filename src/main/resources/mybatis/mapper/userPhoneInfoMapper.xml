@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.UserPhoneInfoDAO">
+
+	<insert id="insert" parameterType="UserPhoneInfo">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_user_phone_info (user_id, phone, manufacturer, model, device_unique_id, device_id, device_name, sys_name, sys_version,
+		imei, app_version, create_time)
+		values(#{userId}, #{phone}, #{manufacturer}, #{model}, #{deviceUniqueId}, #{deviceId}, #{deviceName}, #{sysName}, #{sysVersion},
+		#{imei}, #{appVersion}, CURRENT_TIMESTAMP)
+	</insert>
+
+	<resultMap type="UserPhoneInfo" id="userPhoneInfoResultMap">
+		<result property="userId" column="user_id" />
+		<result property="deviceUniqueId" column="device_unique_id" />
+		<result property="deviceId" column="device_id" />
+		<result property="deviceName" column="device_name" />
+		<result property="sysName" column="sys_name" />
+		<result property="sysVersion" column="sys_version" />
+		<result property="appVersion" column="app_version" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.UserAuthCodeDAO">
+
+	<insert id="insert" parameterType="UserAuthCode">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_user_auth_code (phone, code, used, device_unique_id, create_time, use_time)
+		values(#{phone}, #{code}, #{used}, #{deviceUniqueId}, CURRENT_TIMESTAMP, #{useTime})
+	</insert>
+
+	<update id="update" parameterType="UserAuthCode">
+		update i_user_auth_code set
+		used=#{used}, use_time=#{useTime} where id=#{id}
+	</update>
+
+	<select id="getByPhoneAndCode" parameterType="String" resultMap="userAuthCodeResultMap">
+		select *
+		from i_user_auth_code where phone=#{phone} and code=#{code}
+	</select>
+
+	<select id="queryByPhone" parameterType="String" resultMap="userAuthCodeResultMap">
+		select *
+		from i_user_auth_code where phone=#{phone}
+	</select>
+
+	<select id="queryLastOneMinute" parameterType="String" resultMap="userAuthCodeResultMap">
+		select *
+		from i_user_auth_code where phone=#{phone} and create_time > DATE_SUB(NOW(), INTERVAL 1 MINUTE)
+	</select>
+
+	<select id="getCountBetween" parameterType="com.het.ice.dao.query.AuthCodeQuery" resultType="int">
+		select count(*) from i_user_auth_code
+		where <![CDATA[ phone=#{phone} and create_time > #{startTime} and create_time < #{endTime}]]>
+	</select>
+
+	<resultMap type="UserAuthCode" id="userAuthCodeResultMap">
+		<result property="deviceUniqueId" column="device_unique_id" />
+		<result property="createTime" column="create_time" />
+		<result property="useTime" column="use_time" />
+	</resultMap>
+</mapper>

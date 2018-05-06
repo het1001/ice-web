@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.AllotDisSalDAO">
+
+	<insert id="insert" parameterType="AllotDisSla">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_allot_dis_sal(dis_id, dis_name, sal_id, sal_name, sal_phone, sal_type, create_time, modify_time)
+		values(#{disId}, #{disName}, #{salId}, #{salName}, #{salPhone}, #{salType}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<update id="update" parameterType="AllotDisSla">
+		update i_allot_dis_sal set
+		dis_name=#{disName}, sal_name=#{salName}, sal_phone=#{salPhone}, sal_type=#{salType}, modify_time=CURRENT_TIMESTAMP
+		where
+		id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		delete from i_allot_dis_sal where
+		id=#{id}
+	</delete>
+
+	<select id="queryByDisId" parameterType="com.het.ice.dao.query.AllotDisSlaQuery" resultMap="allotDisSlaResultMap">
+		select *
+		from i_allot_dis_sal where dis_id=#{disId}
+	</select>
+
+	<select id="queryByDisIdAndType" parameterType="com.het.ice.dao.query.AllotDisSlaQuery" resultMap="allotDisSlaResultMap">
+		select *
+		from i_allot_dis_sal where dis_id=#{disId} and sal_type=#{salType}
+	</select>
+
+	<select id="queryBySlaId" parameterType="com.het.ice.dao.query.AllotDisSlaQuery" resultMap="allotDisSlaResultMap">
+		select *
+		from i_allot_dis_sal where sal_id=#{salId}
+	</select>
+
+	<resultMap type="AllotDisSla" id="allotDisSlaResultMap">
+		<result property="disId" column="dis_id" />
+		<result property="disName" column="dis_name" />
+		<result property="salId" column="sal_id" />
+		<result property="salName" column="sal_name" />
+		<result property="salUnique_key" column="sal_unique_key" />
+		<result property="salPhone" column="sal_phone" />
+		<result property="salType" column="sal_type" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+</mapper>

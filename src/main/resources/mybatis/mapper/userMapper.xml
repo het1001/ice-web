@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.UserDAO">
+
+	<insert id="insert" parameterType="User">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_user (u_name, u_pwd, type, last_login_time, phone, real_name, shop_name, shop_address, freezer_type,
+			district_id, standby_phone, state, token, property, create_time, modify_time)
+		values(#{userName}, #{passWord}, #{type}, #{lastLoginTime}, #{phone}, #{realName}, #{shopName},
+			#{shopAddress}, #{freezerType}, #{districtId},#{standbyPhone},  #{state}, #{token}, #{property}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_user where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="User">
+		update i_user set
+		u_pwd=#{passWord}, last_login_time=#{lastLoginTime}, phone=#{phone}, real_name=#{realName}, shop_name=#{shopName},
+		shop_address=#{shopAddress}, freezer_type=#{freezerType}, district_id=#{districtId}, standby_phone=#{standbyPhone},
+		state=#{state}, token=#{token}, property=#{property}, modify_time=CURRENT_TIMESTAMP
+		where id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="userResultMap">
+		select *
+		from i_user where id=#{id}
+	</select>
+
+	<select id="getUser" parameterType="String" resultMap="userResultMap">
+		select *
+		from i_user where u_name=#{userName} and u_pwd=#{passWord} and type=#{type}
+	</select>
+	
+	<select id="getByUserName" parameterType="String" resultMap="userResultMap">
+		select *
+		from i_user where u_name=#{userName} and type=#{type}
+	</select>
+
+	<select id="getByPhone" parameterType="String" resultMap="userResultMap">
+		select *
+		from i_user where phone=#{phone} and type='NORMAL'
+	</select>
+
+	<select id="getByToken" parameterType="String" resultMap="userResultMap">
+		select *
+		from i_user where token=#{token} and type=#{type}
+	</select>
+
+	<select id="query" parameterType="com.het.ice.dao.query.UserQuery" resultMap="userResultMap">
+		select
+		* from i_user where type='NORMAL'
+		<if test="phone != null and '' != phone ">
+			and phone = #{phone}
+		</if>
+		<if test="state != null and '' != state ">
+			and state = #{state}
+		</if>
+		<if test="freezerType != null and '' != freezerType ">
+			and freezer_type like CONCAT('%', #{freezerType}, '%')
+		</if>
+		<if test="districtId>0">
+			and district_id=#{districtId}
+		</if>
+		limit #{start}, #{limit}
+	</select>
+
+	<select id="getCount" parameterType="com.het.ice.dao.query.UserQuery" resultType="int">
+		select
+		count(*) from i_user where type='NORMAL'
+		<if test="phone != null and '' != phone ">
+			and phone = #{phone}
+		</if>
+		<if test="state != null and '' != state ">
+			and state = #{state}
+		</if>
+		<if test="freezerType != null and '' != freezerType ">
+			and freezer_type like CONCAT('%', #{freezerType}, '%')
+		</if>
+		<if test="districtId>0">
+			and district_id=#{districtId}
+		</if>
+	</select>
+
+	<resultMap type="User" id="userResultMap">
+		<result property="userName" column="u_name" />
+		<result property="passWord" column="u_pwd" />
+		<result property="lastLoginTime" column="last_login_time" />
+		<result property="realName" column="real_name" />
+		<result property="shopName" column="shop_name" />
+		<result property="shopAddress" column="shop_address" />
+		<result property="freezerType" column="freezer_type" />
+		<result property="districtId" column="district_id" />
+		<result property="standbyPhone" column="standby_phone" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+</mapper>

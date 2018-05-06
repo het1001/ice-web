@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.CatDAO">
+
+	<insert id="insert" parameterType="Cat">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_cat(name, biz_id, orderr, type, create_time, modify_time)
+		values(#{name}, #{bizId}, #{orderr}, #{type}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_cat where id=#{id}
+	</delete>
+
+	<update id="update" parameterType="Cat">
+		update i_cat set name=#{name}, orderr=#{orderr}, type=#{type}, modify_time=CURRENT_TIMESTAMP
+		where id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="catResultMap">
+		select *
+		from i_cat where id=#{id}
+	</select>
+
+	<select id="getByName" parameterType="String" resultMap="catResultMap">
+		select * from i_cat where name = #{name}
+	</select>
+
+	<select id="queryByType" parameterType="com.het.ice.dao.query.CatQuery" resultMap="catResultMap">
+		select * from i_cat where type=#{type} AND biz_id = #{bizId} ORDER BY orderr
+	</select>
+
+	<resultMap type="Cat" id="catResultMap">
+		<result property="biz_id" column="bizId" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+</mapper>

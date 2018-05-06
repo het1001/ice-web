@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.AllotDistrictDAO">
+
+	<insert id="insert" parameterType="AllotDistrict">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_allot_district(name, create_time, modify_time)
+		values(#{name}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<update id="update" parameterType="AllotDistrict">
+		update i_allot_district set
+		name=#{name}, modify_time=CURRENT_TIMESTAMP
+		where
+		id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		delete from i_allot_district where
+		id=#{id}
+	</delete>
+
+	<select id="getById" parameterType="long" resultMap="allotDistrictResultMap">
+		select *
+		from i_allot_district where id = #{id}
+	</select>
+
+	<select id="getByName" parameterType="String" resultMap="allotDistrictResultMap">
+		select *
+		from i_allot_district where name=#{name}
+	</select>
+
+	<select id="getCountByCondition" parameterType="com.het.ice.dao.query.AllotDistrictQuery" resultType="int">
+		select
+		count(*) from i_allot_district where 1=1
+		<if test="name != null and '' != name ">
+			and name like CONCAT('%', #{name}, '%')
+		</if>
+	</select>
+
+	<select id="queryByCondition" parameterType="com.het.ice.dao.query.AllotDistrictQuery" resultMap="allotDistrictResultMap">
+		select
+		* from i_allot_district where 1=1
+		<if test="name != null and '' != name ">
+			and name like CONCAT('%', #{name}, '%')
+		</if>
+		limit #{start}, #{limit}
+	</select>
+
+	<select id="queryAll" resultMap="allotDistrictResultMap">
+		select
+		* from i_allot_district
+	</select>
+
+	<resultMap type="AllotDistrict" id="allotDistrictResultMap">
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+</mapper>

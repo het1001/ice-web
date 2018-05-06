@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="AllotDisSla" type="com.het.ice.dao.model.AllotDisSalDO"/>
+		<typeAlias alias="AllotDistrict" type="com.het.ice.dao.model.AllotDistrictDO"/>
+		<typeAlias alias="AllotSalesman" type="com.het.ice.dao.model.AllotSalesmanDO"/>
+		<typeAlias alias="AppMainImg" type="com.het.ice.dao.model.AppMainImgDO"/>
+		<typeAlias alias="Arithmetic" type="com.het.ice.dao.model.ArithmeticDO"/>
+        <typeAlias alias="User" type="com.het.ice.dao.model.UserDO"/>
+		<typeAlias alias="UserAuthCode" type="com.het.ice.dao.model.UserAuthCodeDO"/>
+		<typeAlias alias="UserPhoneInfo" type="com.het.ice.dao.model.UserPhoneInfoDO"/>
+		<typeAlias alias="UserInfo" type="com.het.ice.dao.model.UserInfoDO"/>
+		<typeAlias alias="UserOperateTrace" type="com.het.ice.dao.model.UserOperateTraceDO"/>
+		<typeAlias alias="UserDeliveryAddr" type="com.het.ice.dao.model.UserDeliveryAddrDO"/>
+        <typeAlias alias="Business" type="com.het.ice.dao.model.BusinessDO"/>
+		<typeAlias alias="ShoppingCart" type="com.het.ice.dao.model.ShoppingCartDO"/>
+		<typeAlias alias="Brand" type="com.het.ice.dao.model.BrandDO"/>
+        <typeAlias alias="Cat" type="com.het.ice.dao.model.CatDO"/>
+        <typeAlias alias="Commodity" type="com.het.ice.dao.model.CommodityDO"/>
+		<typeAlias alias="CommodityPic" type="com.het.ice.dao.model.CommodityPicDO"/>
+        <typeAlias alias="CommodityIn" type="com.het.ice.dao.model.CommodityInDO"/>
+        <typeAlias alias="CommodityInItem" type="com.het.ice.dao.model.CommodityInItemDO"/>
+		<typeAlias alias="Promotion" type="com.het.ice.dao.model.PromotionDO"/>
+        <typeAlias alias="Lob" type="com.het.ice.dao.model.LobDO"/>
+        <typeAlias alias="Order" type="com.het.ice.dao.model.OrderDO"/>
+		<typeAlias alias="OrderList" type="com.het.ice.dao.model.OrderListDO"/>
+		<typeAlias alias="OrderTrace" type="com.het.ice.dao.model.OrderTraceDO"/>
+    </typeAliases>
+
+	<mappers>
+		<mapper resource="/mybatis/mapper/allotDisSlaMapper.xml" />
+		<mapper resource="/mybatis/mapper/allotDistrictMapper.xml" />
+		<mapper resource="/mybatis/mapper/allotSalesmanMapper.xml" />
+		<mapper resource="/mybatis/mapper/appMainImgMapper.xml" />
+		<mapper resource="/mybatis/mapper/arithmeticMapper.xml" />
+		<mapper resource="/mybatis/mapper/userMapper.xml" />
+		<mapper resource="/mybatis/mapper/userAuthCodeMapper.xml" />
+		<mapper resource="/mybatis/mapper/userPhoneInfoMapper.xml" />
+		<mapper resource="/mybatis/mapper/userInfoMapper.xml" />
+		<mapper resource="/mybatis/mapper/userActionTraceMapper.xml" />
+		<mapper resource="/mybatis/mapper/userDeliveryAddrMapper.xml" />
+		<mapper resource="/mybatis/mapper/businessMapper.xml" />
+		<mapper resource="/mybatis/mapper/shoppingCartMapper.xml" />
+		<mapper resource="/mybatis/mapper/brandMapper.xml" />
+		<mapper resource="/mybatis/mapper/comMapper.xml" />
+		<mapper resource="/mybatis/mapper/comPicMapper.xml" />
+		<mapper resource="/mybatis/mapper/comInMapper.xml" />
+		<mapper resource="/mybatis/mapper/comInItemMapper.xml" />
+		<mapper resource="/mybatis/mapper/comPromotionMapper.xml" />
+		<mapper resource="/mybatis/mapper/catMapper.xml" />
+		<mapper resource="/mybatis/mapper/lobMapper.xml" />
+		<mapper resource="/mybatis/mapper/orderMapper.xml" />
+		<mapper resource="/mybatis/mapper/orderListMapper.xml" />
+		<mapper resource="/mybatis/mapper/orderTraceMapper.xml" />
+	</mappers>
+</configuration>

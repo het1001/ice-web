@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.CommodityPicDAO">
+
+	<insert id="insert" parameterType="CommodityPic">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_com_pic(com_id, pic_key, is_main, create_time, modify_time)
+		values(#{comId}, #{picKey}, #{isMain}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+	</insert>
+
+	<update id="update" parameterType="CommodityPic">
+		update i_com_pic set
+		pic_key=#{picKey}, modify_time=CURRENT_TIMESTAMP
+		where
+		id=#{id}
+	</update>
+
+	<delete id="delete" parameterType="long">
+		delete from i_com_pic where
+		id=#{id}
+	</delete>
+
+	<select id="getMainByComId" parameterType="Long" resultMap="comPicResultMap">
+		select *
+		from i_com_pic where com_id=#{comId} AND is_main = 1
+	</select>
+
+	<select id="queryOtherByComId" parameterType="Long" resultMap="comPicResultMap">
+		select *
+		from i_com_pic where com_id=#{comId} AND is_main = 0
+	</select>
+
+	<select id="queryByComId" parameterType="Long" resultMap="comPicResultMap">
+		select *
+		from i_com_pic where com_id=#{comId} ORDER BY is_main DESC
+	</select>
+
+	<resultMap type="commodityPic" id="comPicResultMap">
+		<result property="comId" column="com_id" />
+		<result property="picKey" column="pic_key" />
+		<result property="isMain" column="is_main" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+</mapper>

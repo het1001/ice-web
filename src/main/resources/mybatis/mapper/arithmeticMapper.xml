@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.ArithmeticDAO">
+
+	<select id="getById" parameterType="long" resultMap="arithmeticResultMap">
+		select *
+		from i_arithmetic where id=#{id}
+	</select>
+
+	<select id="queryAll" resultMap="arithmeticResultMap">
+		select
+		* from i_arithmetic
+	</select>
+
+	<resultMap type="Arithmetic" id="arithmeticResultMap">
+		<result property="funcKeys" column="func_keys" />
+		<result property="inParams" column="in_params" />
+		<result property="outParam" column="out_param" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+</mapper>

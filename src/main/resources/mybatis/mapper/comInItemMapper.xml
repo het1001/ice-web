@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.CommodityInItemDAO">
+
+	<insert id="insert" parameterType="CommodityInItem">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_com_in_item (
+			in_id, com_id, com_name, com_standard, price_pi, price_br, num, total, create_time, modify_time, create_user, update_user)
+		values (
+			#{inId}, #{comId}, #{comName}, #{comStandard}, #{pricePi}, #{priceBr}, #{num}, #{total}, 
+			CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{createUser}, #{updateUser})
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_com where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="CommodityInItem">
+		update i_com_in_item set
+		pricePi=#{pricePi}, priceBr=#{priceBr}, num=#{num}, total=#{total}, modify_time=CURRENT_TIMESTAMP, update_user=#{updateUser}
+		where
+		id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="commodityInItemResultMap">
+		select *
+		from i_com_in_item where id=#{id}
+	</select>
+
+	<select id="queryByInId" resultMap="commodityInItemResultMap">
+		select
+		* from i_com_in_item where in_id = #{inId}
+	</select>
+	
+	<select id="getCountByCom" parameterType="com.het.ice.dao.query.CommodityInItemQuery" resultType="int">
+		select
+		count(*) from i_com_in_item where 1=1
+    	<if test="comId != null and comId != 0">
+        	and com_id = #{comId}
+    	</if>
+	</select>
+
+	<select id="queryByCom" parameterType="com.het.ice.dao.query.CommodityInItemQuery" resultMap="commodityInItemResultMap">
+		select
+		* from i_com_in where 1=1
+		<if test="comId != null and comId != 0">
+        	and com_id = #{comId}
+    	</if>
+		 limit #{start}, #{limit}
+	</select>
+	
+	<resultMap type="CommodityInItem" id="commodityInItemResultMap">
+		<result property="inId" column="in_id" />
+		<result property="comId" column="com_id" />
+		<result property="comName" column="com_name" />
+		<result property="comStandard" column="com_standard" />
+		<result property="pricePi" column="price_pi" />
+		<result property="priceBr" column="price_br" />
+	</resultMap>
+</mapper>

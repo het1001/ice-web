@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.het.ice.dao.OrderTraceDAO">
+
+	<insert id="insert" parameterType="OrderTrace">
+		<selectKey resultType="long" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+		insert into i_order_trace (order_num, operate, operate_display, description, create_time)
+		values(#{orderNum}, #{operate}, #{operateDisplay}, #{description}, CURRENT_TIMESTAMP)
+	</insert>
+
+	<delete id="delete" parameterType="long">
+		delete from i_order_trace where
+		id=#{id}
+	</delete>
+
+	<update id="update" parameterType="OrderTrace">
+		update i_order_trace set
+		order_num=#{orderNum} where id=#{id}
+	</update>
+
+	<select id="getById" parameterType="long" resultMap="orderTraceResultMap">
+		select *
+		from
+		i_order_trace where id=#{id}
+	</select>
+
+	<select id="queryByOrderNum" parameterType="String" resultMap="orderTraceResultMap">
+		select
+		* from i_order_trace where order_num = #{orderNum}
+	</select>
+
+	<resultMap type="OrderTrace" id="orderTraceResultMap">
+	    <result property="orderNum" column="order_num" />
+		<result property="operateDisplay" column="operate_display" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+</mapper>

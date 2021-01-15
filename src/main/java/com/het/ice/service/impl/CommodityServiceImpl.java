@@ -257,7 +257,9 @@ public class CommodityServiceImpl implements CommodityService {
 				}
 
 				CommodityPicDO commodityPicDO = commodityPicDAO.getMainByComId(comDo.getId());
-				if (commodityPicDO == null || !StringUtils.equals(commodityPicDO.getPicKey(), com.getImgKey())) {
+				if (commodityPicDO == null) {
+					createComPic(com.getId(), com.getImgKey(), 1);
+				} else if (!StringUtils.equals(commodityPicDO.getPicKey(), com.getImgKey())) {
 					commodityPicDO.setPicKey(com.getImgKey());
 					commodityPicDAO.update(commodityPicDO);
 				}
